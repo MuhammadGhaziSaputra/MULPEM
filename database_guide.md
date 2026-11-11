@@ -4,7 +4,7 @@ Panduan ini disiapkan untuk menghubungkan aplikasi **Studio Informatika** ke bas
 
 > 🔐 **FITUR KEAMANAN & ONBOARDING TERBARU:**
 > - **Pop-up Nama Siswa Otomatis**: Setiap siswa baru yang membuka website langsung diarahkan untuk memasukkan Nama & Kelas. Saat tombol "Mulai Belajar" diklik, data siswa **langsung masuk ke database MySQL secara instan**.
-> - **Proteksi PIN Portal Guru**: Portal guru diamankan dengan PIN Rahasia (**Default: `guru2026`** atau `2026`) agar siswa tidak dapat mengintip rekap nilai kelas.
+> - **Proteksi PIN Portal Guru**: Portal guru diamankan dengan PIN Keamanan Khusus Guru agar siswa tidak dapat mengintip rekap nilai kelas.
 
 ---
 

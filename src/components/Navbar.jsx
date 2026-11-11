@@ -409,7 +409,7 @@ export default function Navbar({
                         Cloud 24 Jam
                       </span>
                     </div>
-                    <div className="text-[11px] font-normal text-teal-700">Rekap nilai kelas (PIN: guru2026)</div>
+                    <div className="text-[11px] font-normal text-teal-700">Rekap nilai kelas (Khusus Guru)</div>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-teal-600" />

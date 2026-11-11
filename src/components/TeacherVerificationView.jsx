@@ -15,6 +15,7 @@ import {
   Globe
 } from 'lucide-react';
 import { getApiEndpoint } from '../utils/storage';
+import { verifyTeacherPin } from '../utils/pinAuth';
 import { 
   fetchClassRekapFromSupabase, 
   getSupabaseConfig, 
@@ -30,7 +31,7 @@ export default function TeacherVerificationView({ onBackHome }) {
      window.location.hostname.endsWith('.test') || 
      window.location.hostname.endsWith('.local'));
 
-  // PIN Security Protection State (Default: guru2026 atau 2026)
+  // PIN Security Protection State
   const [isUnlocked, setIsUnlocked] = useState(() => {
     return sessionStorage.getItem('teacher_portal_unlocked') === 'true';
   });
@@ -50,9 +51,7 @@ export default function TeacherVerificationView({ onBackHome }) {
 
   const handleVerifyPin = (e) => {
     e.preventDefault();
-    const cleanPin = pinInput.trim().toLowerCase();
-    // Mendukung PIN 'guru2026' atau '2026'
-    if (cleanPin === 'guru2026' || cleanPin === '2026') {
+    if (verifyTeacherPin(pinInput)) {
       sessionStorage.setItem('teacher_portal_unlocked', 'true');
       setIsUnlocked(true);
       setPinError('');
@@ -199,7 +198,7 @@ export default function TeacherVerificationView({ onBackHome }) {
                     setPinInput(e.target.value);
                     if (pinError) setPinError('');
                   }}
-                  placeholder="Masukkan PIN Guru (Default: guru2026)"
+                  placeholder="Masukkan PIN Keamanan Guru"
                   autoFocus
                   className="w-full pl-10 pr-10 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-slate-50 font-medium text-slate-900"
                 />
