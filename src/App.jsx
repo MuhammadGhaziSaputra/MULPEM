@@ -11,25 +11,43 @@ import StudentWelcomeModal from './components/StudentWelcomeModal';
 import { storage } from './utils/storage';
 import { unitsData } from './data/contentData';
 
+const hasValidStudentName = (name) => {
+  if (!name || typeof name !== 'string') return false;
+  const trimmed = name.trim();
+  return trimmed.length >= 2 && trimmed.toLowerCase() !== 'siswa mandiri';
+};
+
+const getViewFromHash = () => {
+  if (typeof window === 'undefined') return 'home';
+  const hash = window.location.hash;
+  if (hash.startsWith('#/unit/')) {
+    const uId = parseInt(hash.replace('#/unit/', ''), 10);
+    if ([1, 2, 3].includes(uId)) return 'unit';
+  } else if (hash === '#/achievement') {
+    return 'achievement';
+  } else if (hash.startsWith('#/verifikasi')) {
+    return 'verification';
+  }
+  return 'home';
+};
+
 export default function App() {
   const [appState, setAppState] = useState(storage.getState());
-  const [currentView, setCurrentView] = useState('home'); // 'home' | 'unit' | 'achievement' | 'verification'
+  const [currentView, setCurrentView] = useState(getViewFromHash); // 'home' | 'unit' | 'achievement' | 'verification'
   const [activeUnitId, setActiveUnitId] = useState(1);
   const [isTPModalOpen, setIsTPModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
-  const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
 
-  // Periksa apakah siswa baru pertama kali masuk (belum mengisi nama)
-  useEffect(() => {
-    const studentName = appState.student?.name;
-    if (!studentName || studentName.trim() === '' || studentName === 'Siswa Mandiri') {
-      setIsWelcomeModalOpen(true);
-    }
-  }, []);
+  // Tampilkan pop-up identitas pada kunjungan pertama sebelum isi nama, kecuali sedang di Portal Guru
+  const isWelcomeModalOpen =
+    currentView !== 'verification' && !hasValidStudentName(appState.student?.name);
 
   const handleSaveStudentWelcome = (name, studentClass) => {
     storage.setStudentProfile(name, studentClass);
-    setIsWelcomeModalOpen(false);
+  };
+
+  const handleEnterTeacherPortalFromWelcome = () => {
+    navigateTo('verification');
   };
 
   // Subscribe ke perubahan state di storage
@@ -140,12 +158,13 @@ export default function App() {
         onClose={() => setIsGuideModalOpen(false)}
       />
 
-      {/* Modal Wajib Masukkan Nama untuk Siswa Baru */}
+      {/* Modal Wajib Masukkan Nama untuk Siswa Baru + Opsi Portal Guru */}
       <StudentWelcomeModal
         isOpen={isWelcomeModalOpen}
         initialName={appState.student?.name || ''}
         initialClass={appState.student?.class || 'X-2'}
         onSave={handleSaveStudentWelcome}
+        onEnterTeacherPortal={handleEnterTeacherPortalFromWelcome}
       />
     </div>
   );

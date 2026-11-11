@@ -1,11 +1,54 @@
-import React, { useState } from 'react';
-import { User, Sparkles, ArrowRight, ShieldCheck, BookOpen, GraduationCap } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { User, Sparkles, ArrowRight, ShieldCheck, GraduationCap, X, AlertTriangle } from 'lucide-react';
 import { triggerConfetti } from '../utils/confetti';
 
-export default function StudentWelcomeModal({ isOpen, onSave, initialName = '', initialClass = 'X-2' }) {
-  const [name, setName] = useState(initialName);
+export default function StudentWelcomeModal({
+  isOpen,
+  onSave,
+  onEnterTeacherPortal,
+  initialName = '',
+  initialClass = 'X-2'
+}) {
+  const [name, setName] = useState(initialName === 'Siswa Mandiri' ? '' : initialName);
   const [studentClass, setStudentClass] = useState(initialClass || 'X-2');
   const [error, setError] = useState('');
+  const nameInputRef = useRef(null);
+
+  // Sinkronkan ulang form ketika modal dibuka kembali (misalnya setelah Reset Progres)
+  useEffect(() => {
+    if (isOpen) {
+      setName(initialName === 'Siswa Mandiri' ? '' : initialName || '');
+      setStudentClass(initialClass || 'X-2');
+      setError('');
+    }
+  }, [isOpen, initialName, initialClass]);
+
+  const handleAttemptClose = () => {
+    const cleanName = name.trim();
+    if (!cleanName) {
+      setError('Nama lengkap wajib diisi sebelum menutup jendela ini (atau pilih Masuk ke Portal Guru).');
+    } else if (cleanName.length < 2) {
+      setError('Mohon masukkan nama lengkapmu minimal 2 huruf sebelum menutup jendela ini.');
+    } else if (cleanName.toLowerCase() === 'siswa mandiri') {
+      setError('Mohon isi dengan nama lengkap aslimu sebelum menutup jendela ini.');
+    } else {
+      setError('Nama lengkap belum tersimpan. Klik "Mulai Petualangan Belajar" untuk menyimpan dan masuk.');
+    }
+    nameInputRef.current?.focus();
+  };
+
+  // Tangkap tombol Escape agar tidak menutup paksa sebelum nama lengkap terisi
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        handleAttemptClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, name]);
 
   if (!isOpen) return null;
 
@@ -13,7 +56,13 @@ export default function StudentWelcomeModal({ isOpen, onSave, initialName = '', 
     e.preventDefault();
     const cleanName = name.trim();
     if (!cleanName || cleanName.length < 2) {
-      setError('Mohon masukkan nama lengkapmu minimal 2 huruf.');
+      setError('Nama lengkap wajib diisi minimal 2 huruf untuk melanjutkan.');
+      nameInputRef.current?.focus();
+      return;
+    }
+    if (cleanName.toLowerCase() === 'siswa mandiri') {
+      setError('Mohon isi dengan nama lengkap aslimu, bukan nama bawaan.');
+      nameInputRef.current?.focus();
       return;
     }
 
@@ -22,24 +71,53 @@ export default function StudentWelcomeModal({ isOpen, onSave, initialName = '', 
     triggerConfetti();
   };
 
+  const handleGoTeacherPortal = () => {
+    setError('');
+    if (onEnterTeacherPortal) {
+      onEnterTeacherPortal();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-200">
+    <div
+      onClick={handleAttemptClose}
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md animate-in fade-in duration-300"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcome-modal-title"
+        className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200 animate-in zoom-in-95 duration-200"
+      >
         {/* Header Visual Banner */}
-        <div 
+        <div
           className="p-6 sm:p-7 text-white relative overflow-hidden"
           style={{
             backgroundColor: '#1E1B4B',
             backgroundImage: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 60%, #0F172A 100%)'
           }}
         >
-          <div className="relative z-10">
+          <button
+            type="button"
+            onClick={handleAttemptClose}
+            aria-label="Tutup jendela selamat datang"
+            title="Tutup pop-up"
+            className="absolute top-4 right-4 z-20 p-2 rounded-full text-white/75 hover:text-white hover:bg-white/15 transition-colors cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          <div className="relative z-10 pr-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/15 backdrop-blur-md border border-white/20 text-teal-200 mb-3 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               <span>Selamat Datang di Studio Informatika</span>
             </div>
-            
-            <h2 className="text-xl sm:text-2xl font-heading font-extrabold text-white leading-tight">
+
+            <h2
+              id="welcome-modal-title"
+              className="text-xl sm:text-2xl font-heading font-extrabold text-white leading-tight"
+            >
               Mulai Perjalanan Belajarmu!
             </h2>
             <p className="mt-1 text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
@@ -48,7 +126,7 @@ export default function StudentWelcomeModal({ isOpen, onSave, initialName = '', 
           </div>
         </div>
 
-        {/* Form Isi Identitas Siswa */}
+        {/* Form Isi Identitas Siswa + Opsi Portal Guru */}
         <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5">
           <p className="text-xs text-slate-600 leading-relaxed">
             Masukkan namamu agar seluruh poin latihan, skor kuis, dan capaian belajarmu tercatat secara resmi dan otomatis tersinkronisasi ke <b>Portal Guru</b> di kelas.
@@ -59,8 +137,9 @@ export default function StudentWelcomeModal({ isOpen, onSave, initialName = '', 
               Nama Lengkap Siswa:
             </label>
             <div className="relative">
-              <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <User className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 ${error ? 'text-rose-500' : 'text-slate-400'}`} />
               <input
+                ref={nameInputRef}
                 type="text"
                 value={name}
                 onChange={(e) => {
@@ -69,14 +148,21 @@ export default function StudentWelcomeModal({ isOpen, onSave, initialName = '', 
                 }}
                 placeholder="Contoh: Muhammad Ghazi"
                 autoFocus
-                className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent bg-slate-50 font-medium text-slate-900"
+                className={`w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border focus:outline-none focus:ring-2 font-medium text-slate-900 transition-colors ${
+                  error
+                    ? 'border-rose-400 bg-rose-50/60 focus:ring-rose-500'
+                    : 'border-slate-300 bg-slate-50 focus:ring-primary-600 focus:border-transparent'
+                }`}
               />
             </div>
             {error && (
-              <p className="text-xs text-rose-600 font-semibold mt-1.5 flex items-center gap-1">
-                <span>⚠</span>
+              <div
+                role="alert"
+                className="mt-2 px-3 py-2 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold flex items-start gap-2 animate-in fade-in duration-150"
+              >
+                <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                 <span>{error}</span>
-              </p>
+              </div>
             )}
           </div>
 
@@ -125,6 +211,22 @@ export default function StudentWelcomeModal({ isOpen, onSave, initialName = '', 
             <span>Mulai Petualangan Belajar</span>
             <ArrowRight className="w-4 h-4" />
           </button>
+
+          {/* Opsi Khusus Guru agar bisa masuk Portal Guru tanpa mengisi nama siswa */}
+          <div className="pt-3.5 border-t border-slate-200 space-y-2">
+            <p className="text-[11px] font-semibold text-slate-500 text-center">
+              Masuk sebagai Guru / Pengajar?
+            </p>
+            <button
+              type="button"
+              onClick={handleGoTeacherPortal}
+              className="w-full py-2.5 px-4 rounded-xl border border-indigo-200 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-900 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <GraduationCap className="w-4 h-4 text-indigo-700 shrink-0" />
+              <span>Masuk ke Portal Guru (Tanpa Isi Nama)</span>
+              <ArrowRight className="w-3.5 h-3.5 text-indigo-700 shrink-0" />
+            </button>
+          </div>
         </form>
       </div>
     </div>
