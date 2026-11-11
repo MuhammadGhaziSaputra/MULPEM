@@ -44,7 +44,7 @@ export const quizBank = {
         points: 12,
         feedback: {
           correct: "Tepat! Keyboard memasukkan sinyal ketukan ke komputer sehingga berperan sebagai piranti input.",
-          incorrect: "Belum tepat. Keyboard tidak mengolah data dan tidak menampilkan visual, melainkan mengirimkan sinyal masukkan dari jari pengguna."
+          incorrect: "Belum tepat. Keyboard tidak mengolah data dan tidak menampilkan visual, melainkan mengirimkan sinyal masukan dari jari pengguna."
         },
         hint: "Apakah keyboard berfungsi memasukkan data, mengolahnya, atau menampilkan hasilnya?"
       },
@@ -91,7 +91,7 @@ export const quizBank = {
         scoreWeight: 1.0,
         points: 12,
         feedback: {
-          correct: "Pasangan Tepat! (+25 Poin per pasangan). Setiap komponen memiliki pembagian peran yang sangat tegas dalam arsitektur Von Neumann.",
+          correct: "Pasangan Tepat! Setiap komponen memiliki pembagian peran yang sangat tegas dalam arsitektur Von Neumann.",
           incorrect: "Belum tepat! Periksa kembali perbedaan antara pengatur instruksi (CU), kalkulator (ALU), meja kerja (RAM), dan pintu masuk (Input)."
         },
         hint: "Ingat rumus K-A-M: Kendali mengatur, ALU menghitung, Memori menyimpan."
@@ -195,7 +195,10 @@ export const quizBank = {
         ],
         correctKey: "Benar",
         bonusPoints: 2,
-        explanation: "Tepat! Layar sentuh menerima sentuhan jari (input) dan panel layarnya menampilkan gambar visual (output)."
+        feedback: {
+          correct: "Tepat! Layar sentuh menerima sentuhan jari (input) dan panel layarnya menampilkan gambar visual (output).",
+          incorrect: "Belum tepat. Pernyataan pada soal sebenarnya benar: layar sentuh mampu menerima sentuhan jari (input) sekaligus menampilkan gambar visual (output)."
+        }
       },
       {
         id: "L1-2",
@@ -210,7 +213,10 @@ export const quizBank = {
         ],
         correctKey: "B",
         bonusPoints: 2,
-        explanation: "Tepat! Printer mengeluarkan hasil pemrosesan komputer dalam bentuk cetakan tinta fisik di kertas."
+        feedback: {
+          correct: "Tepat! Printer mengeluarkan hasil pemrosesan komputer dalam bentuk cetakan tinta fisik di kertas.",
+          incorrect: "Belum tepat. Pilihanmu belum merupakan piranti Output khusus; Printer-lah yang mengeluarkan hasil pemrosesan komputer menjadi cetakan fisik di kertas."
+        }
       },
       {
         id: "L1-3",
@@ -224,7 +230,10 @@ export const quizBank = {
         ],
         correctOrder: ["p1", "p2", "p3"],
         bonusPoints: 2,
-        explanation: "Tepat! Objek dipotret (Input) → algoritma mengubah piksel (Proses) → hasil tampak di layar (Output)."
+        feedback: {
+          correct: "Tepat! Objek dipotret (Input) → algoritma mengubah piksel (Proses) → hasil tampak di layar (Output).",
+          incorrect: "Urutan langkah masih belum tepat. Alur pengolahan harus mengikuti pola Input → Process → Output: memotret objek terlebih dahulu, lalu aplikasi mengolah piksel, baru foto tampil di layar."
+        }
       },
       {
         id: "L1-4",
@@ -239,7 +248,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Scanner membaca dokumen dari luar dan memasukkan datanya ke dalam komputer."
+        feedback: {
+          correct: "Tepat! Scanner membaca dokumen dari luar dan memasukkan datanya ke dalam komputer.",
+          incorrect: "Belum tepat. Scanner membaca dokumen fisik dari luar untuk dimasukkan menjadi berkas digital ke komputer, sehingga berperan sebagai Perangkat Input."
+        }
       },
       {
         id: "L1-5",
@@ -254,7 +266,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Speaker mengonversi data audio digital menjadi gelombang suara yang dapat didengar telinga manusia."
+        feedback: {
+          correct: "Tepat! Speaker mengonversi data audio digital menjadi gelombang suara yang dapat didengar telinga manusia.",
+          incorrect: "Belum tepat. Speaker tidak merekam suara dari luar atau mengolah angka, melainkan mengonversi data audio digital menjadi gelombang suara untuk pengguna (Output)."
+        }
       },
       {
         id: "L1-6",
@@ -269,7 +284,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Webcam memasukkan citra visual wajah ke sistem (Input), sedangkan speaker mengeluarkan suara kepada pengguna (Output)."
+        feedback: {
+          correct: "Tepat! Webcam memasukkan citra visual wajah ke sistem (Input), sedangkan speaker mengeluarkan suara kepada pengguna (Output).",
+          incorrect: "Belum tepat. Perhatikan arah aliran datanya: Webcam menangkap gambar wajah untuk dimasukkan ke sistem (Input), sedangkan speaker mengeluarkan suara ke pengguna (Output)."
+        }
       },
       {
         id: "L1-7",
@@ -282,7 +300,10 @@ export const quizBank = {
         ],
         correctKey: "Salah",
         bonusPoints: 2,
-        explanation: "Tepat! Pernyataan itu salah, karena isi inti CPU hanyalah Control Unit (CU) dan ALU, sedangkan Memori Utama (RAM) berada di luar CPU."
+        feedback: {
+          correct: "Tepat! Pernyataan itu salah, karena isi inti CPU hanyalah Control Unit (CU) dan ALU, sedangkan Memori Utama (RAM) berada di luar CPU.",
+          incorrect: "Belum tepat. Pernyataan pada soal sebenarnya Salah, karena isi inti CPU hanyalah Control Unit (CU) dan ALU, sedangkan Memori Utama (RAM) berada terpisah di luar CPU."
+        }
       },
       {
         id: "L1-8",
@@ -297,7 +318,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Mikrofon menangkap gelombang suara dari dunia luar dan mengubahnya menjadi sinyal digital masuk ke komputer."
+        feedback: {
+          correct: "Tepat! Mikrofon menangkap gelombang suara dari dunia luar dan mengubahnya menjadi sinyal digital masuk ke komputer.",
+          incorrect: "Belum tepat. Piranti Input yang bertugas menangkap gelombang suara dari dunia luar dan memasukkannya ke komputer adalah Mikrofon (Mic)."
+        }
       }
     ]
   },
@@ -493,7 +517,10 @@ export const quizBank = {
         ],
         correctKey: "Salah",
         bonusPoints: 2,
-        explanation: "Tepat! Salah, karena gagasan utama Von Neumann adalah program dan data disimpan bersama-sama di memori yang sama."
+        feedback: {
+          correct: "Tepat! Salah, karena gagasan utama Von Neumann adalah program dan data disimpan bersama-sama di memori yang sama.",
+          incorrect: "Belum tepat. Pernyataan pada soal sebenarnya Salah, karena gagasan utama arsitektur Von Neumann justru menyimpan instruksi program dan data bersama-sama di memori utama yang sama."
+        }
       },
       {
         id: "L2-2",
@@ -508,7 +535,10 @@ export const quizBank = {
         ],
         correctKey: "B",
         bonusPoints: 2,
-        explanation: "Tepat! Kepala koki mengatur dan mengarahkan jalannya pekerjaan, persis seperti fungsi Unit Kendali (CU)."
+        feedback: {
+          correct: "Tepat! Kepala koki mengatur dan mengarahkan jalannya pekerjaan, persis seperti fungsi Unit Kendali (CU).",
+          incorrect: "Belum tepat. Peran mengatur urutan kerja, membaca komando, dan mengarahkan bagian lain di komputer dijalankan oleh Control Unit (CU), persis seperti kepala koki."
+        }
       },
       {
         id: "L2-3",
@@ -523,7 +553,10 @@ export const quizBank = {
         ],
         correctKey: "C",
         bonusPoints: 2,
-        explanation: "Tepat! Memori Utama (RAM) berada di luar CPU dan terhubung via bus sistem."
+        feedback: {
+          correct: "Tepat! Memori Utama (RAM) berada di luar CPU dan terhubung via bus sistem.",
+          incorrect: "Belum tepat. Control Unit dan ALU berada di dalam inti CPU, sedangkan komponen yang berada di luar CPU dan terhubung via bus sistem adalah Memori Utama (RAM)."
+        }
       },
       {
         id: "L2-4",
@@ -538,7 +571,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Huruf 'L' pada ALU adalah singkatan dari Logic (Logika komparasi lebih besar, lebih kecil, sama dengan)."
+        feedback: {
+          correct: "Tepat! Huruf 'L' pada ALU adalah singkatan dari Logic (Logika komparasi lebih besar, lebih kecil, sama dengan).",
+          incorrect: "Belum tepat. Huruf 'L' pada ALU berarti Logic, yang menangani perbandingan logika seperti lebih besar, lebih kecil, atau sama dengan."
+        }
       },
       {
         id: "L2-5",
@@ -553,7 +589,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Tanpa memori utama sebagai meja kerja, CPU tidak memiliki tempat menampung kode instruksi yang hendak dieksekusi."
+        feedback: {
+          correct: "Tepat! Tanpa memori utama sebagai meja kerja, CPU tidak memiliki tempat menampung kode instruksi yang hendak dieksekusi.",
+          incorrect: "Belum tepat. Tanpa Memori Utama (RAM) sebagai meja kerja sementara, CPU tidak memiliki tempat mengambil instruksi dan data sehingga sistem tidak dapat bekerja."
+        }
       },
       {
         id: "L2-6",
@@ -567,7 +606,10 @@ export const quizBank = {
         ],
         correctOrder: ["p2_1", "p2_2", "p2_3"],
         bonusPoints: 2,
-        explanation: "Tepat! Urutan kerja mesin ATM selalu mengikuti prinsip IPO: Input kartu & PIN → Process validasi saldo → Output uang & struk."
+        feedback: {
+          correct: "Tepat! Urutan kerja mesin ATM selalu mengikuti prinsip IPO: Input kartu & PIN → Process validasi saldo → Output uang & struk.",
+          incorrect: "Urutan tahap IPO di mesin ATM masih keliru. Alur harus dimulai dari Input (memasukkan kartu & PIN), dilanjutkan Process (memvalidasi saldo), lalu Output (mengeluarkan uang & struk)."
+        }
       },
       {
         id: "L2-7",
@@ -580,7 +622,10 @@ export const quizBank = {
         ],
         correctKey: "Salah",
         bonusPoints: 2,
-        explanation: "Tepat! Pernyataan tersebut salah, karena menyajikan hasil ke pengguna (seperti cetakan kertas atau tampilan layar) adalah tugas tahap Output, bukan Process."
+        feedback: {
+          correct: "Tepat! Pernyataan tersebut salah, karena menyajikan hasil ke pengguna (seperti cetakan kertas atau tampilan layar) adalah tugas tahap Output, bukan Process.",
+          incorrect: "Belum tepat. Pernyataan pada soal sebenarnya Salah, karena menyajikan hasil cetakan ke kertas atau tampilan ke layar adalah tugas tahap Output, bukan Process."
+        }
       },
       {
         id: "L2-8",
@@ -595,7 +640,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Sensor menangkap data biometrik fisik dari luar dan memasukkannya ke sistem, sehingga tergolong tahap Input."
+        feedback: {
+          correct: "Tepat! Sensor menangkap data biometrik fisik dari luar dan memasukkannya ke sistem, sehingga tergolong tahap Input.",
+          incorrect: "Belum tepat. Sensor sidik jari menangkap pola fisik dari luar lalu memasukkannya ke sistem HP, sehingga tergolong tahap Input."
+        }
       }
     ]
   },
@@ -791,7 +839,10 @@ export const quizBank = {
         ],
         correctKey: "Benar",
         bonusPoints: 2,
-        explanation: "Tepat! Unit Kendali membedah opcode instruksi agar sirkuit yang sesuai siap dinyalakan."
+        feedback: {
+          correct: "Tepat! Unit Kendali membedah opcode instruksi agar sirkuit yang sesuai siap dinyalakan.",
+          incorrect: "Belum tepat. Pernyataan pada soal sebenarnya benar: pada tahap Decode, Unit Kendali (CU) memang bertugas membaca dan menerjemahkan opcode instruksi agar sirkuit yang sesuai siap bekerja."
+        }
       },
       {
         id: "L3-2",
@@ -806,7 +857,10 @@ export const quizBank = {
         ],
         correctKey: "B",
         bonusPoints: 2,
-        explanation: "Tepat! Setelah tahap Decode selesai, instruksi harus langsung di-Execute sebelum CPU mengambil instruksi baru."
+        feedback: {
+          correct: "Tepat! Setelah tahap Decode selesai, instruksi harus langsung di-Execute sebelum CPU mengambil instruksi baru.",
+          incorrect: "Belum tepat. Urutan siklus mesin CPU selalu Fetch (Ambil) → Decode (Terjemahkan) → Execute (Jalankan). Jadi tepat setelah Decode, tahap berikutnya adalah Execute."
+        }
       },
       {
         id: "L3-3",
@@ -821,7 +875,10 @@ export const quizBank = {
         ],
         correctKey: "C",
         bonusPoints: 2,
-        explanation: "Tepat! Perintah menyimpan hasil kalkulasi ditujukan ke alamat memori utama (RAM)."
+        feedback: {
+          correct: "Tepat! Perintah menyimpan hasil kalkulasi ditujukan ke alamat memori utama (RAM).",
+          incorrect: "Belum tepat. Ketika instruksi meminta hasil kalkulasi disimpan ke memori pada tahap Execute, data tersebut dituliskan ke alamat Memori Utama (RAM)."
+        }
       },
       {
         id: "L3-4",
@@ -836,7 +893,10 @@ export const quizBank = {
         ],
         correctKey: "C",
         bonusPoints: 2,
-        explanation: "Tepat! Program terdiri atas ribuan hingga jutaan baris instruksi mikro, sehingga CPU mengerjakannya baris demi baris melalui siklus yang berulang."
+        feedback: {
+          correct: "Tepat! Program terdiri atas ribuan hingga jutaan baris instruksi mikro, sehingga CPU mengerjakannya baris demi baris melalui siklus yang berulang.",
+          incorrect: "Belum tepat. Program tersusun atas banyak baris instruksi mikro, sehingga CPU mengeksekusinya secara berurutan baris demi baris lewat siklus Fetch–Decode–Execute yang berulang terus-menerus."
+        }
       },
       {
         id: "L3-5",
@@ -851,7 +911,10 @@ export const quizBank = {
         ],
         correctKey: "B",
         bonusPoints: 2,
-        explanation: "Tepat! Membaca dan memahami langkah petunjuk resep adalah analogi dari tahap Decode di dalam Unit Kendali."
+        feedback: {
+          correct: "Tepat! Membaca dan memahami langkah petunjuk resep adalah analogi dari tahap Decode di dalam Unit Kendali.",
+          incorrect: "Belum tepat. Membaca dan memahami arti langkah petunjuk resep agar siap dieksekusi merupakan analogi langsung dari tahap Decode oleh Unit Kendali."
+        }
       },
       {
         id: "L3-6",
@@ -864,7 +927,10 @@ export const quizBank = {
         ],
         correctKey: "Salah",
         bonusPoints: 2,
-        explanation: "Tepat! Pernyataan itu salah, karena selama program belum menemui instruksi HALT/STOP, CPU langsung kembali ke tahap Fetch untuk mengambil instruksi berikutnya."
+        feedback: {
+          correct: "Tepat! Pernyataan itu salah, karena selama program belum menemui instruksi HALT/STOP, CPU langsung kembali ke tahap Fetch untuk mengambil instruksi berikutnya.",
+          incorrect: "Belum tepat. Pernyataan pada soal sebenarnya Salah, karena selama belum menemui instruksi HALT/STOP, CPU langsung mengulang siklus ke tahap Fetch untuk mengambil instruksi berikutnya."
+        }
       },
       {
         id: "L3-7",
@@ -878,7 +944,10 @@ export const quizBank = {
         ],
         correctOrder: ["p3_1", "p3_2", "p3_3"],
         bonusPoints: 2,
-        explanation: "Tepat! Mengambil kartu = Fetch, membaca maksud perintah = Decode, dan melakukan tindakannya = Execute."
+        feedback: {
+          correct: "Tepat! Mengambil kartu = Fetch, membaca maksud perintah = Decode, dan melakukan tindakannya = Execute.",
+          incorrect: "Urutan siklus instruksi masih keliru. Pastikan urutannya mengikuti pola Fetch → Decode → Execute: ambil kartu instruksi lebih dulu, baca maksudnya, lalu lakukan tindakannya."
+        }
       },
       {
         id: "L3-8",
@@ -893,7 +962,10 @@ export const quizBank = {
         ],
         correctKey: "A",
         bonusPoints: 2,
-        explanation: "Tepat! Program Counter (PC) selalu menyimpan nomor alamat instruksi berikutnya agar siklus eksekusi berjalan berurutan."
+        feedback: {
+          correct: "Tepat! Program Counter (PC) selalu menyimpan nomor alamat instruksi berikutnya agar siklus eksekusi berjalan berurutan.",
+          incorrect: "Belum tepat. Register khusus yang menyimpan nomor alamat memori instruksi berikutnya agar urutan eksekusi terjaga adalah Program Counter (PC)."
+        }
       }
     ]
   }

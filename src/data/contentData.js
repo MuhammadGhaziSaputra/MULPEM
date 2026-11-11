@@ -434,7 +434,8 @@ export const unitsData = [
             "Layar langsung menampilkan angka 8"
           ],
           correctIndex: 0,
-          explanation: "Tepat! Sebelum CPU bisa mengolah apapun, instruksi harus diambil (Fetch) terlebih dahulu dari memori utama."
+          explanation: "Tepat! Sebelum CPU bisa mengolah apapun, instruksi harus diambil (Fetch) terlebih dahulu dari memori utama.",
+          wrongFeedback: "Belum tepat. Pada langkah awal program, instruksi masih berada di RAM sehingga CPU wajib mengambilnya terlebih dahulu (Fetch) sebelum bisa menghitung atau menampilkan angka."
         },
         {
           id: "s2",
@@ -445,7 +446,8 @@ export const unitsData = [
             "Speaker membunyikan alarm selesai"
           ],
           correctIndex: 0,
-          explanation: "Tepat! Setelah instruksi diambil, Unit Kendali harus membaca dan menerjemahkan opcode (Decode) agar tahu apa yang harus disiapkan."
+          explanation: "Tepat! Setelah instruksi diambil, Unit Kendali harus membaca dan menerjemahkan opcode (Decode) agar tahu apa yang harus disiapkan.",
+          wrongFeedback: "Belum tepat. Setelah instruksi masuk ke CPU lewat tahap Fetch, Unit Kendali (CU) harus membaca dan menerjemahkan arti opcode-nya terlebih dahulu pada tahap Decode."
         },
         {
           id: "s3",
@@ -456,7 +458,8 @@ export const unitsData = [
             "Monitor layar"
           ],
           correctIndex: 0,
-          explanation: "Tepat! ALU adalah bagian CPU yang bertugas khusus mengeksekusi operasi matematika dan logika pada tahap Execute."
+          explanation: "Tepat! ALU adalah bagian CPU yang bertugas khusus mengeksekusi operasi matematika dan logika pada tahap Execute.",
+          wrongFeedback: "Belum tepat. Keyboard (input) dan monitor (output) tidak menghitung angka; komponen khusus di dalam CPU yang mengeksekusi perhitungan matematika dan logika adalah ALU."
         },
         {
           id: "s4",
@@ -467,7 +470,8 @@ export const unitsData = [
             "ALU mengulangi hitungan dari nol"
           ],
           correctIndex: 0,
-          explanation: "Tepat! Perintah menyimpan hasil olahan dieksekusi dengan menuliskan nilai biner ke alamat memori utama (RAM)."
+          explanation: "Tepat! Perintah menyimpan hasil olahan dieksekusi dengan menuliskan nilai biner ke alamat memori utama (RAM).",
+          wrongFeedback: "Belum tepat. Sesuai instruksi menyimpan hasil ke memori, nilai angka 8 hasil eksekusi akan dikirim dan dituliskan ke alamat Memori Utama (RAM)."
         }
       ]
     },

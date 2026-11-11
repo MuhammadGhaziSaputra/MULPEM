@@ -28,6 +28,8 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
     const nextPlacements = { ...placements, [selectedCardId]: zoneId };
     setPlacements(nextPlacements);
     setSelectedCardId(null);
+    setIsChecked(false);
+    setResults(null);
   };
 
   const handleRemovePlacement = (cardId, e) => {
@@ -199,6 +201,11 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
                             </span>
                           )}
                         </div>
+                        {isChecked && evalResult && !evalResult.isCorrect && card.hint && (
+                          <p className="mt-1.5 text-[11px] font-normal text-rose-800 bg-white/80 px-2 py-1 rounded-lg border border-rose-200 leading-snug">
+                            Petunjuk: {card.hint}
+                          </p>
+                        )}
                       </div>
                     );
                   })}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, XCircle, ArrowRight, RotateCcw, Award, Lightbulb, HelpCircle, Sparkles, Shuffle } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertCircle, ArrowRight, RotateCcw, Award, Lightbulb, HelpCircle, Sparkles, Shuffle } from 'lucide-react';
 import { storage } from '../utils/storage';
 import { triggerConfetti } from '../utils/confetti';
 import { prepareQuizQuestions, shuffleOrderingItems } from '../utils/shuffle';
@@ -108,6 +108,8 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
     const evalData = {
       isCorrect,
       score,
+      correctCount: matchCount,
+      totalCount: totalPairs,
       pairs: matchingPairs,
       feedbackText: isCorrect ? q.feedback.correct : q.feedback.incorrect,
       hint: q.hint
@@ -141,6 +143,8 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
     const evalData = {
       isCorrect,
       score,
+      correctCount: correctPos,
+      totalCount: q.correctOrder.length,
       order: orderedItems,
       feedbackText: isCorrect ? q.feedback.correct : q.feedback.incorrect,
       hint: q.hint
@@ -299,7 +303,7 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
             Target TP: Min. {minScore}
           </span>
           <span className="text-xs font-bold px-2.5 py-1 bg-primary-50 text-primary-800 border border-primary-200 rounded-full">
-            +12 Poin
+            +{Math.round(60 / activeQuizList.length)} Poin
           </span>
         </div>
       </div>
@@ -376,14 +380,22 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
               </div>
               {q.leftItems.map((item) => {
                 const isSelected = selectedLeft === item.id;
-                const isPaired = !!matchingPairs[item.id];
+                const pairedRightId = matchingPairs[item.id];
+                const isPaired = !!pairedRightId;
+                const isPairCorrect = isAnswered && pairedRightId === q.correctPairs[item.id];
 
                 return (
                   <div
                     key={item.id}
                     onClick={() => handleLeftClick(item.id)}
-                    className={`p-3.5 rounded-xl border cursor-pointer text-xs transition-all flex items-center justify-between ${
-                      isSelected
+                    className={`p-3.5 rounded-xl border text-xs transition-all flex items-center justify-between ${
+                      isAnswered ? 'cursor-default' : 'cursor-pointer'
+                    } ${
+                      isAnswered
+                        ? isPairCorrect
+                          ? 'bg-teal-50 border-teal-400 text-teal-900 font-semibold'
+                          : 'bg-rose-50 border-rose-300 text-rose-900 font-semibold'
+                        : isSelected
                         ? 'bg-primary-600 text-white border-primary-600 shadow-md ring-2 ring-primary-300'
                         : isPaired
                         ? 'bg-teal-50 border-teal-300 text-teal-900 font-semibold'
@@ -394,7 +406,13 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
                       <div className="font-bold">{item.label}</div>
                       <div className="text-[11px] opacity-75">{item.subtext}</div>
                     </div>
-                    {isPaired && <span className="text-xs">➔ Terpasang</span>}
+                    {isAnswered ? (
+                      <span className={`text-xs font-bold shrink-0 ${isPairCorrect ? 'text-teal-700' : 'text-rose-700'}`}>
+                        {isPairCorrect ? '✓ Tepat' : '✖ Keliru'}
+                      </span>
+                    ) : (
+                      isPaired && <span className="text-xs">➔ Terpasang</span>
+                    )}
                   </div>
                 );
               })}
@@ -406,16 +424,31 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
                 Fungsi Komponen:
               </div>
               {q.rightItems.map((item) => {
-                const pairedLeftId = Object.keys(matchingPairs).find(
+                const pairedLeftIds = Object.keys(matchingPairs).filter(
                   (lId) => matchingPairs[lId] === item.id
                 );
+                const pairedLeftLabels = pairedLeftIds
+                  .map((id) => q.leftItems.find((l) => l.id === id)?.label)
+                  .filter(Boolean);
+                const expectedLeftId = Object.keys(q.correctPairs).find(
+                  (lId) => q.correctPairs[lId] === item.id
+                );
+                const expectedLeftLabel = q.leftItems.find((l) => l.id === expectedLeftId)?.label;
+                const isRightCorrect =
+                  isAnswered && pairedLeftIds.length === 1 && pairedLeftIds[0] === expectedLeftId;
 
                 return (
                   <div
                     key={item.id}
                     onClick={() => handleRightClick(item.id)}
-                    className={`p-3.5 rounded-xl border cursor-pointer text-xs transition-all ${
-                      pairedLeftId
+                    className={`p-3.5 rounded-xl border text-xs transition-all ${
+                      isAnswered ? 'cursor-default' : 'cursor-pointer'
+                    } ${
+                      isAnswered
+                        ? isRightCorrect
+                          ? 'bg-teal-50 border-teal-400 text-teal-900 font-medium'
+                          : 'bg-rose-50 border-rose-300 text-rose-900 font-medium'
+                        : pairedLeftIds.length > 0
                         ? 'bg-teal-50 border-teal-300 text-teal-900 font-medium'
                         : selectedLeft
                         ? 'bg-primary-50/50 border-dashed border-primary-400 hover:bg-primary-100/50'
@@ -423,9 +456,22 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
                     }`}
                   >
                     <p className="leading-relaxed">{item.text}</p>
-                    {pairedLeftId && (
-                      <span className="text-[10px] font-bold text-teal-700 mt-1 inline-block">
-                        Pasangan: {q.leftItems.find((l) => l.id === pairedLeftId)?.label}
+                    {pairedLeftLabels.length > 0 && (
+                      <span
+                        className={`text-[10px] font-bold mt-1 inline-block ${
+                          isAnswered
+                            ? isRightCorrect
+                              ? 'text-teal-700'
+                              : 'text-rose-700'
+                            : 'text-teal-700'
+                        }`}
+                      >
+                        Pasanganmu: {pairedLeftLabels.join(', ')}
+                      </span>
+                    )}
+                    {isAnswered && !isRightCorrect && expectedLeftLabel && (
+                      <span className="text-[10px] font-bold text-teal-700 mt-0.5 block">
+                        Seharusnya: {expectedLeftLabel}
                       </span>
                     )}
                   </div>
@@ -455,6 +501,7 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
           onMove={handleMoveOrder}
           onCheck={handleCheckOrdering}
           isAnswered={isAnswered}
+          correctOrder={q.correctOrder}
           instructionText="Gunakan tombol panah Naik (▲) dan Turun (▼) untuk menyusun urutan yang tepat:"
           checkButtonClassName="mt-4 px-5 py-2.5 bg-primary-700 hover:bg-primary-800 text-white font-semibold text-xs rounded-xl shadow-md transition-all"
         />
@@ -465,13 +512,23 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
         <div className={`mt-6 p-4 sm:p-5 rounded-2xl border animate-in slide-in-from-top-2 duration-300 ${
           currentEval.isCorrect
             ? 'bg-teal-50 border-teal-200 text-teal-950'
+            : currentEval.score > 0
+            ? 'bg-amber-50 border-amber-200 text-amber-950'
             : 'bg-rose-50 border-rose-200 text-rose-950'
         }`}>
           <div className="flex items-center gap-2 font-bold text-sm">
             {currentEval.isCorrect ? (
               <>
                 <CheckCircle2 className="w-5 h-5 text-teal-600" />
-                <span>Jawaban Tepat! (+12 Poin)</span>
+                <span>Jawaban Tepat! (+{Math.round(60 / activeQuizList.length)} Poin)</span>
+              </>
+            ) : currentEval.score > 0 ? (
+              <>
+                <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
+                <span>
+                  Sebagian Tepat ({currentEval.correctCount}/{currentEval.totalCount} benar, +
+                  {Math.round((60 / activeQuizList.length) * currentEval.score)} Poin). Periksa Penjelasannya:
+                </span>
               </>
             ) : (
               <>
@@ -486,7 +543,9 @@ export default function QuizEngine({ quizList, unitCode, minScore, onFinishQuiz 
           </p>
 
           {currentEval.hint && !currentEval.isCorrect && (
-            <div className="mt-3 p-3 rounded-xl bg-white/80 border border-rose-200/80 text-xs text-rose-900 flex items-start gap-2">
+            <div className={`mt-3 p-3 rounded-xl bg-white/80 border text-xs flex items-start gap-2 ${
+              currentEval.score > 0 ? 'border-amber-200/80 text-amber-950' : 'border-rose-200/80 text-rose-900'
+            }`}>
               <Lightbulb className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold">Petunjuk (Hint): </span>

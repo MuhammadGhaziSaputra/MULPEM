@@ -94,7 +94,7 @@ export default function ExplorationFDESimulator({ explorationData, unitState, un
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {cycleTabs.map((tab) => {
           const isActive = currentCycle === tab.id;
-          const isDone = guessResults[`s${tab.id + 1}`] === true || currentCycle > tab.id;
+          const isDone = guessResults[`s${tab.id + 1}`] === true;
 
           return (
             <div
@@ -368,7 +368,7 @@ export default function ExplorationFDESimulator({ explorationData, unitState, un
             ) : (
               <>
                 <span className="text-rose-800 font-medium">
-                  ❌ Belum tepat. Ingat urutan siklus kaku: Ambil (Fetch) ➔ Baca (Decode) ➔ Jalankan (Execute).
+                  ❌ {currentStep.wrongFeedback || 'Belum tepat. Coba cermati kembali peran masing-masing komponen pada tahap siklus ini.'}
                 </span>
                 <button
                   onClick={() => setSelectedGuess(null)}

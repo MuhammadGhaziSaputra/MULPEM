@@ -244,7 +244,12 @@ export default function PracticeEngine({ practiceList, unitCode }) {
             )}
           </div>
           <p className="text-xs sm:text-sm mt-1.5 leading-relaxed">
-            {q.explanation}
+            {isCorrect
+              ? q.feedback?.correct || q.explanation
+              : q.feedback?.incorrect ||
+                (q.explanation
+                  ? q.explanation.replace(/^(Tepat|Benar|Betul)[!.,:\-\s]+/i, '')
+                  : 'Jawaban masih belum sesuai. Periksa kembali konsepnya.')}
           </p>
 
           <div className="mt-4 flex items-center justify-between gap-3 pt-3 border-t border-black/5">
