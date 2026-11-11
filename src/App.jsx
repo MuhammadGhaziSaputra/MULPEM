@@ -111,7 +111,7 @@ export default function App() {
   const activeUnit = unitsData.find((u) => u.id === activeUnitId) || unitsData[0];
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface-page font-body text-slate-800">
+    <div className="min-h-screen flex flex-col bg-surface-page font-body text-slate-900">
       <Navbar
         state={appState}
         currentView={currentView}

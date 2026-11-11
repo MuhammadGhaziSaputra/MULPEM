@@ -1,78 +1,79 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, Clock, Award, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Clock, Play } from 'lucide-react';
 
 export default function UnitCard({ unit, unitState, onOpenUnit }) {
   const isCompleted = unitState.status === 'completed';
   const isInProgress = unitState.status === 'in-progress';
   const quizScore = unitState.quiz?.firstAttemptScorePercent;
 
+  const unitBadgeBg =
+    unit.id === 1
+      ? 'bg-sky-200 text-slate-900'
+      : unit.id === 2
+      ? 'bg-yellow-300 text-slate-900'
+      : 'bg-emerald-300 text-slate-900';
+
   return (
-    <div className={`p-6 sm:p-7 rounded-2xl border transition-all flex flex-col justify-between bg-white relative overflow-hidden group ${
-      isCompleted
-        ? 'border-teal-300 shadow-sm hover:shadow-md ring-1 ring-teal-200/50'
-        : isInProgress
-        ? 'border-primary-300 shadow-sm hover:shadow-md'
-        : 'border-slate-200 hover:border-primary-300 hover:shadow-card-hover'
-    }`}>
+    <div className="p-6 sm:p-7 rounded-2xl border-2 border-slate-900 bg-white shadow-[5px_5px_0px_0px_#0F172A] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[7px_7px_0px_0px_#0F172A] transition-all duration-150 flex flex-col justify-between relative overflow-hidden group">
       {/* Top Banner Status */}
       <div>
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-primary-100 text-primary-800 tracking-wider">
+        <div className="flex items-center justify-between gap-2 mb-3.5">
+          <span className={`px-3 py-1 rounded-lg text-[11px] font-heading font-extrabold border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] tracking-wider ${unitBadgeBg}`}>
             UNIT {unit.id}
           </span>
 
           {isCompleted ? (
-            <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200 flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />
+            <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-emerald-300 text-slate-900 border-2 border-slate-900 flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-slate-900" />
               <span>Selesai</span>
             </span>
           ) : isInProgress ? (
-            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+            <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-yellow-200 text-slate-900 border-2 border-slate-900">
               Sedang Dipelajari
             </span>
           ) : (
-            <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+            <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border-2 border-slate-900">
               Belum Dimulai
             </span>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="font-heading font-bold text-slate-900 text-lg sm:text-xl group-hover:text-primary-700 transition-colors">
+        <h3 className="font-heading font-extrabold text-slate-900 text-lg sm:text-xl group-hover:text-primary-700 transition-colors">
           {unit.shortName}
         </h3>
-        <p className="text-xs sm:text-sm text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-700 mt-2 line-clamp-2 leading-relaxed font-medium">
           {unit.tpDesc}
         </p>
       </div>
 
       {/* Progress & Scores */}
-      <div className="mt-6 pt-4 border-t border-slate-100 space-y-2.5">
+      <div className="mt-6 pt-4 border-t-2 border-slate-900/15 space-y-2.5">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-slate-500 font-medium">Skor Kuis (TP {unit.id}):</span>
-          <span className="font-bold text-slate-800">
+          <span className="text-slate-600 font-bold">Skor Kuis (TP {unit.id}):</span>
+          <span className="font-extrabold text-slate-900">
             {quizScore !== null && quizScore !== undefined ? (
-              <span className={quizScore >= unit.minPassingScore ? 'text-teal-700' : 'text-amber-700'}>
+              <span className={`px-2 py-0.5 rounded border border-slate-900 ${quizScore >= unit.minPassingScore ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'}`}>
                 {quizScore} / 100
               </span>
             ) : (
-              <span className="text-slate-400">Belum Ada</span>
+              <span className="text-slate-500">Belum Ada</span>
             )}
           </span>
         </div>
 
         <div className="flex items-center justify-between text-xs">
-          <span className="text-slate-500 font-medium">Perolehan Poin:</span>
-          <span className="font-bold text-amber-900 flex items-center gap-1">
+          <span className="text-slate-600 font-bold">Perolehan Poin:</span>
+          <span className="font-extrabold text-slate-900 flex items-center gap-1">
             <span>⚡</span>
             <span>+{unitState.totalPoints || 0} Poin</span>
           </span>
         </div>
 
         <div className="flex items-center justify-between text-xs">
-          <span className="text-slate-500 font-medium">Estimasi Waktu:</span>
-          <span className="text-slate-600 flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5 text-slate-400" />
+          <span className="text-slate-600 font-bold">Estimasi Waktu:</span>
+          <span className="text-slate-700 font-semibold flex items-center gap-1">
+            <Clock className="w-3.5 h-3.5 text-slate-700" />
             <span>{unit.estTime}</span>
           </span>
         </div>
@@ -80,10 +81,10 @@ export default function UnitCard({ unit, unitState, onOpenUnit }) {
         {/* Action Button */}
         <button
           onClick={() => onOpenUnit(unit.id)}
-          className={`w-full mt-4 py-2.5 px-4 rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-sm ${
+          className={`neo-btn w-full mt-4 py-2.5 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer ${
             isCompleted
-              ? 'bg-slate-100 hover:bg-slate-200 text-slate-800'
-              : 'bg-primary-700 hover:bg-primary-800 text-white shadow-primary-700/20'
+              ? 'bg-emerald-200 hover:bg-emerald-300 text-slate-900'
+              : 'bg-primary-600 hover:bg-primary-700 text-white'
           }`}
         >
           {isCompleted ? (

@@ -172,25 +172,25 @@ export default function TeacherVerificationView({ onBackHome }) {
   if (!isUnlocked) {
     return (
       <div className="max-w-md mx-auto px-4 py-16 animate-in fade-in duration-300">
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-7 sm:p-8 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-primary-100 text-primary-800 flex items-center justify-center mx-auto mb-4 shadow-sm">
-            <Lock className="w-8 h-8 text-primary-700" />
+        <div className="bg-white rounded-3xl border-[3px] border-slate-900 shadow-[8px_8px_0px_0px_#0F172A] p-7 sm:p-8 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-yellow-300 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-8 h-8 text-slate-900" />
           </div>
 
           <h2 className="text-xl sm:text-2xl font-heading font-extrabold text-slate-900">
             Akses Khusus Guru
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1.5 leading-relaxed">
             Portal ini berisi data rekapitulasi nilai dan capaian seluruh siswa di kelas. Masukkan PIN Keamanan Guru untuk membuka.
           </p>
 
           <form onSubmit={handleVerifyPin} className="mt-6 space-y-4 text-left">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-1.5">
                 PIN Keamanan Guru:
               </label>
               <div className="relative">
-                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <KeyRound className="w-4 h-4 text-slate-700 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPin ? "text" : "password"}
                   value={pinInput}
@@ -200,19 +200,19 @@ export default function TeacherVerificationView({ onBackHome }) {
                   }}
                   placeholder="Masukkan PIN Keamanan Guru"
                   autoFocus
-                  className="w-full pl-10 pr-10 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-slate-50 font-medium text-slate-900"
+                  className="w-full pl-10 pr-10 py-2.5 text-sm rounded-xl border-2 border-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-surface-page focus:bg-white font-bold text-slate-900"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPin(!showPin)}
-                  className="p-1.5 text-slate-400 hover:text-slate-700 absolute right-2.5 top-1/2 -translate-y-1/2 cursor-pointer"
+                  className="p-1.5 text-slate-700 hover:text-slate-900 absolute right-2.5 top-1/2 -translate-y-1/2 cursor-pointer"
                   title={showPin ? "Sembunyikan PIN" : "Tampilkan PIN"}
                 >
                   {showPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
               {pinError && (
-                <p className="text-xs text-rose-600 font-semibold mt-1.5 flex items-center gap-1">
+                <p className="text-xs text-rose-800 bg-rose-200 border-2 border-slate-900 rounded-xl px-3 py-1.5 font-bold mt-2 flex items-center gap-1.5">
                   <span>⚠</span>
                   <span>{pinError}</span>
                 </p>
@@ -221,17 +221,17 @@ export default function TeacherVerificationView({ onBackHome }) {
 
             <button
               type="submit"
-              className="w-full py-2.5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-heading font-bold text-xs sm:text-sm shadow-md shadow-primary-700/20 transition-all cursor-pointer"
+              className="neo-btn w-full py-2.5 rounded-xl bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-xs sm:text-sm cursor-pointer"
             >
               Buka Portal Guru
             </button>
           </form>
 
-          <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span className="text-slate-400 text-[11px]">Bukan Guru?</span>
+          <div className="mt-6 pt-4 border-t-2 border-slate-900/15 flex items-center justify-between text-xs">
+            <span className="text-slate-600 font-bold text-[11px]">Bukan Guru?</span>
             <button
               onClick={onBackHome}
-              className="text-primary-700 hover:underline font-semibold flex items-center gap-1 cursor-pointer"
+              className="text-primary-700 hover:underline font-extrabold flex items-center gap-1 cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Kembali ke Halaman Siswa</span>
@@ -245,10 +245,10 @@ export default function TeacherVerificationView({ onBackHome }) {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-300">
       {/* Top Bar Nav */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-slate-900/15 mb-6">
         <button
           onClick={onBackHome}
-          className="flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-colors self-start cursor-pointer"
+          className="neo-btn-sm flex items-center gap-2 text-xs font-extrabold text-slate-900 px-3.5 py-2 rounded-xl bg-white hover:bg-yellow-200 self-start cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Kembali ke Halaman Siswa</span>
@@ -256,26 +256,26 @@ export default function TeacherVerificationView({ onBackHome }) {
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           {dbConnected ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
-              <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A]">
+              <span className="w-2 h-2 rounded-full bg-slate-900 animate-pulse"></span>
               <span>{dbProvider === 'supabase' ? 'Supabase Cloud (24 Jam Online)' : 'MySQL Terhubung (Laragon)'}</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-yellow-300 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A]">
+              <span className="w-2 h-2 rounded-full bg-slate-900"></span>
               <span>Database Belum Terhubung</span>
             </span>
           )}
 
-          <div className="flex items-center gap-2 text-xs font-bold text-primary-800 bg-primary-50 px-3 py-1 rounded-full border border-primary-200">
-            <ShieldCheck className="w-4 h-4 text-primary-700" />
+          <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-900 bg-sky-200 px-3 py-1 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A]">
+            <ShieldCheck className="w-4 h-4 text-slate-900" />
             <span>Portal Guru Aktif</span>
           </div>
 
           {/* Tombol Pengaturan Server Cloud */}
           <button
             onClick={() => setShowServerSettings(true)}
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 transition-colors cursor-pointer"
+            className="neo-btn-sm flex items-center gap-1.5 text-xs font-extrabold text-slate-900 px-3 py-1.5 rounded-full bg-white hover:bg-sky-200 cursor-pointer"
             title="Atur URL Server Database Cloud 24 Jam"
           >
             <Settings className="w-3.5 h-3.5 text-primary-700" />
@@ -285,7 +285,7 @@ export default function TeacherVerificationView({ onBackHome }) {
           {/* Tombol Kunci Portal Kembali */}
           <button
             onClick={handleLockPortal}
-            className="flex items-center gap-1.5 text-xs font-semibold text-rose-700 hover:text-rose-900 px-3 py-1.5 rounded-full border border-rose-200 bg-rose-50 hover:bg-rose-100 transition-colors cursor-pointer"
+            className="neo-btn-sm flex items-center gap-1.5 text-xs font-extrabold text-slate-900 px-3 py-1.5 rounded-full bg-rose-200 hover:bg-rose-300 cursor-pointer"
             title="Kunci kembali portal guru"
           >
             <Lock className="w-3.5 h-3.5" />
@@ -297,17 +297,17 @@ export default function TeacherVerificationView({ onBackHome }) {
       {/* Rekap Kelas Terpusat (Cloud Database) */}
       <div className="space-y-6">
           {/* Header Action & Controls */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div className="neo-card p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               {/* Search Bar */}
               <div className="relative">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-slate-700 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Cari nama siswa..."
-                  className="pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-300 w-full sm:w-56 focus:outline-none focus:ring-2 focus:ring-primary-500 bg-slate-50"
+                  className="pl-9 pr-3 py-2 text-xs rounded-xl border-2 border-slate-900 w-full sm:w-56 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-surface-page focus:bg-white font-bold text-slate-900"
                 />
               </div>
 
@@ -315,7 +315,7 @@ export default function TeacherVerificationView({ onBackHome }) {
               <select
                 value={selectedClass}
                 onChange={(e) => setSelectedClass(e.target.value)}
-                className="px-3 py-2 text-xs rounded-xl border border-slate-300 bg-slate-50 font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="px-3 py-2 text-xs rounded-xl border-2 border-slate-900 bg-surface-page font-extrabold text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 cursor-pointer"
               >
                 <option value="ALL">Semua Kelas ({dbStudents.length})</option>
                 {classList.map((c) => (
@@ -329,7 +329,7 @@ export default function TeacherVerificationView({ onBackHome }) {
               <button
                 onClick={fetchDatabaseRekap}
                 disabled={dbLoading}
-                className="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                className="neo-btn-sm px-3.5 py-2 rounded-xl bg-white hover:bg-sky-200 text-slate-900 font-extrabold text-xs flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 title="Perbarui data dari database"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${dbLoading ? 'animate-spin' : ''}`} />
@@ -339,9 +339,13 @@ export default function TeacherVerificationView({ onBackHome }) {
               <button
                 onClick={handleCopyAllExcel}
                 disabled={filteredStudents.length === 0}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+                className={`px-4 py-2 rounded-xl border-2 border-slate-900 font-extrabold text-xs flex items-center gap-1.5 transition-all ${
+                  filteredStudents.length === 0
+                    ? 'bg-slate-200 text-slate-500 border-slate-400 cursor-not-allowed'
+                    : 'neo-btn bg-emerald-300 hover:bg-emerald-200 text-slate-900 cursor-pointer'
+                }`}
               >
-                {copiedAllExcel ? <Check className="w-3.5 h-3.5 text-teal-400" /> : <FileSpreadsheet className="w-3.5 h-3.5 text-teal-400" />}
+                {copiedAllExcel ? <Check className="w-3.5 h-3.5 text-slate-900" /> : <FileSpreadsheet className="w-3.5 h-3.5 text-slate-900" />}
                 <span>{copiedAllExcel ? 'Tersalin ke Clipboard!' : 'Salin Semua ke Excel'}</span>
               </button>
             </div>
@@ -349,27 +353,27 @@ export default function TeacherVerificationView({ onBackHome }) {
 
           {/* Database Content */}
           {dbConnected ? (
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
-              <div className="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div className="bg-white rounded-3xl border-[2.5px] border-slate-900 shadow-[6px_6px_0px_0px_#0F172A] overflow-hidden">
+              <div className="p-5 sm:p-6 border-b-2 border-slate-900/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-yellow-100">
                 <div>
                   <h3 className="font-heading font-extrabold text-slate-900 text-lg sm:text-xl">
                     Daftar Rekapitulasi Capaian Pembelajaran Siswa
                   </h3>
-                  <p className="text-xs text-slate-500 font-medium mt-0.5">
+                  <p className="text-xs text-slate-700 font-semibold mt-0.5">
                     {dbProvider === 'supabase'
                       ? 'Data tersinkronisasi 24 jam online dari Supabase Cloud Database'
                       : 'Data tersinkronisasi otomatis dari database MySQL (`studio_informatika`)'}
                   </p>
                 </div>
-                <span className="text-xs font-bold text-slate-500">
+                <span className="text-xs font-extrabold px-3 py-1 bg-white border-2 border-slate-900 rounded-full text-slate-900">
                   Menampilkan {filteredStudents.length} dari {dbStudents.length} siswa
                 </span>
               </div>
 
               {filteredStudents.length > 0 ? (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-slate-200 text-xs text-left">
-                    <thead className="bg-slate-50 font-heading font-bold text-slate-700 uppercase tracking-wider text-[11px]">
+                  <table className="min-w-full divide-y-2 divide-slate-900/15 text-xs text-left">
+                    <thead className="bg-slate-900 font-heading font-extrabold text-white uppercase tracking-wider text-[11px]">
                       <tr>
                         <th className="px-4 py-3.5 text-center">No</th>
                         <th className="px-4 py-3.5">Nama Siswa</th>
@@ -382,75 +386,74 @@ export default function TeacherVerificationView({ onBackHome }) {
                         <th className="px-4 py-3.5 text-center">Level Predikat</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 bg-white">
+                    <tbody className="divide-y divide-slate-200 bg-white">
                       {filteredStudents.map((s, idx) => {
                         const avg = s.rata_rata_kuis ? parseFloat(s.rata_rata_kuis) : 0;
-                        const isAllPassed = (s.unit_tuntas_count || 0) === 3;
 
                         return (
-                          <tr key={s.id} className="hover:bg-slate-50/80 transition-colors">
-                            <td className="px-4 py-3.5 text-center font-mono text-slate-400">
+                          <tr key={s.id} className="hover:bg-yellow-50/80 transition-colors">
+                            <td className="px-4 py-3.5 text-center font-mono font-bold text-slate-600">
                               {idx + 1}
                             </td>
-                            <td className="px-4 py-3.5 font-bold text-slate-900">
+                            <td className="px-4 py-3.5 font-extrabold text-slate-900">
                               {s.nama}
                             </td>
-                            <td className="px-4 py-3.5 text-slate-600 font-medium">
+                            <td className="px-4 py-3.5 text-slate-800 font-bold">
                               {s.kelas}
                             </td>
                             {/* Unit 1 */}
                             <td className="px-4 py-3.5 text-center">
                               {s.unit1_skor !== null && s.unit1_skor !== undefined ? (
-                                <span className={`inline-block px-2 py-0.5 rounded-md font-bold text-xs ${
-                                  s.unit1_tuntas ? 'bg-teal-50 text-teal-800 border border-teal-200' : 'bg-amber-50 text-amber-800 border border-amber-200'
+                                <span className={`inline-block px-2.5 py-0.5 rounded-lg font-extrabold text-xs border-2 border-slate-900 ${
+                                  s.unit1_tuntas ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'
                                 }`}>
                                   {s.unit1_skor} {s.unit1_tuntas ? '✓' : ''}
                                 </span>
                               ) : (
-                                <span className="text-slate-300">-</span>
+                                <span className="text-slate-400 font-bold">-</span>
                               )}
                             </td>
                             {/* Unit 2 */}
                             <td className="px-4 py-3.5 text-center">
                               {s.unit2_skor !== null && s.unit2_skor !== undefined ? (
-                                <span className={`inline-block px-2 py-0.5 rounded-md font-bold text-xs ${
-                                  s.unit2_tuntas ? 'bg-teal-50 text-teal-800 border border-teal-200' : 'bg-amber-50 text-amber-800 border border-amber-200'
+                                <span className={`inline-block px-2.5 py-0.5 rounded-lg font-extrabold text-xs border-2 border-slate-900 ${
+                                  s.unit2_tuntas ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'
                                 }`}>
                                   {s.unit2_skor} {s.unit2_tuntas ? '✓' : ''}
                                 </span>
                               ) : (
-                                <span className="text-slate-300">-</span>
+                                <span className="text-slate-400 font-bold">-</span>
                               )}
                             </td>
                             {/* Unit 3 */}
                             <td className="px-4 py-3.5 text-center">
                               {s.unit3_skor !== null && s.unit3_skor !== undefined ? (
-                                <span className={`inline-block px-2 py-0.5 rounded-md font-bold text-xs ${
-                                  s.unit3_tuntas ? 'bg-teal-50 text-teal-800 border border-teal-200' : 'bg-amber-50 text-amber-800 border border-amber-200'
+                                <span className={`inline-block px-2.5 py-0.5 rounded-lg font-extrabold text-xs border-2 border-slate-900 ${
+                                  s.unit3_tuntas ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'
                                 }`}>
                                   {s.unit3_skor} {s.unit3_tuntas ? '✓' : ''}
                                 </span>
                               ) : (
-                                <span className="text-slate-300">-</span>
+                                <span className="text-slate-400 font-bold">-</span>
                               )}
                             </td>
                             {/* Rata-Rata */}
                             <td className="px-4 py-3.5 text-center font-heading font-extrabold">
                               {avg > 0 ? (
-                                <span className={avg >= 75 ? 'text-teal-700' : 'text-slate-800'}>
+                                <span className={avg >= 75 ? 'text-emerald-800' : 'text-slate-900'}>
                                   {avg} / 100
                                 </span>
                               ) : (
-                                <span className="text-slate-300">-</span>
+                                <span className="text-slate-400">-</span>
                               )}
                             </td>
                             {/* Total Poin */}
-                            <td className="px-4 py-3.5 text-center font-bold text-amber-900">
+                            <td className="px-4 py-3.5 text-center font-extrabold text-slate-900">
                               ⚡ {s.total_poin}
                             </td>
                             {/* Level */}
                             <td className="px-4 py-3.5 text-center">
-                              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary-50 text-primary-800 border border-primary-200">
+                              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-200 text-slate-900 border-2 border-slate-900">
                                 Level {s.level_gamifikasi}: {s.nama_level}
                               </span>
                             </td>
@@ -461,37 +464,37 @@ export default function TeacherVerificationView({ onBackHome }) {
                   </table>
                 </div>
               ) : (
-                <div className="p-12 text-center text-slate-500">
+                <div className="p-12 text-center text-slate-600 font-bold">
                   Tidak ada data siswa yang cocok dengan filter pencarian.
                 </div>
               )}
             </div>
           ) : (
-            <div className="p-8 sm:p-12 bg-white rounded-3xl border border-amber-200 shadow-md text-center max-w-2xl mx-auto">
-              <div className="w-16 h-16 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-4">
-                <Server className="w-8 h-8 text-amber-700" />
+            <div className="p-8 sm:p-12 bg-white rounded-3xl border-[2.5px] border-slate-900 shadow-[6px_6px_0px_0px_#0F172A] text-center max-w-2xl mx-auto">
+              <div className="w-16 h-16 rounded-2xl bg-yellow-300 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center mx-auto mb-4">
+                <Server className="w-8 h-8 text-slate-900" />
               </div>
-              <h3 className="font-heading font-bold text-slate-900 text-xl">
+              <h3 className="font-heading font-extrabold text-slate-900 text-xl">
                 {!isLocalhost ? 'Database Cloud Belum Terhubung' : 'Server Database Belum Aktif'}
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-md mx-auto leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-700 font-medium mt-2 max-w-md mx-auto leading-relaxed">
                 {!isLocalhost
                   ? 'Gagal memuat rekapitulasi siswa dari Supabase Cloud. Pastikan pengaturan URL dan Anon Key pada tombol Server Cloud sudah sesuai atau coba hubungkan kembali.'
                   : 'Aplikasi siap terhubung ke database. Pastikan koneksi Supabase Cloud aktif atau jalankan server database lokal:'}
               </p>
 
               {isLocalhost && (
-                <div className="mt-5 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2 max-w-lg mx-auto font-mono text-slate-700">
+                <div className="mt-5 p-4 rounded-2xl bg-surface-page border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] text-left text-xs space-y-2 max-w-lg mx-auto font-mono text-slate-900">
                   <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-primary-100 text-primary-800 flex items-center justify-center font-bold text-[10px]">1</span>
+                    <span className="w-5 h-5 rounded-full bg-yellow-300 border border-slate-900 text-slate-900 flex items-center justify-center font-extrabold text-[10px]">1</span>
                     <span>Buka <b>Laragon</b> atau <b>XAMPP</b> di laptop/komputermu.</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-primary-100 text-primary-800 flex items-center justify-center font-bold text-[10px]">2</span>
+                    <span className="w-5 h-5 rounded-full bg-sky-200 border border-slate-900 text-slate-900 flex items-center justify-center font-extrabold text-[10px]">2</span>
                     <span>Klik tombol <b>Start All</b> (Apache & MySQL aktif).</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-primary-100 text-primary-800 flex items-center justify-center font-bold text-[10px]">3</span>
+                    <span className="w-5 h-5 rounded-full bg-emerald-200 border border-slate-900 text-slate-900 flex items-center justify-center font-extrabold text-[10px]">3</span>
                     <span>Pastikan database <b>`studio_informatika`</b> sudah diimpor.</span>
                   </div>
                 </div>
@@ -501,7 +504,7 @@ export default function TeacherVerificationView({ onBackHome }) {
                 <button
                   onClick={fetchDatabaseRekap}
                   disabled={dbLoading}
-                  className="px-6 py-2.5 bg-primary-700 hover:bg-primary-800 text-white rounded-xl font-semibold text-xs flex items-center gap-2 shadow-md"
+                  className="neo-btn px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-extrabold text-xs flex items-center gap-2 cursor-pointer"
                 >
                   <RefreshCw className={`w-4 h-4 ${dbLoading ? 'animate-spin' : ''}`} />
                   <span>{dbLoading ? 'Menghubungkan...' : 'Coba Hubungkan Sekarang'}</span>
@@ -509,7 +512,7 @@ export default function TeacherVerificationView({ onBackHome }) {
 
                 <button
                   onClick={() => setShowServerSettings(true)}
-                  className="px-5 py-2.5 border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl font-semibold text-xs flex items-center gap-1.5"
+                  className="neo-btn px-5 py-2.5 bg-white hover:bg-sky-200 text-slate-900 rounded-xl font-extrabold text-xs flex items-center gap-1.5 cursor-pointer"
                 >
                   <Settings className="w-3.5 h-3.5 text-primary-700" />
                   <span>Pengaturan Server Cloud</span>
@@ -521,25 +524,25 @@ export default function TeacherVerificationView({ onBackHome }) {
 
       {/* Modal Pengaturan Server Cloud Supabase */}
       {showServerSettings && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/65 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 border-[3px] border-slate-900 shadow-[8px_8px_0px_0px_#0F172A]">
+            <div className="flex items-center justify-between pb-3 border-b-2 border-slate-900/15">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center">
-                  <Globe className="w-5 h-5 text-teal-700" />
+                <div className="w-10 h-10 rounded-xl bg-emerald-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-slate-900" />
                 </div>
                 <div>
-                  <h3 className="font-heading font-bold text-slate-900 text-base">
+                  <h3 className="font-heading font-extrabold text-slate-900 text-base">
                     Hubungkan ke Supabase Cloud (24 Jam)
                   </h3>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-600 font-semibold">
                     Database online gratis selamanya tanpa kartu kredit
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setShowServerSettings(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700"
+                className="neo-btn-sm p-1.5 rounded-xl bg-white hover:bg-rose-200 text-slate-900 cursor-pointer"
               >
                 ✕
               </button>
@@ -547,7 +550,7 @@ export default function TeacherVerificationView({ onBackHome }) {
 
             <form onSubmit={handleSaveSupabaseConfig} className="mt-4 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-1">
                   Supabase Project URL:
                 </label>
                 <input
@@ -555,12 +558,12 @@ export default function TeacherVerificationView({ onBackHome }) {
                   value={supaUrlInput}
                   onChange={(e) => setSupaUrlInput(e.target.value)}
                   placeholder="https://xyzcompany.supabase.co"
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500 bg-slate-50 font-mono"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border-2 border-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-surface-page focus:bg-white font-mono font-bold text-slate-900"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-1">
                   Supabase Anon (Public) Key:
                 </label>
                 <input
@@ -568,14 +571,14 @@ export default function TeacherVerificationView({ onBackHome }) {
                   value={supaKeyInput}
                   onChange={(e) => setSupaKeyInput(e.target.value)}
                   placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500 bg-slate-50 font-mono"
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border-2 border-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-surface-page focus:bg-white font-mono font-bold text-slate-900"
                 />
-                <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
+                <p className="text-[11px] text-slate-700 font-medium mt-1.5 leading-relaxed">
                   Dapatkan di dashboard Supabase: <b>Project Settings ➔ Data API ➔ Project URL & anon public key</b>.
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-teal-50 border border-teal-200 text-xs text-teal-950 leading-relaxed">
+              <div className="p-3 rounded-xl bg-emerald-100 border-2 border-slate-900 text-xs text-slate-900 font-medium leading-relaxed">
                 ✨ <b>Manfaat:</b> Begitu terhubung, seluruh murid yang belajar dari rumah via link Netlify akan otomatis tersimpan ke Supabase 24 jam penuh!
               </div>
 
@@ -589,7 +592,7 @@ export default function TeacherVerificationView({ onBackHome }) {
                     setShowServerSettings(false);
                     fetchDatabaseRekap();
                   }}
-                  className="text-xs text-rose-600 hover:underline font-semibold"
+                  className="text-xs text-rose-700 hover:underline font-extrabold cursor-pointer"
                 >
                   Putuskan Koneksi
                 </button>
@@ -598,13 +601,13 @@ export default function TeacherVerificationView({ onBackHome }) {
                   <button
                     type="button"
                     onClick={() => setShowServerSettings(false)}
-                    className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl"
+                    className="neo-btn-sm px-4 py-2 text-xs font-extrabold text-slate-900 bg-white hover:bg-slate-100 rounded-xl cursor-pointer"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2 text-xs font-bold text-white bg-primary-700 hover:bg-primary-800 rounded-xl shadow-md"
+                    className="neo-btn px-5 py-2 text-xs font-extrabold text-slate-900 bg-yellow-300 hover:bg-yellow-200 rounded-xl cursor-pointer"
                   >
                     Simpan & Hubungkan
                   </button>

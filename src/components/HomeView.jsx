@@ -80,19 +80,19 @@ export default function HomeView({
       {/* Grid 2 Kolom: Kiri Statistik Belajar Siswa, Kanan Kata Penyemangat & Inspirasi */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Kolom Kiri: Dashboard Statistik Penggunaan & Skor Siswa (7 cols) */}
-        <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-sm flex flex-col justify-between">
+        <div className="lg:col-span-7 bg-white rounded-3xl border-[2.5px] border-slate-900 p-6 sm:p-7 shadow-[6px_6px_0px_0px_#0F172A] flex flex-col justify-between">
           <div>
             {/* Header Statistik + Profil Siswa */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b-2 border-slate-900/15">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-primary-100 text-primary-800 flex items-center justify-center shadow-sm">
-                  <TrendingUp className="w-6 h-6 text-primary-700" />
+                <div className="w-11 h-11 rounded-2xl bg-sky-200 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-slate-900" />
                 </div>
                 <div>
                   <h3 className="font-heading font-extrabold text-slate-900 text-lg">
                     Statistik & Progres Belajar
                   </h3>
-                  <p className="text-xs text-slate-500 font-medium">
+                  <p className="text-xs text-slate-600 font-semibold">
                     Aktivitas Latihan, Poin Gamifikasi, & Skor Kuis Formatif
                   </p>
                 </div>
@@ -104,11 +104,11 @@ export default function HomeView({
                   type="button"
                   onClick={onEditProfile}
                   title="Klik untuk mengganti nama atau kelas siswa"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-primary-50 hover:text-primary-800 border border-slate-200 hover:border-primary-300 transition-colors cursor-pointer"
+                  className="neo-btn-sm inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-yellow-200 hover:bg-yellow-300 text-slate-900 cursor-pointer"
                 >
-                  <User className="w-3.5 h-3.5 text-primary-700 shrink-0" />
+                  <User className="w-3.5 h-3.5 text-slate-900 shrink-0" />
                   <span>{state.student?.name ? `${state.student.name} (${state.student.class})` : '+ Atur Nama Siswa'}</span>
-                  <Pencil className="w-3 h-3 text-slate-400 shrink-0" />
+                  <Pencil className="w-3 h-3 text-slate-700 shrink-0" />
                 </button>
               </div>
             </div>
@@ -116,71 +116,71 @@ export default function HomeView({
             {/* 4 Kotak Metrik Statistik */}
             <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3.5">
               {/* Metrik 1: Total Poin */}
-              <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80">
-                <span className="text-[10px] font-bold text-amber-900 uppercase tracking-wider block">
+              <div className="p-4 rounded-2xl bg-yellow-200 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]">
+                <span className="text-[10px] font-extrabold text-slate-900 uppercase tracking-wider block">
                   TOTAL POIN
                 </span>
-                <div className="text-2xl font-heading font-extrabold text-amber-950 mt-1">
+                <div className="text-2xl font-heading font-extrabold text-slate-900 mt-1">
                   ⚡ {overall.totalPoints}
                 </div>
-                <span className="text-[10px] font-semibold text-amber-800">
+                <span className="text-[10px] font-bold text-slate-800">
                   Target: {nextLevelGoal} Pts
                 </span>
               </div>
 
               {/* Metrik 2: Rata-Rata Skor Kuis */}
-              <div className="p-4 rounded-2xl bg-primary-50/70 border border-primary-200/80">
-                <span className="text-[10px] font-bold text-primary-900 uppercase tracking-wider block">
+              <div className="p-4 rounded-2xl bg-sky-200 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]">
+                <span className="text-[10px] font-extrabold text-slate-900 uppercase tracking-wider block">
                   RATA-RATA SKOR
                 </span>
-                <div className="text-2xl font-heading font-extrabold text-primary-950 mt-1">
+                <div className="text-2xl font-heading font-extrabold text-slate-900 mt-1">
                   {averageScore}
-                  <span className="text-xs font-normal text-slate-500">/100</span>
+                  <span className="text-xs font-bold text-slate-700">/100</span>
                 </div>
-                <span className={`text-[10px] font-bold ${averageScore >= 75 ? 'text-teal-700' : 'text-slate-600'}`}>
+                <span className="text-[10px] font-extrabold text-slate-900">
                   {averageScore >= 75 ? '✓ Tercapai (≥75)' : 'Target TP: ≥75'}
                 </span>
               </div>
 
               {/* Metrik 3: Aktivitas Selesai */}
-              <div className="p-4 rounded-2xl bg-teal-50/70 border border-teal-200/80">
-                <span className="text-[10px] font-bold text-teal-900 uppercase tracking-wider block">
+              <div className="p-4 rounded-2xl bg-emerald-200 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]">
+                <span className="text-[10px] font-extrabold text-slate-900 uppercase tracking-wider block">
                   AKTIVITAS
                 </span>
-                <div className="text-2xl font-heading font-extrabold text-teal-950 mt-1">
+                <div className="text-2xl font-heading font-extrabold text-slate-900 mt-1">
                   {totalActivitiesCompleted}
                 </div>
-                <span className="text-[10px] font-semibold text-teal-800">
+                <span className="text-[10px] font-bold text-slate-800">
                   Latihan & Eksplorasi
                 </span>
               </div>
 
               {/* Metrik 4: Unit Tuntas */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
+              <div className="p-4 rounded-2xl bg-rose-200 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]">
+                <span className="text-[10px] font-extrabold text-slate-900 uppercase tracking-wider block">
                   UNIT TUNTAS
                 </span>
                 <div className="text-2xl font-heading font-extrabold text-slate-900 mt-1">
-                  {completedCount} <span className="text-xs font-normal text-slate-500">/ 3</span>
+                  {completedCount} <span className="text-xs font-bold text-slate-700">/ 3</span>
                 </div>
-                <span className="text-[10px] font-semibold text-primary-700">
+                <span className="text-[10px] font-bold text-slate-900">
                   {completedCount === 3 ? '🎉 Selesai Semua' : 'Sedang Berjalan'}
                 </span>
               </div>
             </div>
 
             {/* Level Bar Progress */}
-            <div className="mt-5 p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80">
-              <div className="flex items-center justify-between text-xs mb-1.5">
-                <span className="font-bold text-slate-800 flex items-center gap-1.5">
+            <div className="mt-5 p-4 rounded-2xl bg-surface-muted border-2 border-slate-900">
+              <div className="flex items-center justify-between text-xs mb-2">
+                <span className="font-extrabold text-slate-900 flex items-center gap-1.5">
                   <span>🏅 Level {overall.level}:</span>
                   <span className="text-primary-700">{overall.levelName}</span>
                 </span>
-                <span className="text-slate-500 font-semibold">{overall.totalPoints} / {nextLevelGoal} Poin</span>
+                <span className="text-slate-700 font-bold">{overall.totalPoints} / {nextLevelGoal} Poin</span>
               </div>
-              <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-white h-3.5 rounded-full border-2 border-slate-900 overflow-hidden">
                 <div
-                  className="bg-gradient-to-r from-primary-600 to-teal-500 h-full transition-all duration-500"
+                  className={`bg-primary-600 h-full transition-all duration-500 ${levelProgressPercent > 0 && levelProgressPercent < 100 ? 'border-r-2 border-slate-900' : ''}`}
                   style={{ width: `${levelProgressPercent}%` }}
                 ></div>
               </div>
@@ -188,79 +188,69 @@ export default function HomeView({
           </div>
 
           {/* Status Penyimpanan Progres */}
-          <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-            <span className="text-xs text-slate-500 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-teal-500 inline-block"></span>
+          <div className="mt-5 pt-4 border-t-2 border-slate-900/15 flex items-center justify-between gap-3">
+            <span className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-900 inline-block"></span>
               Data tersimpan aman &amp; tersinkronisasi otomatis ke sistem guru.
             </span>
           </div>
         </div>
 
         {/* Kolom Kanan: Kata-Kata Penyemangat & Inspirasi Belajar (5 cols) */}
-        <div 
-          className="lg:col-span-5 text-white rounded-3xl p-6 sm:p-7 shadow-xl border border-indigo-700/60 flex flex-col justify-between relative overflow-hidden"
-          style={{
-            backgroundColor: '#1E1B4B',
-            backgroundImage: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 55%, #0F172A 100%)'
-          }}
-        >
-          {/* Subtle Glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
+        <div className="lg:col-span-5 bg-yellow-300 text-slate-900 rounded-3xl p-6 sm:p-7 border-[2.5px] border-slate-900 shadow-[6px_6px_0px_0px_#0F172A] flex flex-col justify-between relative overflow-hidden">
           <div className="relative z-10">
             {/* Header Penyemangat */}
             <div className="flex items-center justify-between gap-2 mb-4">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md flex items-center justify-center text-amber-300">
-                  <Flame className="w-4 h-4 fill-current" />
+                <div className="w-9 h-9 rounded-xl bg-white border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] flex items-center justify-center text-rose-500">
+                  <Flame className="w-5 h-5 fill-current" />
                 </div>
-                <span className="text-xs font-bold uppercase tracking-wider text-teal-300">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-slate-900">
                   Energi Belajar Hari Ini
                 </span>
               </div>
 
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-amber-200 border border-white/15">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-300 text-slate-900 border-2 border-slate-900">
                 {motivationBadge}
               </span>
             </div>
 
             {/* Judul & Pesan Penyemangat */}
-            <h4 className="text-xl font-heading font-extrabold text-white leading-snug">
+            <h4 className="text-xl font-heading font-extrabold text-slate-900 leading-snug">
               {motivationTitle}
             </h4>
-            <p className="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+            <p className="mt-3 text-xs sm:text-sm text-slate-800 leading-relaxed font-semibold">
               {motivationMessage}
             </p>
 
             {/* Kutipan Inspiratif Tokoh Komputer */}
-            <div className="mt-5 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
-              <div className="text-[11px] font-bold text-amber-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <div className="mt-5 p-4 rounded-2xl bg-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A]">
+              <div className="text-[11px] font-extrabold text-primary-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Kutipan Inspirasi Komputasi</span>
               </div>
-              <p className="text-xs text-slate-100 italic leading-relaxed">
+              <p className="text-xs text-slate-800 italic font-medium leading-relaxed">
                 "Komputer itu seperti sepeda untuk pikiran kita—alat luar biasa yang memperkuat potensi akal manusia berlipat ganda."
               </p>
-              <div className="text-[11px] font-semibold text-teal-300 mt-1.5 text-right">
+              <div className="text-[11px] font-extrabold text-slate-900 mt-1.5 text-right">
                 — Steve Jobs
               </div>
             </div>
           </div>
 
           {/* Quick Shortcuts to Modals */}
-          <div className="relative z-10 mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
-            <span className="text-slate-300 text-[11px]">Ingin baca panduan lengkap?</span>
+          <div className="relative z-10 mt-6 pt-4 border-t-2 border-slate-900/20 flex items-center justify-between text-xs">
+            <span className="text-slate-900 text-[11px] font-bold">Ingin baca panduan lengkap?</span>
             <div className="flex items-center gap-2">
               <button
                 onClick={onOpenTP}
-                className="text-teal-300 hover:text-white font-semibold underline underline-offset-2 transition-colors"
+                className="px-2.5 py-1 rounded-lg bg-white border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] hover:bg-emerald-200 text-slate-900 font-extrabold transition-colors cursor-pointer"
               >
                 Tujuan TP
               </button>
-              <span className="text-white/30">•</span>
               <button
                 onClick={onOpenGuide}
-                className="text-amber-300 hover:text-white font-semibold underline underline-offset-2 transition-colors"
+                className="px-2.5 py-1 rounded-lg bg-white border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] hover:bg-sky-200 text-slate-900 font-extrabold transition-colors cursor-pointer"
               >
                 Petunjuk
               </button>
@@ -276,7 +266,7 @@ export default function HomeView({
             <h3 className="font-heading font-extrabold text-slate-900 text-xl sm:text-2xl">
               Unit Pembelajaran Interaktif
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500 font-medium">
+            <p className="text-xs sm:text-sm text-slate-600 font-semibold">
               Selesaikan ketiga unit secara bertahap untuk membuka Ringkasan Capaian Akhir.
             </p>
           </div>
@@ -284,7 +274,7 @@ export default function HomeView({
           {state.overall.completedUnits > 0 && (
             <button
               onClick={onOpenAchievement}
-              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-heading font-bold text-xs rounded-xl shadow-md shadow-amber-500/20 flex items-center gap-1.5 transition-all hover:scale-102 self-start sm:self-center"
+              className="neo-btn px-4 py-2 bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-xs rounded-xl flex items-center gap-1.5 self-start sm:self-center cursor-pointer"
             >
               <Award className="w-4 h-4" />
               <span>Lihat Capaian ({state.overall.completedUnits}/3 Selesai)</span>

@@ -14,9 +14,9 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
   const [results, setResults] = useState(null);
 
   const zones = [
-    { id: 'input', label: '1. TAHAP INPUT', sub: 'Pemasukan Data Mentah', color: 'blue' },
-    { id: 'process', label: '2. TAHAP PROCESS', sub: 'Pemrosesan di CPU', color: 'indigo' },
-    { id: 'output', label: '3. TAHAP OUTPUT', sub: 'Penyajian Informasi', color: 'teal' }
+    { id: 'input', label: '1. TAHAP INPUT', sub: 'Pemasukan Data Mentah', headerBg: 'bg-sky-200' },
+    { id: 'process', label: '2. TAHAP PROCESS', sub: 'Pemrosesan di CPU', headerBg: 'bg-yellow-300' },
+    { id: 'output', label: '3. TAHAP OUTPUT', sub: 'Penyajian Informasi', headerBg: 'bg-emerald-300' }
   ];
 
   const handleSelectCard = (cardId) => {
@@ -79,23 +79,23 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
   const allPlaced = Object.keys(placements).length === cards.length;
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-7 shadow-sm">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b border-slate-100">
+    <div className="neo-card p-5 sm:p-7">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b-2 border-slate-900/15">
         <div>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-primary-600 animate-ping"></span>
-            <h3 className="font-heading font-bold text-slate-900 text-lg sm:text-xl">
+            <span className="w-2.5 h-2.5 rounded-full bg-primary-600 border border-slate-900 animate-ping"></span>
+            <h3 className="font-heading font-extrabold text-slate-900 text-lg sm:text-xl">
               Aktivitas Interaktif: Susun Alur Data IPO
             </h3>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
             Pilih kartu kasus, lalu ketuk zona wadah yang sesuai (Input, Proses, atau Output).
           </p>
         </div>
 
         <button
           onClick={handleReset}
-          className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-lg flex items-center gap-1.5 transition-colors"
+          className="neo-btn-sm px-3 py-1.5 text-xs font-extrabold text-slate-900 bg-white hover:bg-yellow-200 rounded-xl flex items-center gap-1.5 cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Atur Ulang</span>
@@ -104,25 +104,27 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
 
       {/* Kartu yang belum ditempatkan */}
       <div className="mt-6">
-        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+        <div className="text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2.5">
           Pilihan Kasus Komputasi ({unplacedCards.length} Kartu Tersedia):
         </div>
         {unplacedCards.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {unplacedCards.map((card) => {
               const isSelected = selectedCardId === card.id;
               return (
                 <div
                   key={card.id}
                   onClick={() => handleSelectCard(card.id)}
-                  className={`p-3.5 rounded-xl border cursor-pointer text-xs font-medium transition-all flex items-center justify-between gap-2 ${
+                  className={`p-3.5 rounded-xl border-2 border-slate-900 cursor-pointer text-xs font-bold transition-all flex items-center justify-between gap-2 ${
                     isSelected
-                      ? 'bg-primary-600 text-white border-primary-600 shadow-md scale-102 ring-2 ring-primary-300'
-                      : 'bg-slate-50 border-slate-200 text-slate-800 hover:border-primary-400 hover:bg-primary-50/30'
+                      ? 'bg-yellow-300 text-slate-900 shadow-[4px_4px_0px_0px_#0F172A] -translate-x-0.5 -translate-y-0.5'
+                      : 'bg-surface-page text-slate-900 hover:bg-sky-100 shadow-[2px_2px_0px_0px_#0F172A]'
                   }`}
                 >
                   <span>{card.text}</span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/10 shrink-0">
+                  <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded border border-slate-900 shrink-0 ${
+                    isSelected ? 'bg-white text-slate-900' : 'bg-white text-slate-800'
+                  }`}>
                     {isSelected ? 'Ketuk Wadah' : 'Pilih'}
                   </span>
                 </div>
@@ -130,7 +132,7 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
             })}
           </div>
         ) : (
-          <div className="p-3 bg-teal-50 border border-teal-200 rounded-xl text-teal-800 text-xs font-medium text-center">
+          <div className="p-3.5 bg-emerald-200 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] rounded-xl text-slate-900 text-xs font-extrabold text-center">
             Semua kartu telah ditempatkan ke dalam wadah! Ketuk tombol "Periksa Alur IPO" di bawah.
           </div>
         )}
@@ -147,19 +149,19 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
               onClick={() => handlePlaceCard(zone.id)}
               className={`rounded-2xl border-2 p-4 transition-all min-h-[220px] flex flex-col justify-between ${
                 selectedCardId
-                  ? 'border-dashed border-primary-500 bg-primary-50/20 cursor-pointer hover:bg-primary-50/40 animate-pulse-subtle'
-                  : 'border-slate-200 bg-slate-50/50'
+                  ? 'border-dashed border-primary-600 bg-sky-50 cursor-pointer hover:bg-sky-100 shadow-[4px_4px_0px_0px_#2563EB]'
+                  : 'border-slate-900 bg-white shadow-[4px_4px_0px_0px_#0F172A]'
               }`}
             >
               <div>
-                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                <div className={`flex items-center justify-between p-2.5 rounded-xl border-2 border-slate-900 ${zone.headerBg}`}>
                   <div>
-                    <h4 className="font-heading font-bold text-slate-900 text-sm">
+                    <h4 className="font-heading font-extrabold text-slate-900 text-sm">
                       {zone.label}
                     </h4>
-                    <p className="text-[11px] text-slate-500">{zone.sub}</p>
+                    <p className="text-[11px] text-slate-800 font-semibold">{zone.sub}</p>
                   </div>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-700">
+                  <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-white border-2 border-slate-900 text-slate-900">
                     {zoneCards.length}
                   </span>
                 </div>
@@ -172,12 +174,12 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
                     return (
                       <div
                         key={card.id}
-                        className={`p-3 rounded-xl border text-xs leading-relaxed transition-all relative ${
+                        className={`p-3 rounded-xl border-2 border-slate-900 text-xs leading-relaxed transition-all relative shadow-[2px_2px_0px_0px_#0F172A] ${
                           isChecked && evalResult
                             ? evalResult.isCorrect
-                              ? 'bg-teal-50 border-teal-300 text-teal-900 font-medium'
-                              : 'bg-rose-50 border-rose-300 text-rose-900 font-medium'
-                            : 'bg-white border-slate-200 text-slate-800 shadow-sm'
+                              ? 'bg-emerald-200 text-slate-900 font-bold'
+                              : 'bg-rose-200 text-slate-900 font-bold'
+                            : 'bg-surface-page text-slate-900 font-semibold'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-1.5">
@@ -185,7 +187,7 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
                           {!isChecked && (
                             <button
                               onClick={(e) => handleRemovePlacement(card.id, e)}
-                              className="text-slate-400 hover:text-rose-500 text-xs px-1 font-bold"
+                              className="text-slate-700 hover:text-rose-700 text-xs px-1 font-extrabold cursor-pointer"
                               title="Hapus dari wadah"
                             >
                               ✕
@@ -194,15 +196,15 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
                           {isChecked && evalResult && (
                             <span>
                               {evalResult.isCorrect ? (
-                                <CheckCircle className="w-4 h-4 text-teal-600 inline" />
+                                <CheckCircle className="w-4 h-4 text-emerald-800 inline" />
                               ) : (
-                                <XCircle className="w-4 h-4 text-rose-600 inline" />
+                                <XCircle className="w-4 h-4 text-rose-800 inline" />
                               )}
                             </span>
                           )}
                         </div>
                         {isChecked && evalResult && !evalResult.isCorrect && card.hint && (
-                          <p className="mt-1.5 text-[11px] font-normal text-rose-800 bg-white/80 px-2 py-1 rounded-lg border border-rose-200 leading-snug">
+                          <p className="mt-1.5 text-[11px] font-semibold text-slate-900 bg-white px-2.5 py-1.5 rounded-lg border-2 border-slate-900 leading-snug">
                             Petunjuk: {card.hint}
                           </p>
                         )}
@@ -211,7 +213,7 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
                   })}
 
                   {zoneCards.length === 0 && (
-                    <div className="py-8 text-center text-xs text-slate-400 italic">
+                    <div className="py-8 text-center text-xs text-slate-500 font-medium italic">
                       Wadah kosong. Ketuk kartu di atas lalu ketuk wadah ini.
                     </div>
                   )}
@@ -219,7 +221,7 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
               </div>
 
               {selectedCardId && (
-                <div className="mt-3 py-1.5 text-center text-xs font-bold text-primary-700 bg-primary-100/60 rounded-lg">
+                <div className="mt-3 py-1.5 text-center text-xs font-extrabold text-slate-900 bg-yellow-300 border-2 border-slate-900 rounded-xl">
                   + Masukkan ke sini
                 </div>
               )}
@@ -229,15 +231,15 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
       </div>
 
       {/* Button Check & Feedback */}
-      <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100">
+      <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t-2 border-slate-900/15">
         <div>
           {results && (
-            <div className="flex items-center gap-2">
-              <span className={`text-sm font-bold ${results.correctCount === cards.length ? 'text-teal-700' : 'text-slate-700'}`}>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className={`text-sm font-extrabold ${results.correctCount === cards.length ? 'text-emerald-800' : 'text-slate-900'}`}>
                 Hasil: {results.correctCount} dari {cards.length} Kartu Benar (+{results.points} Poin)
               </span>
               {results.correctCount === cards.length && (
-                <span className="text-xs px-2 py-0.5 bg-teal-100 text-teal-800 rounded-full font-bold">
+                <span className="text-xs px-2.5 py-0.5 bg-emerald-300 border-2 border-slate-900 text-slate-900 rounded-full font-extrabold">
                   Sempurna! 🌟
                 </span>
               )}
@@ -248,10 +250,10 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
         <button
           onClick={handleCheckAnswers}
           disabled={!allPlaced}
-          className={`px-6 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md ${
+          className={`px-6 py-2.5 rounded-xl font-extrabold text-sm transition-all border-2 border-slate-900 ${
             allPlaced
-              ? 'bg-primary-700 hover:bg-primary-800 text-white shadow-primary-700/20'
-              : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              ? 'neo-btn bg-primary-600 hover:bg-primary-700 text-white cursor-pointer'
+              : 'bg-slate-200 text-slate-500 border-slate-400 cursor-not-allowed'
           }`}
         >
           {isChecked ? 'Periksa Ulang Jawaban' : 'Periksa Alur IPO'}

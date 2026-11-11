@@ -45,29 +45,29 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-7 shadow-sm">
+    <div className="neo-card p-5 sm:p-7">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b border-slate-100">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b-2 border-slate-900/15">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary-100 text-primary-800 flex items-center justify-center">
-            <UserCheck className="w-5 h-5 text-primary-700" />
+          <div className="w-11 h-11 rounded-xl bg-sky-200 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center">
+            <UserCheck className="w-5 h-5 text-slate-900" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-heading font-bold text-slate-900 text-lg sm:text-xl">
+              <h3 className="font-heading font-extrabold text-slate-900 text-lg sm:text-xl">
                 Refleksi Pemahamanmu
               </h3>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-yellow-300 border border-slate-900 text-slate-900">
                 Mandiri
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-600 font-medium mt-0.5">
               Bantu kenali bagian yang sudah kamu kuasai dan yang masih perlu dibahas di kelas bersama guru.
             </p>
           </div>
         </div>
 
-        <div className="text-xs font-semibold px-3 py-1 bg-primary-50 text-primary-800 rounded-full border border-primary-200">
+        <div className="text-xs font-extrabold px-3 py-1 bg-yellow-300 text-slate-900 rounded-full border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A]">
           Format Asesmen Diri (+10 Poin)
         </div>
       </div>
@@ -75,7 +75,7 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
       <div className="mt-6 space-y-6">
         {/* 1. Skala Pemahaman */}
         <div>
-          <label className="block text-sm font-heading font-bold text-slate-900 mb-3">
+          <label className="block text-sm font-heading font-extrabold text-slate-900 mb-3">
             1. Bagaimana tingkat keyakinanmu terhadap materi Unit ini?
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -85,21 +85,21 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
                 <div
                   key={opt.value}
                   onClick={() => setScale(opt.value)}
-                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all text-center flex flex-col items-center justify-between ${
+                  className={`p-4 rounded-2xl border-2 border-slate-900 cursor-pointer transition-all text-center flex flex-col items-center justify-between ${
                     isSelected
-                      ? 'bg-primary-50 border-primary-600 shadow-md ring-2 ring-primary-400/20'
-                      : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                      ? 'bg-yellow-200 shadow-[4px_4px_0px_0px_#0F172A] -translate-x-0.5 -translate-y-0.5'
+                      : 'bg-surface-page hover:bg-sky-100 shadow-[2px_2px_0px_0px_#0F172A]'
                   }`}
                 >
                   <div className="text-2xl mb-1">{opt.emoji}</div>
-                  <div className="font-heading font-bold text-slate-900 text-sm">
+                  <div className="font-heading font-extrabold text-slate-900 text-sm">
                     {opt.label}
                   </div>
-                  <div className="text-[11px] text-slate-500 mt-1 leading-snug">
+                  <div className="text-[11px] text-slate-700 mt-1 leading-snug font-medium">
                     {opt.desc}
                   </div>
-                  <div className={`mt-3 px-3 py-0.5 rounded-full text-[10px] font-bold ${
-                    isSelected ? 'bg-primary-700 text-white' : 'bg-slate-200 text-slate-600'
+                  <div className={`mt-3 px-3 py-0.5 rounded-full text-[10px] font-extrabold border border-slate-900 ${
+                    isSelected ? 'bg-primary-600 text-white' : 'bg-white text-slate-800'
                   }`}>
                     {isSelected ? '✓ Terpilih' : 'Pilih'}
                   </div>
@@ -111,7 +111,7 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
 
         {/* 2. Topik Tersulit */}
         <div>
-          <label className="block text-sm font-heading font-bold text-slate-900 mb-2">
+          <label className="block text-sm font-heading font-extrabold text-slate-900 mb-2">
             2. {reflectionData.hardestQuestion}
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -121,14 +121,14 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
                 <div
                   key={opt}
                   onClick={() => setHardest(opt)}
-                  className={`p-3.5 rounded-xl border cursor-pointer text-xs font-medium transition-all flex items-center justify-between ${
+                  className={`p-3.5 rounded-xl border-2 border-slate-900 cursor-pointer text-xs transition-all flex items-center justify-between ${
                     isSelected
-                      ? 'bg-primary-50 border-primary-600 text-primary-900 font-bold'
-                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                      ? 'bg-sky-200 text-slate-900 font-extrabold shadow-[3px_3px_0px_0px_#0F172A]'
+                      : 'bg-white text-slate-800 font-bold hover:bg-surface-page shadow-[2px_2px_0px_0px_#0F172A]'
                   }`}
                 >
                   <span>{opt}</span>
-                  {isSelected && <CheckCircle2 className="w-4 h-4 text-primary-600 shrink-0" />}
+                  {isSelected && <CheckCircle2 className="w-4 h-4 text-slate-900 shrink-0" />}
                 </div>
               );
             })}
@@ -137,23 +137,23 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
 
         {/* 3. Komparasi: Tebakan Awal vs Penjelasan Sendiri */}
         <div>
-          <label className="block text-sm font-heading font-bold text-slate-900 mb-2">
+          <label className="block text-sm font-heading font-extrabold text-slate-900 mb-2">
             3. Penjelasan dengan Kata-Katamu Sendiri
           </label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Jawaban Tantangan Pembuka */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+            <div className="p-4 rounded-2xl bg-surface-page border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]">
+              <span className="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider block mb-1.5">
                 Tebakanmu di Tantangan Pembuka:
               </span>
-              <p className="text-xs text-slate-700 italic bg-white p-3 rounded-lg border border-slate-100 min-h-[90px]">
+              <p className="text-xs text-slate-800 italic bg-white p-3 rounded-xl border-2 border-slate-900 min-h-[90px] font-medium">
                 {challengeAnswer || '(Kamu belum mengisi tantangan pembuka)'}
               </p>
             </div>
 
             {/* Pemahaman Baru */}
-            <div className="p-4 rounded-xl bg-primary-50/40 border border-primary-200">
-              <span className="text-[11px] font-bold text-primary-800 uppercase tracking-wider block mb-1">
+            <div className="p-4 rounded-2xl bg-emerald-100 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]">
+              <span className="text-[11px] font-extrabold text-slate-900 uppercase tracking-wider block mb-1.5">
                 Pemahamanmu Sekarang:
               </span>
               <textarea
@@ -161,9 +161,9 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
                 onChange={(e) => setExplanation(e.target.value)}
                 placeholder={reflectionData.selfExplanationPrompt}
                 rows={4}
-                className="w-full p-3 rounded-lg border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white leading-relaxed resize-none"
+                className="w-full p-3 rounded-xl border-2 border-slate-900 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-white leading-relaxed resize-none font-medium"
               ></textarea>
-              <div className="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+              <div className="flex items-center justify-between text-[10px] text-slate-700 font-bold mt-1.5">
                 <span>Autosave tersinkron</span>
                 <span>{explanation.length} karakter</span>
               </div>
@@ -172,11 +172,11 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
         </div>
 
         {/* Simpan & Selesai */}
-        <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <div className="text-xs text-slate-500">
+        <div className="pt-4 border-t-2 border-slate-900/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="text-xs text-slate-700 font-semibold">
             {isSaved ? (
-              <span className="text-teal-700 font-semibold flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-600" />
+              <span className="text-emerald-800 font-extrabold flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-700" />
                 Refleksi berhasil disimpan! (+10 Poin didapat)
               </span>
             ) : (
@@ -186,7 +186,7 @@ export default function ReflectionView({ reflectionData, challengeAnswer, unitSt
 
           <button
             onClick={isSaved ? onFinish : handleSave}
-            className="px-6 py-2.5 bg-primary-700 hover:bg-primary-800 text-white font-semibold text-xs sm:text-sm rounded-xl transition-all shadow-md shadow-primary-700/20"
+            className="neo-btn px-6 py-2.5 bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-xs sm:text-sm rounded-xl cursor-pointer"
           >
             {isSaved ? 'Lanjut ke Ringkasan Materi →' : 'Simpan Refleksi (+10 Poin)'}
           </button>

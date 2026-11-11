@@ -232,21 +232,21 @@ export default function UnitView({ unit, state, onBackHome }) {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 animate-in fade-in duration-300">
       {/* Top Banner Navigation Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b-2 border-slate-900/15">
         <div className="flex items-center gap-3">
           <button
             onClick={onBackHome}
-            className="p-2 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"
+            className="neo-btn-sm p-2 rounded-xl bg-white hover:bg-yellow-200 text-slate-900 cursor-pointer"
             title="Kembali ke Beranda"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-100 text-primary-800 uppercase">
+              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-200 border-2 border-slate-900 text-slate-900 uppercase">
                 {unit.badge}
               </span>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-xs text-slate-600 font-bold">
                 {unit.estTime}
               </span>
             </div>
@@ -257,7 +257,7 @@ export default function UnitView({ unit, state, onBackHome }) {
         </div>
 
         {/* 6 Steps Pill Navigation dengan Indikator Tuntas / Terkunci */}
-        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-1">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
           {steps.map((st) => {
             const isActive = currentStep === st.num;
             const isCompleted = stepDoneMap[st.num];
@@ -267,20 +267,20 @@ export default function UnitView({ unit, state, onBackHome }) {
               <button
                 key={st.num}
                 onClick={() => handleStepChange(st.num)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 border ${
+                className={`px-3 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5 border-2 cursor-pointer ${
                   isActive
-                    ? 'bg-primary-700 text-white border-primary-700 shadow-sm'
+                    ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
                     : isCompleted
-                    ? 'bg-teal-50 border-teal-200 text-teal-800 hover:bg-teal-100/70'
+                    ? 'bg-emerald-200 border-slate-900 text-slate-900 font-bold hover:bg-emerald-300'
                     : isLocked
-                    ? 'bg-slate-100/80 border-slate-200 text-slate-400 hover:border-amber-300 hover:text-amber-700'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-slate-100 border-dashed border-slate-400 text-slate-500 font-bold hover:border-slate-900 hover:bg-yellow-100 hover:text-slate-900'
+                    : 'bg-white border-slate-900 text-slate-900 font-bold hover:bg-sky-100'
                 }`}
                 title={isLocked ? `Selesaikan Bagian ${highestUnlockedStep} terlebih dahulu` : st.name}
               >
                 <span>{st.num}. {st.name}</span>
-                {isCompleted && <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />}
-                {!isCompleted && isLocked && <Lock className="w-3 h-3 opacity-75" />}
+                {isCompleted && <CheckCircle2 className="w-3.5 h-3.5 text-slate-900" />}
+                {!isCompleted && isLocked && <Lock className="w-3 h-3 opacity-80" />}
               </button>
             );
           })}
@@ -291,29 +291,29 @@ export default function UnitView({ unit, state, onBackHome }) {
       <div className="mt-6">
         {/* TAHAP 1: TANTANGAN PEMBUKA */}
         {currentStep === 1 && (
-          <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+          <div className="neo-card p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
-                <Lightbulb className="w-5 h-5 text-amber-600" />
+              <div className="w-11 h-11 rounded-xl bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center">
+                <Lightbulb className="w-5 h-5 text-slate-900" />
               </div>
               <div>
-                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">
+                <span className="text-xs font-extrabold text-primary-700 uppercase tracking-wider">
                   Langkah 01 • Pemantik Pemikiran (+10 Poin)
                 </span>
-                <h3 className="font-heading font-bold text-slate-900 text-xl">
+                <h3 className="font-heading font-extrabold text-slate-900 text-xl">
                   Tantangan Pembuka
                 </h3>
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 my-5">
-              <p className="font-heading font-bold text-slate-900 text-base sm:text-lg leading-relaxed">
+            <div className="p-5 rounded-2xl bg-yellow-100 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] my-5">
+              <p className="font-heading font-extrabold text-slate-900 text-base sm:text-lg leading-relaxed">
                 "{unit.challenge.question}"
               </p>
             </div>
 
             <div className="space-y-3">
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+              <label className="block text-xs font-extrabold text-slate-900 uppercase tracking-wider">
                 Tuliskan Jawaban Bebasmu:
               </label>
               <textarea
@@ -322,32 +322,32 @@ export default function UnitView({ unit, state, onBackHome }) {
                 placeholder={unit.challenge.placeholder}
                 rows={4}
                 disabled={challengeSaved}
-                className="w-full p-4 rounded-xl border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-slate-50/50 leading-relaxed disabled:opacity-75"
+                className="w-full p-4 rounded-xl border-2 border-slate-900 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-primary-600 bg-surface-page focus:bg-white leading-relaxed disabled:opacity-75"
               ></textarea>
             </div>
 
             {challengeSaved && (
-              <div className="mt-4 p-4 rounded-xl bg-teal-50 border border-teal-200 text-teal-900 text-xs sm:text-sm leading-relaxed flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
+              <div className="mt-4 p-4 rounded-xl bg-emerald-200 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] text-slate-900 text-xs sm:text-sm leading-relaxed flex items-start gap-2.5">
+                <CheckCircle2 className="w-5 h-5 text-slate-900 shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-bold">Jawaban Tersimpan! (+10 Poin didapat)</span>
-                  <p className="mt-0.5">{unit.challenge.feedback}</p>
+                  <span className="font-extrabold">Jawaban Tersimpan! (+10 Poin didapat)</span>
+                  <p className="mt-0.5 font-medium">{unit.challenge.feedback}</p>
                 </div>
               </div>
             )}
 
-            <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
+            <div className="mt-6 flex justify-end gap-3 pt-4 border-t-2 border-slate-900/15">
               {!challengeSaved ? (
                 <button
                   onClick={handleSaveChallenge}
-                  className="px-6 py-2.5 bg-primary-700 hover:bg-primary-800 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-primary-700/20"
+                  className="neo-btn px-6 py-2.5 bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-sm rounded-xl cursor-pointer"
                 >
                   Kirim & Simpan Jawaban (+10 Poin)
                 </button>
               ) : (
                 <button
                   onClick={() => handleStepChange(2)}
-                  className="px-6 py-2.5 bg-primary-700 hover:bg-primary-800 text-white font-semibold text-sm rounded-xl flex items-center gap-2 shadow-md shadow-primary-700/20 transition-all hover:scale-102"
+                  className="neo-btn px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-sm rounded-xl flex items-center gap-2 cursor-pointer"
                 >
                   <span>Lanjut ke Materi & Animasi</span>
                   <ArrowRight className="w-4 h-4" />
@@ -360,42 +360,42 @@ export default function UnitView({ unit, state, onBackHome }) {
         {/* TAHAP 2: MATERI & ANIMASI */}
         {currentStep === 2 && (
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div className="neo-card p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b-2 border-slate-900/15">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-primary-100 text-primary-800 flex items-center justify-center">
-                    <PlayCircle className="w-5 h-5 text-primary-700" />
+                  <div className="w-11 h-11 rounded-xl bg-sky-200 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center">
+                    <PlayCircle className="w-5 h-5 text-slate-900" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-primary-700 uppercase tracking-wider">
+                    <span className="text-xs font-extrabold text-primary-700 uppercase tracking-wider">
                       Langkah 02 • Materi Singkat Segmen {segmentIdx + 1} dari {unit.segments.length}
                     </span>
-                    <h3 className="font-heading font-bold text-slate-900 text-lg sm:text-xl">
+                    <h3 className="font-heading font-extrabold text-slate-900 text-lg sm:text-xl">
                       {activeSegment.title}
                     </h3>
                   </div>
                 </div>
 
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-primary-50 text-primary-800 border border-primary-200">
+                <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-yellow-200 text-slate-900 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A]">
                   {activeSegment.conceptBadge}
                 </span>
               </div>
 
               {/* Isi Materi */}
               <div className="my-6">
-                <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
+                <p className="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">
                   {activeSegment.content}
                 </p>
 
                 {activeSegment.keyPoints && (
-                  <div className="mt-4 p-4 rounded-xl bg-primary-50/50 border border-primary-100 space-y-2">
-                    <span className="text-xs font-bold text-primary-900 uppercase tracking-wider">
+                  <div className="mt-4 p-4 rounded-2xl bg-sky-100 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] space-y-2">
+                    <span className="text-xs font-extrabold text-slate-900 uppercase tracking-wider">
                       Poin Kunci Konsep:
                     </span>
-                    <ul className="space-y-1.5 text-xs sm:text-sm text-slate-700">
+                    <ul className="space-y-1.5 text-xs sm:text-sm text-slate-900 font-medium">
                       {activeSegment.keyPoints.map((pt, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <span className="text-teal-600 font-bold">✓</span>
+                          <span className="text-emerald-700 font-extrabold">✓</span>
                           <span>{pt}</span>
                         </li>
                       ))}
@@ -405,21 +405,21 @@ export default function UnitView({ unit, state, onBackHome }) {
 
                 {/* Tabel Analogi Dapur Restoran jika ada */}
                 {activeSegment.tableAnalogy && (
-                  <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
-                    <table className="min-w-full divide-y divide-slate-200 text-xs sm:text-sm text-left">
-                      <thead className="bg-primary-900 text-white font-heading">
+                  <div className="mt-6 overflow-x-auto rounded-2xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A]">
+                    <table className="min-w-full divide-y-2 divide-slate-900 text-xs sm:text-sm text-left">
+                      <thead className="bg-slate-900 text-white font-heading">
                         <tr>
-                          <th className="px-4 py-3">Peran di Restoran</th>
-                          <th className="px-4 py-3">Bagian Komputer</th>
-                          <th className="px-4 py-3">Fungsi Nyata</th>
+                          <th className="px-4 py-3 font-extrabold">Peran di Restoran</th>
+                          <th className="px-4 py-3 font-extrabold">Bagian Komputer</th>
+                          <th className="px-4 py-3 font-extrabold">Fungsi Nyata</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100 bg-white">
+                      <tbody className="divide-y-2 divide-slate-900/15 bg-white">
                         {activeSegment.tableAnalogy.map((row, i) => (
-                          <tr key={i} className="hover:bg-slate-50">
-                            <td className="px-4 py-3 font-semibold text-slate-900">{row.role}</td>
-                            <td className="px-4 py-3 font-bold text-primary-700">{row.part}</td>
-                            <td className="px-4 py-3 text-slate-600">{row.desc}</td>
+                          <tr key={i} className="hover:bg-yellow-50">
+                            <td className="px-4 py-3 font-bold text-slate-900">{row.role}</td>
+                            <td className="px-4 py-3 font-extrabold text-primary-700">{row.part}</td>
+                            <td className="px-4 py-3 text-slate-700 font-medium">{row.desc}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -429,11 +429,11 @@ export default function UnitView({ unit, state, onBackHome }) {
               </div>
 
               {/* Slider Segmen Kontrol */}
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-between pt-4 border-t-2 border-slate-900/15">
                 <button
                   onClick={() => setSegmentIdx(Math.max(0, segmentIdx - 1))}
                   disabled={segmentIdx === 0}
-                  className="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 hover:bg-slate-50 disabled:opacity-40"
+                  className="neo-btn-sm px-4 py-2 rounded-xl text-xs sm:text-sm bg-white hover:bg-slate-100 text-slate-900 disabled:opacity-40 cursor-pointer"
                 >
                   ◀ Segmen Sebelumnya
                 </button>
@@ -447,12 +447,12 @@ export default function UnitView({ unit, state, onBackHome }) {
                         key={i}
                         onClick={() => setSegmentIdx(i)}
                         title={`Segmen ${i + 1}${isVisited ? ' (Sudah dibaca)' : ' (Belum dibaca)'}`}
-                        className={`h-2.5 rounded-full transition-all ${
+                        className={`h-3 rounded-full border-2 border-slate-900 transition-all cursor-pointer ${
                           isCurrent
-                            ? 'bg-primary-700 w-6'
+                            ? 'bg-yellow-300 w-7'
                             : isVisited
-                            ? 'bg-teal-500 w-2.5 hover:bg-teal-600'
-                            : 'bg-slate-200 w-2.5 hover:bg-slate-300'
+                            ? 'bg-emerald-300 w-3 hover:bg-emerald-400'
+                            : 'bg-white w-3 hover:bg-slate-200'
                         }`}
                       ></button>
                     );
@@ -462,14 +462,14 @@ export default function UnitView({ unit, state, onBackHome }) {
                 {segmentIdx < unit.segments.length - 1 ? (
                   <button
                     onClick={() => setSegmentIdx(segmentIdx + 1)}
-                    className="px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-primary-700 hover:bg-primary-800 text-white shadow-md shadow-primary-700/20"
+                    className="neo-btn-sm px-5 py-2 rounded-xl text-xs sm:text-sm bg-primary-600 hover:bg-primary-700 text-white cursor-pointer"
                   >
                     Segmen Berikutnya ▶
                   </button>
                 ) : (
                   <button
                     onClick={() => handleStepChange(3)}
-                    className="px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-teal-600 hover:bg-teal-700 text-white shadow-md shadow-teal-600/20 flex items-center gap-1.5"
+                    className="neo-btn-sm px-5 py-2 rounded-xl text-xs sm:text-sm bg-emerald-300 hover:bg-emerald-200 text-slate-900 flex items-center gap-1.5 cursor-pointer"
                   >
                     <span>Lanjut ke Eksplorasi</span>
                     <ArrowRight className="w-4 h-4" />
@@ -479,16 +479,16 @@ export default function UnitView({ unit, state, onBackHome }) {
             </div>
 
             {/* Tips & Trik Card */}
-            <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 shadow-sm flex items-start gap-3">
+            <div className="p-5 rounded-2xl bg-yellow-200 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A] flex items-start gap-3">
               <span className="text-xl">💡</span>
               <div>
-                <h4 className="font-heading font-bold text-amber-950 text-sm">
+                <h4 className="font-heading font-extrabold text-slate-900 text-sm">
                   Tips & Trik Mengingat Konsep:
                 </h4>
-                <ul className="mt-1 space-y-1 text-xs text-amber-900 leading-relaxed">
+                <ul className="mt-1 space-y-1 text-xs text-slate-900 font-medium leading-relaxed">
                   {unit.tips.map((tip, idx) => (
                     <li key={idx} className="flex items-start gap-1.5">
-                      <span>•</span>
+                      <span className="font-extrabold">•</span>
                       <span>{tip}</span>
                     </li>
                   ))}
@@ -532,20 +532,20 @@ export default function UnitView({ unit, state, onBackHome }) {
               />
             )}
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-                <span className={`px-2.5 py-1 rounded-full border ${
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A]">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-extrabold">
+                <span className={`px-3 py-1 rounded-full border-2 border-slate-900 ${
                   explorationDone
-                    ? 'bg-teal-50 border-teal-200 text-teal-800'
-                    : 'bg-amber-50 border-amber-200 text-amber-800'
+                    ? 'bg-emerald-300 text-slate-900'
+                    : 'bg-yellow-200 text-slate-900'
                 }`}>
                   {explorationDone ? '✓ Eksplorasi Tuntas' : '○ Eksplorasi Belum Tuntas'}
                 </span>
                 {practiceRequiredCount > 0 && (
-                  <span className={`px-2.5 py-1 rounded-full border ${
+                  <span className={`px-3 py-1 rounded-full border-2 border-slate-900 ${
                     isPracticeDone
-                      ? 'bg-teal-50 border-teal-200 text-teal-800'
-                      : 'bg-amber-50 border-amber-200 text-amber-800'
+                      ? 'bg-emerald-300 text-slate-900'
+                      : 'bg-yellow-200 text-slate-900'
                   }`}>
                     {isPracticeDone
                       ? `✓ Latihan (${practiceAnsweredCount}/${practiceRequiredCount})`
@@ -556,13 +556,13 @@ export default function UnitView({ unit, state, onBackHome }) {
 
               <button
                 onClick={() => handleStepChange(4)}
-                className={`px-6 py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md transition-all ${
+                className={`neo-btn px-6 py-3 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 cursor-pointer ${
                   isStep3Done
-                    ? 'bg-primary-700 hover:bg-primary-800 text-white shadow-primary-700/20 hover:scale-102'
-                    : 'bg-slate-200 hover:bg-amber-100 text-slate-700 border border-slate-300'
+                    ? 'bg-primary-600 hover:bg-primary-700 text-white'
+                    : 'bg-slate-200 hover:bg-yellow-200 text-slate-900'
                 }`}
               >
-                {!isStep3Done && <Lock className="w-4 h-4 text-amber-700" />}
+                {!isStep3Done && <Lock className="w-4 h-4 text-slate-900" />}
                 <span>Siap Mengerjakan Kuis Akhir Unit</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
@@ -608,21 +608,21 @@ export default function UnitView({ unit, state, onBackHome }) {
       {/* ===================================================================== */}
       {validationModal && typeof document !== 'undefined' && createPortal(
         <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
-          {/* Backdrop */}
+          {/* Backdrop Flat Tanpa Blur */}
           <div
             onClick={() => setValidationModal(null)}
-            className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-150"
+            className="fixed inset-0 bg-slate-900/65 animate-in fade-in duration-150"
           />
 
-          {/* Modal Box */}
-          <div className="relative z-10 w-full max-w-md bg-white rounded-3xl border border-amber-200 shadow-2xl p-6 space-y-4 animate-in zoom-in-95 duration-200">
+          {/* Modal Box Neo-Brutalist */}
+          <div className="relative z-10 w-full max-w-md bg-white rounded-3xl border-[3px] border-slate-900 shadow-[8px_8px_0px_0px_#0F172A] p-6 space-y-4 animate-in zoom-in-95 duration-200">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center shrink-0">
                   <AlertTriangle className="w-6 h-6" />
                 </div>
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-primary-700">
                     Validasi Urutan Belajar
                   </span>
                   <h3 className="font-heading font-extrabold text-slate-900 text-base sm:text-lg leading-tight">
@@ -633,31 +633,31 @@ export default function UnitView({ unit, state, onBackHome }) {
 
               <button
                 onClick={() => setValidationModal(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                className="neo-btn-sm p-1.5 rounded-lg bg-white hover:bg-rose-200 text-slate-900 cursor-pointer"
                 aria-label="Tutup peringatan"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
               {validationModal.message}
             </p>
 
             {/* Checklist Syarat */}
             {validationModal.checklist && validationModal.checklist.length > 0 && (
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="p-3.5 rounded-2xl bg-surface-page border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] space-y-2">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-slate-700">
                   Syarat Membuka Tahap Ini:
                 </div>
                 {validationModal.checklist.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-2 text-xs">
                     {item.done ? (
-                      <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
                     ) : (
-                      <Lock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <Lock className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                     )}
-                    <span className={item.done ? 'text-teal-800 line-through opacity-80' : 'text-slate-800 font-medium'}>
+                    <span className={item.done ? 'text-emerald-800 line-through font-semibold' : 'text-slate-900 font-bold'}>
                       {item.label}
                     </span>
                   </div>
@@ -668,7 +668,7 @@ export default function UnitView({ unit, state, onBackHome }) {
             <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-2 pt-2">
               <button
                 onClick={() => setValidationModal(null)}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-xs transition-colors"
+                className="neo-btn-sm w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-xs cursor-pointer"
               >
                 Tutup
               </button>
@@ -680,7 +680,7 @@ export default function UnitView({ unit, state, onBackHome }) {
                     setValidationModal(null);
                     handleStepChange(target);
                   }}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-primary-700/20 transition-all"
+                  className="neo-btn w-full sm:w-auto px-5 py-2.5 rounded-xl bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <span>{validationModal.redirectLabel}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -688,7 +688,7 @@ export default function UnitView({ unit, state, onBackHome }) {
               ) : (
                 <button
                   onClick={() => setValidationModal(null)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-semibold text-xs shadow-md shadow-primary-700/20 transition-all"
+                  className="neo-btn w-full sm:w-auto px-5 py-2.5 rounded-xl bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-xs cursor-pointer"
                 >
                   Mengerti, Lanjutkan
                 </button>

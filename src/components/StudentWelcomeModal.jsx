@@ -92,36 +92,30 @@ export default function StudentWelcomeModal({
   return (
     <div
       onClick={handleAttemptClose}
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md animate-in fade-in duration-300"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/65 animate-in fade-in duration-300"
     >
       <div
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="welcome-modal-title"
-        className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200 animate-in zoom-in-95 duration-200"
+        className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto border-[3px] border-slate-900 shadow-[8px_8px_0px_0px_#0F172A] animate-in zoom-in-95 duration-200"
       >
-        {/* Header Visual Banner */}
-        <div
-          className="p-6 sm:p-7 text-white relative overflow-hidden"
-          style={{
-            backgroundColor: '#1E1B4B',
-            backgroundImage: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 60%, #0F172A 100%)'
-          }}
-        >
+        {/* Header Visual Banner Neo-Brutalist */}
+        <div className="p-6 sm:p-7 bg-primary-600 text-white border-b-[3px] border-slate-900 relative overflow-hidden">
           <button
             type="button"
             onClick={handleAttemptClose}
             aria-label={isEditMode ? 'Tutup ubah identitas' : 'Tutup jendela selamat datang'}
             title={isEditMode ? 'Batal ubah identitas' : 'Tutup pop-up'}
-            className="absolute top-4 right-4 z-20 p-2 rounded-full text-white/75 hover:text-white hover:bg-white/15 transition-colors cursor-pointer"
+            className="neo-btn-sm absolute top-4 right-4 z-20 p-1.5 rounded-xl bg-white hover:bg-yellow-300 text-slate-900 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <div className="relative z-10 pr-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/15 backdrop-blur-md border border-white/20 text-teal-200 mb-3 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+          <div className="relative z-10 pr-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold bg-yellow-300 border-2 border-slate-900 text-slate-900 mb-3 shadow-[2px_2px_0px_0px_#0F172A]">
+              <Sparkles className="w-3.5 h-3.5 text-slate-900" />
               <span>{isEditMode ? 'Pengaturan Identitas Siswa' : 'Selamat Datang di Studio Informatika'}</span>
             </div>
 
@@ -131,7 +125,7 @@ export default function StudentWelcomeModal({
             >
               {isEditMode ? 'Ubah Nama & Kelas Siswa' : 'Mulai Perjalanan Belajarmu!'}
             </h2>
-            <p className="mt-1 text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
+            <p className="mt-1 text-xs sm:text-sm text-blue-50 leading-relaxed font-medium">
               {isEditMode
                 ? 'Perbaiki ejaan nama lengkap atau pindah kelas agar data belajarmu tercatat akurat.'
                 : 'Fase E (Kelas X SMA) • Media Pembelajaran Mandiri Sistem Komputer'}
@@ -141,7 +135,7 @@ export default function StudentWelcomeModal({
 
         {/* Form Isi / Ubah Identitas Siswa + Opsi Portal Guru */}
         <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5">
-          <p className="text-xs text-slate-600 leading-relaxed">
+          <p className="text-xs text-slate-700 leading-relaxed font-medium">
             {isEditMode ? (
               <>
                 Seluruh poin, skor kuis, dan progres belajar yang sudah kamu kumpulkan akan tetap tersimpan dan langsung terhubung ke nama baru di <b>Portal Guru</b>.
@@ -154,11 +148,11 @@ export default function StudentWelcomeModal({
           </p>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-1.5">
               Nama Lengkap Siswa:
             </label>
             <div className="relative">
-              <User className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 ${error ? 'text-rose-500' : 'text-slate-400'}`} />
+              <User className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 ${error ? 'text-rose-600' : 'text-slate-700'}`} />
               <input
                 ref={nameInputRef}
                 type="text"
@@ -169,26 +163,26 @@ export default function StudentWelcomeModal({
                 }}
                 placeholder="Contoh: Muhammad Ghazi"
                 autoFocus
-                className={`w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border focus:outline-none focus:ring-2 font-medium text-slate-900 transition-colors ${
+                className={`w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border-2 border-slate-900 focus:outline-none focus:ring-2 font-bold text-slate-900 transition-colors ${
                   error
-                    ? 'border-rose-400 bg-rose-50/60 focus:ring-rose-500'
-                    : 'border-slate-300 bg-slate-50 focus:ring-primary-600 focus:border-transparent'
+                    ? 'bg-rose-100 focus:ring-rose-500'
+                    : 'bg-surface-page focus:ring-primary-600 focus:bg-white'
                 }`}
               />
             </div>
             {error && (
               <div
                 role="alert"
-                className="mt-2 px-3 py-2 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold flex items-start gap-2 animate-in fade-in duration-150"
+                className="mt-2 px-3 py-2 rounded-xl bg-rose-200 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] text-xs text-slate-900 font-bold flex items-start gap-2 animate-in fade-in duration-150"
               >
-                <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                <AlertTriangle className="w-4 h-4 text-rose-700 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-1.5">
               Kelas / Rombongan Belajar:
             </label>
             <div className="grid grid-cols-4 gap-2">
@@ -197,10 +191,10 @@ export default function StudentWelcomeModal({
                   type="button"
                   key={kls}
                   onClick={() => setStudentClass(kls)}
-                  className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                  className={`py-2 rounded-xl text-xs font-extrabold border-2 border-slate-900 transition-all cursor-pointer ${
                     studentClass === kls
-                      ? 'bg-primary-700 text-white border-primary-700 shadow-sm'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      ? 'bg-yellow-300 text-slate-900 shadow-[2px_2px_0px_0px_#0F172A]'
+                      : 'bg-white text-slate-900 hover:bg-sky-100'
                   }`}
                 >
                   {kls}
@@ -213,15 +207,15 @@ export default function StudentWelcomeModal({
                 value={studentClass}
                 onChange={(e) => setStudentClass(e.target.value)}
                 placeholder="Atau ketik kelas lain (contoh: X-5)"
-                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-500 font-medium"
+                className="w-full px-3 py-1.5 text-xs rounded-xl border-2 border-slate-900 bg-surface-page focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white font-bold text-slate-900"
               />
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-teal-50 border border-teal-200/80 text-teal-900 text-[11px] leading-relaxed flex items-start gap-2.5">
-            <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-xl bg-emerald-100 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] text-slate-900 text-[11px] leading-relaxed flex items-start gap-2.5 font-medium">
+            <ShieldCheck className="w-4 h-4 text-slate-900 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold">100% Bebas Akun:</span> Data tersimpan aman di browser lokalmu dan otomatis disinkronkan ke rekapitulasi database guru di lab komputer.
+              <span className="font-extrabold">100% Bebas Akun:</span> Data tersimpan aman di browser lokalmu dan otomatis disinkronkan ke rekapitulasi database guru di lab komputer.
             </div>
           </div>
 
@@ -230,13 +224,13 @@ export default function StudentWelcomeModal({
               <button
                 type="button"
                 onClick={handleAttemptClose}
-                className="px-4 py-3 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-heading font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                className="neo-btn px-4 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs sm:text-sm cursor-pointer"
               >
                 Batal
               </button>
               <button
                 type="submit"
-                className="flex-1 py-3 px-5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-heading font-extrabold text-sm sm:text-base shadow-lg shadow-primary-700/25 flex items-center justify-center gap-2 transition-all hover:scale-102 cursor-pointer"
+                className="neo-btn flex-1 py-3 px-5 rounded-xl bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Simpan Perubahan</span>
                 <ArrowRight className="w-4 h-4" />
@@ -246,25 +240,25 @@ export default function StudentWelcomeModal({
             <>
               <button
                 type="submit"
-                className="w-full py-3 px-5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-heading font-extrabold text-sm sm:text-base shadow-lg shadow-primary-700/25 flex items-center justify-center gap-2 transition-all hover:scale-102 cursor-pointer"
+                className="neo-btn w-full py-3 px-5 rounded-xl bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Mulai Petualangan Belajar</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               {/* Opsi Khusus Guru agar bisa masuk Portal Guru tanpa mengisi nama siswa */}
-              <div className="pt-3.5 border-t border-slate-200 space-y-2">
-                <p className="text-[11px] font-semibold text-slate-500 text-center">
+              <div className="pt-3.5 border-t-2 border-slate-900/15 space-y-2">
+                <p className="text-[11px] font-bold text-slate-600 text-center">
                   Masuk sebagai Guru / Pengajar?
                 </p>
                 <button
                   type="button"
                   onClick={handleGoTeacherPortal}
-                  className="w-full py-2.5 px-4 rounded-xl border border-indigo-200 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-900 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className="neo-btn w-full py-2.5 px-4 rounded-xl bg-emerald-200 hover:bg-emerald-300 text-slate-900 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <GraduationCap className="w-4 h-4 text-indigo-700 shrink-0" />
+                  <GraduationCap className="w-4 h-4 text-slate-900 shrink-0" />
                   <span>Masuk ke Portal Guru (Tanpa Isi Nama)</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-indigo-700 shrink-0" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-900 shrink-0" />
                 </button>
               </div>
             </>

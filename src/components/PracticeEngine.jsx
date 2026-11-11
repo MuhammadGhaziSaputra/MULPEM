@@ -108,20 +108,20 @@ export default function PracticeEngine({ practiceList, unitCode }) {
 
   if (isRoundFinished) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm text-center animate-in fade-in duration-200">
-        <div className="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center mx-auto mb-3">
+      <div className="neo-card p-6 text-center animate-in fade-in duration-200">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-300 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A] text-slate-900 flex items-center justify-center mx-auto mb-3">
           <Sparkles className="w-6 h-6" />
         </div>
-        <h4 className="font-heading font-bold text-slate-900 text-lg">
+        <h4 className="font-heading font-extrabold text-slate-900 text-lg">
           Paket Latihan Soal Selesai!
         </h4>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-md mx-auto">
+        <p className="text-xs sm:text-sm text-slate-700 font-medium mt-1 max-w-md mx-auto">
           Kamu sudah berlatih 5 soal acak dari total {practiceList.length} bank latihan di unit ini. Mau mencoba kombinasi soal acak baru atau langsung lanjut ke Kuis Akhir?
         </p>
         <div className="mt-5 flex justify-center">
           <button
             onClick={handleReshufflePractice}
-            className="px-4 py-2 rounded-xl border border-primary-300 bg-primary-50 hover:bg-primary-100 text-primary-800 font-semibold text-xs flex items-center gap-1.5 transition-colors"
+            className="neo-btn-sm px-4 py-2 rounded-xl bg-sky-200 hover:bg-sky-300 text-slate-900 font-extrabold text-xs flex items-center gap-1.5 cursor-pointer"
           >
             <Shuffle className="w-3.5 h-3.5" />
             <span>Acak & Latihan Soal Baru</span>
@@ -132,13 +132,13 @@ export default function PracticeEngine({ practiceList, unitCode }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-7 shadow-sm">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 mb-4">
+    <div className="neo-card p-5 sm:p-7">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b-2 border-slate-900/15 mb-4">
         <div>
-          <span className="text-[11px] font-bold text-teal-700 uppercase tracking-wider">
+          <span className="text-[11px] font-extrabold text-primary-700 uppercase tracking-wider">
             Penguatan Konsep Mandiri • Teracak dari {practiceList.length} Bank Soal
           </span>
-          <h4 className="font-heading font-bold text-slate-900 text-base sm:text-lg">
+          <h4 className="font-heading font-extrabold text-slate-900 text-base sm:text-lg">
             Latihan Soal (Dapat Diulang Langsung)
           </h4>
         </div>
@@ -146,38 +146,40 @@ export default function PracticeEngine({ practiceList, unitCode }) {
           <button
             onClick={handleReshufflePractice}
             title="Acak ulang paket soal latihan"
-            className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-primary-50 text-slate-700 hover:text-primary-700 border border-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors"
+            className="neo-btn-sm px-3 py-1 rounded-full bg-white hover:bg-sky-200 text-slate-900 text-xs font-extrabold flex items-center gap-1 cursor-pointer"
           >
             <Shuffle className="w-3 h-3" />
             <span>Acak</span>
           </button>
-          <span className="px-2.5 py-1 bg-amber-100 text-amber-900 rounded-full text-xs font-bold">
+          <span className="px-3 py-1 bg-yellow-300 border-2 border-slate-900 text-slate-900 rounded-full text-xs font-extrabold">
             Latihan {currentIdx + 1} dari {activePracticeList.length} (+2 Poin Bonus)
           </span>
         </div>
       </div>
 
       <div className="my-4">
-        <p className="font-heading font-bold text-slate-900 text-sm sm:text-base leading-relaxed">
+        <p className="font-heading font-extrabold text-slate-900 text-sm sm:text-base leading-relaxed">
           {q.question}
         </p>
       </div>
 
       {/* Opsi Jawaban Multiple-Choice & True/False */}
       {(q.type === 'multiple-choice' || q.type === 'true-false') && (
-        <div className="space-y-2 mt-4">
+        <div className="space-y-2.5 mt-4">
           {q.options?.map((opt) => {
             const displayKey = opt.displayKey || opt.key;
             const origKey = opt.origKey || opt.key;
             const isSelected = selectedKey === displayKey;
             const isKeyCorrect = origKey === q.correctKey;
 
-            let btnStyle = "bg-slate-50 border-slate-200 text-slate-800 hover:bg-slate-100";
+            let btnStyle = "bg-surface-page border-slate-900 text-slate-900 hover:bg-sky-100 shadow-[2px_2px_0px_0px_#0F172A] cursor-pointer";
             if (isAnswered) {
               if (isKeyCorrect) {
-                btnStyle = "bg-teal-50 border-teal-500 text-teal-900 font-semibold";
+                btnStyle = "bg-emerald-200 border-slate-900 text-slate-900 font-extrabold shadow-[3px_3px_0px_0px_#0F172A]";
               } else if (isSelected) {
-                btnStyle = "bg-rose-50 border-rose-300 text-rose-900 line-through";
+                btnStyle = "bg-rose-200 border-slate-900 text-slate-900 font-bold line-through";
+              } else {
+                btnStyle = "bg-slate-100 border-slate-400 text-slate-500";
               }
             }
 
@@ -186,23 +188,23 @@ export default function PracticeEngine({ practiceList, unitCode }) {
                 key={origKey}
                 onClick={() => handleSelect(opt)}
                 disabled={isAnswered}
-                className={`w-full p-3.5 rounded-xl border text-left text-xs sm:text-sm transition-all flex items-center justify-between gap-3 ${btnStyle}`}
+                className={`w-full p-3.5 rounded-xl border-2 text-left text-xs sm:text-sm font-bold transition-all flex items-center justify-between gap-3 ${btnStyle}`}
               >
                 <div className="flex items-start gap-2.5">
                   {q.type === 'multiple-choice' && (
-                    <span className={`w-6 h-6 rounded-lg font-bold text-xs flex items-center justify-center shrink-0 ${
+                    <span className={`w-6 h-6 rounded-lg border-2 border-slate-900 font-extrabold text-xs flex items-center justify-center shrink-0 ${
                       isAnswered && isKeyCorrect
-                        ? 'bg-teal-600 text-white'
+                        ? 'bg-emerald-400 text-slate-900'
                         : isAnswered && isSelected
-                        ? 'bg-rose-600 text-white'
-                        : 'bg-white border border-slate-300 text-slate-700'
+                        ? 'bg-rose-400 text-slate-900'
+                        : 'bg-white text-slate-900'
                     }`}>
                       {displayKey}
                     </span>
                   )}
                   <span className="leading-relaxed">{opt.text}</span>
                 </div>
-                {isAnswered && isKeyCorrect && <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0" />}
+                {isAnswered && isKeyCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-800 shrink-0" />}
               </button>
             );
           })}
@@ -227,23 +229,23 @@ export default function PracticeEngine({ practiceList, unitCode }) {
 
       {/* Feedback & Instant Retry */}
       {isAnswered && (
-        <div className={`mt-5 p-4 rounded-xl border ${
-          isCorrect ? 'bg-teal-50 border-teal-200 text-teal-950' : 'bg-rose-50 border-rose-200 text-rose-950'
+        <div className={`mt-5 p-4 rounded-2xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A] ${
+          isCorrect ? 'bg-emerald-200 text-slate-900' : 'bg-rose-200 text-slate-900'
         }`}>
-          <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
+          <div className="flex items-center gap-2 font-extrabold text-xs sm:text-sm">
             {isCorrect ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-teal-600" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-800" />
                 <span>Benar! (+2 Poin Bonus)</span>
               </>
             ) : (
               <>
-                <XCircle className="w-4 h-4 text-rose-600" />
+                <XCircle className="w-4 h-4 text-rose-800" />
                 <span>Belum tepat. Coba periksa kembali konsep dasarnya.</span>
               </>
             )}
           </div>
-          <p className="text-xs sm:text-sm mt-1.5 leading-relaxed">
+          <p className="text-xs sm:text-sm mt-1.5 leading-relaxed font-medium">
             {isCorrect
               ? q.feedback?.correct || q.explanation
               : q.feedback?.incorrect ||
@@ -252,11 +254,11 @@ export default function PracticeEngine({ practiceList, unitCode }) {
                   : 'Jawaban masih belum sesuai. Periksa kembali konsepnya.')}
           </p>
 
-          <div className="mt-4 flex items-center justify-between gap-3 pt-3 border-t border-black/5">
+          <div className="mt-4 flex items-center justify-between gap-3 pt-3 border-t-2 border-slate-900/15">
             {!isCorrect ? (
               <button
                 onClick={handleRetryCurrent}
-                className="px-4 py-2 bg-white hover:bg-rose-100/50 border border-rose-300 text-rose-800 font-semibold text-xs rounded-lg flex items-center gap-1.5 transition-colors"
+                className="neo-btn-sm px-4 py-2 bg-white hover:bg-yellow-200 text-slate-900 font-extrabold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Ulang Soal Ini Sekarang</span>
@@ -265,7 +267,7 @@ export default function PracticeEngine({ practiceList, unitCode }) {
 
             <button
               onClick={handleNext}
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg flex items-center gap-1.5 ml-auto"
+              className="neo-btn-sm px-4 py-2 bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-xs rounded-xl flex items-center gap-1.5 ml-auto cursor-pointer"
             >
               <span>
                 {currentIdx < activePracticeList.length - 1

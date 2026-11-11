@@ -16,7 +16,7 @@ export default function SortableOrderList({
   isAnswered = false,
   correctOrder = null,
   instructionText = 'Gunakan tombol panah Naik (▲) dan Turun (▼) untuk menyusun urutan yang benar:',
-  checkButtonClassName = 'mt-2 px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white font-semibold text-xs rounded-xl shadow-sm transition-all'
+  checkButtonClassName = 'neo-btn mt-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-xs rounded-xl cursor-pointer'
 }) {
   const itemRefs = useRef({});
   const pendingRectsRef = useRef(null);
@@ -177,7 +177,7 @@ export default function SortableOrderList({
 
   return (
     <div className="space-y-2.5 relative">
-      <p className="text-xs text-slate-500">
+      <p className="text-xs font-bold text-slate-700">
         {instructionText}
       </p>
 
@@ -189,15 +189,15 @@ export default function SortableOrderList({
           const isMoved = !isAnswered && activeSwap?.movedId === itemId;
           const isDisplaced = !isAnswered && activeSwap?.displacedId === itemId;
 
-          let cardClass = 'bg-slate-50 border-slate-200 hover:border-slate-300';
+          let cardClass = 'bg-surface-page border-slate-900 hover:bg-sky-100 shadow-[2px_2px_0px_0px_#0F172A]';
           if (showCorrectness) {
             cardClass = isPositionRight
-              ? 'bg-teal-50 border-teal-400 text-teal-950'
-              : 'bg-rose-50 border-rose-300 text-rose-950';
+              ? 'bg-emerald-200 border-slate-900 text-slate-900 shadow-[3px_3px_0px_0px_#0F172A]'
+              : 'bg-rose-200 border-slate-900 text-slate-900 shadow-[3px_3px_0px_0px_#0F172A]';
           } else if (isMoved) {
-            cardClass = 'z-20 bg-primary-50/85 border-primary-400 ring-2 ring-primary-200/80 text-slate-900';
+            cardClass = 'z-20 bg-yellow-300 border-slate-900 shadow-[5px_5px_0px_0px_#0F172A] text-slate-900';
           } else if (isDisplaced) {
-            cardClass = 'z-10 bg-slate-100/90 border-slate-300';
+            cardClass = 'z-10 bg-sky-200 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]';
           }
 
           return (
@@ -210,14 +210,14 @@ export default function SortableOrderList({
                   delete itemRefs.current[itemId];
                 }
               }}
-              className={`relative will-change-transform p-3 sm:p-3.5 rounded-xl border flex items-center justify-between gap-3 text-xs sm:text-sm font-medium transition-colors duration-200 ${cardClass}`}
+              className={`relative will-change-transform p-3 sm:p-3.5 rounded-xl border-2 flex items-center justify-between gap-3 text-xs sm:text-sm font-bold transition-colors duration-200 ${cardClass}`}
             >
               <div className="flex items-center gap-2.5">
                 <span
-                  className={`w-6 h-6 rounded-full font-bold text-xs flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                  className={`w-6 h-6 rounded-lg border-2 border-slate-900 font-extrabold text-xs flex items-center justify-center shrink-0 transition-colors duration-200 ${
                     isMoved
-                      ? 'bg-primary-600 text-white shadow-sm'
-                      : 'bg-primary-100 text-primary-800'
+                      ? 'bg-primary-600 text-white'
+                      : 'bg-white text-slate-900'
                   }`}
                 >
                   {idx + 1}
@@ -226,12 +226,12 @@ export default function SortableOrderList({
               </div>
 
               {!isAnswered && (
-                <div className="flex items-center gap-1 shrink-0">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     type="button"
                     onClick={() => handleTriggerMove(idx, -1)}
                     disabled={idx === 0}
-                    className="p-1.5 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-primary-400 hover:bg-primary-50 hover:text-primary-700 active:scale-90 disabled:opacity-25 disabled:pointer-events-none transition-all duration-150"
+                    className="neo-btn-sm p-1.5 w-8 h-8 flex items-center justify-center rounded-lg bg-white text-slate-900 hover:bg-yellow-300 active:scale-90 disabled:opacity-25 disabled:pointer-events-none cursor-pointer"
                     title="Geser ke atas"
                     aria-label="Geser langkah ke atas"
                   >
@@ -241,7 +241,7 @@ export default function SortableOrderList({
                     type="button"
                     onClick={() => handleTriggerMove(idx, 1)}
                     disabled={idx === orderedItems.length - 1}
-                    className="p-1.5 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-primary-400 hover:bg-primary-50 hover:text-primary-700 active:scale-90 disabled:opacity-25 disabled:pointer-events-none transition-all duration-150"
+                    className="neo-btn-sm p-1.5 w-8 h-8 flex items-center justify-center rounded-lg bg-white text-slate-900 hover:bg-yellow-300 active:scale-90 disabled:opacity-25 disabled:pointer-events-none cursor-pointer"
                     title="Geser ke bawah"
                     aria-label="Geser langkah ke bawah"
                   >

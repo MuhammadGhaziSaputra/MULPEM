@@ -88,7 +88,7 @@ export default function Navbar({
   const completedUnits = state?.overall?.completedUnits || 0;
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 transition-all shadow-sm">
+    <header className="sticky top-0 z-50 bg-white border-b-[3px] border-slate-900 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand Left */}
@@ -96,30 +96,30 @@ export default function Navbar({
             onClick={() => handleNav('home')} 
             className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary-700 flex items-center justify-center text-white shadow-md shadow-primary-700/20 group-hover:scale-105 transition-transform flex-shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] flex items-center justify-center text-slate-900 group-hover:-translate-y-0.5 transition-transform flex-shrink-0">
               <Cpu className="w-5 h-5" />
             </div>
             <div>
               <div className="font-heading font-extrabold text-slate-900 text-sm sm:text-base leading-tight flex items-center gap-1.5">
                 Studio Informatika
-                <span className="px-1.5 py-0.5 text-[10px] sm:text-[11px] font-bold bg-primary-100 text-primary-800 rounded-full">
+                <span className="px-1.5 py-0.5 text-[10px] sm:text-[11px] font-extrabold bg-sky-200 text-slate-900 border border-slate-900 rounded-md">
                   Kelas X
                 </span>
               </div>
-              <div className="text-[11px] text-slate-500 font-medium truncate max-w-[170px] sm:max-w-none">
+              <div className="text-[11px] text-slate-600 font-semibold truncate max-w-[170px] sm:max-w-none">
                 SMAN 2 Makassar • Fase E
               </div>
             </div>
           </div>
 
           {/* Navigation Links - Desktop Only */}
-          <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
+          <nav className="hidden md:flex items-center gap-1.5 text-sm font-bold">
             <button
               onClick={() => handleNav('home')}
-              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'home'
-                  ? 'bg-primary-50 text-primary-700 font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
+                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
               <Home className="w-4 h-4" />
@@ -127,10 +127,10 @@ export default function Navbar({
             </button>
             <button
               onClick={() => handleNav('unit', 1)}
-              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'unit'
-                  ? 'bg-primary-50 text-primary-700 font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
+                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -138,10 +138,10 @@ export default function Navbar({
             </button>
             <button
               onClick={() => handleNav('achievement')}
-              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'achievement'
-                  ? 'bg-primary-50 text-primary-700 font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
+                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
               <Award className="w-4 h-4" />
@@ -149,13 +149,13 @@ export default function Navbar({
             </button>
             <button
               onClick={() => handleNav('verification')}
-              className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'verification'
-                  ? 'bg-teal-50 text-teal-800 font-semibold border border-teal-200'
-                  : 'text-teal-700 hover:bg-teal-50'
+                  ? 'bg-emerald-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
+                  : 'text-slate-900 bg-emerald-100 hover:bg-emerald-200 border-slate-900'
               }`}
             >
-              <GraduationCap className="w-4 h-4 text-teal-600" />
+              <GraduationCap className="w-4 h-4 text-slate-900" />
               <span>Portal Guru</span>
             </button>
           </nav>
@@ -168,19 +168,19 @@ export default function Navbar({
                 type="button"
                 onClick={onEditProfile}
                 title={`Ganti nama / kelas (${studentName} • ${studentClass})`}
-                className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 hover:bg-primary-50 border border-slate-200 hover:border-primary-300 rounded-full text-xs font-semibold text-slate-700 hover:text-primary-800 transition-colors cursor-pointer max-w-[155px]"
+                className="neo-btn-sm flex items-center gap-1.5 px-2.5 py-1 bg-sky-100 hover:bg-sky-200 rounded-full text-xs font-bold text-slate-900 cursor-pointer max-w-[155px]"
               >
-                <User className="w-3.5 h-3.5 text-primary-700 shrink-0" />
+                <User className="w-3.5 h-3.5 text-slate-900 shrink-0" />
                 <span className="truncate">{studentName}</span>
-                <Pencil className="w-3 h-3 text-slate-400 shrink-0" />
+                <Pencil className="w-3 h-3 text-slate-700 shrink-0" />
               </button>
             )}
 
             {/* Poin Counter Pill */}
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200/80 rounded-full text-xs font-semibold text-amber-900 shadow-sm">
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] rounded-full text-xs font-extrabold text-slate-900">
               <span className="text-sm">⚡</span>
               <span>{totalPoints} Poin</span>
-              <span className="hidden lg:inline text-amber-700 font-normal">
+              <span className="hidden lg:inline text-slate-700 font-bold">
                 • {levelName}
               </span>
             </div>
@@ -189,20 +189,20 @@ export default function Navbar({
             <button
               onClick={toggleAudio}
               title={audioEnabled ? "Matikan Efek & Narasi Suara" : "Aktifkan Efek & Narasi Suara"}
-              className={`px-2.5 py-1.5 rounded-lg border text-xs font-medium flex items-center gap-1.5 transition-all ${
+              className={`neo-btn-sm px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1.5 cursor-pointer ${
                 audioEnabled
-                  ? 'bg-teal-50 border-teal-200 text-teal-800 hover:bg-teal-100'
-                  : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
+                  ? 'bg-emerald-200 hover:bg-emerald-300 text-slate-900'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
               }`}
             >
               {audioEnabled ? (
                 <>
-                  <Volume2 className="w-3.5 h-3.5 text-teal-600" />
+                  <Volume2 className="w-3.5 h-3.5 text-slate-900" />
                   <span>Audio Aktif</span>
                 </>
               ) : (
                 <>
-                  <VolumeX className="w-3.5 h-3.5 text-slate-400" />
+                  <VolumeX className="w-3.5 h-3.5 text-slate-600" />
                   <span>Audio Bisu</span>
                 </>
               )}
@@ -212,7 +212,7 @@ export default function Navbar({
             <button
               onClick={handleReset}
               title="Ulangi progress dari awal"
-              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+              className="neo-btn-sm p-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-lg cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -223,7 +223,7 @@ export default function Navbar({
             {/* Poin Counter Compact */}
             <div 
               onClick={() => handleNav('achievement')}
-              className="flex items-center gap-1 px-2.5 py-1 bg-amber-50 border border-amber-200 rounded-full text-[11px] font-bold text-amber-900 cursor-pointer active:scale-95 transition-transform"
+              className="flex items-center gap-1 px-2.5 py-1 bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] rounded-full text-[11px] font-extrabold text-slate-900 cursor-pointer active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
               title="Lihat Capaian Poin"
             >
               <span className="text-xs">⚡</span>
@@ -233,14 +233,14 @@ export default function Navbar({
             {/* Hamburger Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 active:bg-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="p-2 rounded-xl border-2 border-slate-900 bg-white hover:bg-yellow-200 text-slate-900 shadow-[2px_2px_0px_0px_#0F172A] transition-colors focus:outline-none cursor-pointer"
               aria-label={isMobileMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
               aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6 text-slate-800" />
+                <X className="w-6 h-6 text-slate-900" />
               ) : (
-                <Menu className="w-6 h-6 text-slate-800" />
+                <Menu className="w-6 h-6 text-slate-900" />
               )}
             </button>
           </div>
@@ -252,27 +252,27 @@ export default function Navbar({
       {/* ========================================================================= */}
       {isMobileMenuOpen && typeof document !== 'undefined' && createPortal(
         <div className="fixed inset-0 top-16 z-[999] md:hidden flex flex-col pointer-events-auto">
-          {/* Backdrop Blur */}
+          {/* Backdrop Flat (Tanpa Blur) */}
           <div 
             onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 top-16 bg-slate-950/60 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 top-16 bg-slate-900/60 transition-opacity"
             aria-hidden="true"
           />
 
           {/* Menu Drawer Content */}
-          <div className="relative z-10 bg-white border-b border-slate-200 shadow-2xl max-h-[calc(100dvh-4rem)] overflow-y-auto px-4 py-5 space-y-4 animate-in slide-in-from-top-2 duration-200">
+          <div className="relative z-10 bg-white border-b-[3px] border-slate-900 shadow-[0_6px_0_0_#0F172A] max-h-[calc(100dvh-4rem)] overflow-y-auto px-4 py-5 space-y-4 animate-in slide-in-from-top-2 duration-200">
             
             {/* 1. Student Identity & Gamification Card */}
-            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-primary-50 via-white to-primary-50/40 border border-primary-200/80 shadow-sm flex items-center justify-between gap-2">
+            <div className="p-3.5 rounded-2xl bg-sky-100 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A] flex items-center justify-between gap-2">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-primary-700 text-white flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-primary-600 border-2 border-slate-900 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
                   <User className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
                   <div className="font-heading font-extrabold text-slate-900 text-sm leading-tight truncate">
                     {studentName}
                   </div>
-                  <div className="text-xs text-slate-500 font-medium truncate">
+                  <div className="text-xs text-slate-700 font-semibold truncate">
                     Kelas {studentClass} • SMA Negeri 2 Makassar
                   </div>
                   {onEditProfile &&
@@ -285,7 +285,7 @@ export default function Navbar({
                         setIsMobileMenuOpen(false);
                         onEditProfile();
                       }}
-                      className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-primary-700 hover:text-primary-900 hover:underline cursor-pointer"
+                      className="mt-1 inline-flex items-center gap-1 text-[11px] font-extrabold text-primary-700 hover:underline cursor-pointer"
                     >
                       <Pencil className="w-3 h-3" />
                       <span>Ganti Nama / Kelas</span>
@@ -294,11 +294,11 @@ export default function Navbar({
                 </div>
               </div>
               <div className="text-right shrink-0">
-                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold text-[11px]">
+                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-yellow-300 border border-slate-900 text-slate-900 font-extrabold text-[11px]">
                   <span>⚡</span>
                   <span>{totalPoints} Poin</span>
                 </div>
-                <div className="text-[10px] text-amber-700 font-semibold mt-0.5">
+                <div className="text-[10px] text-slate-800 font-bold mt-0.5">
                   {levelName}
                 </div>
               </div>
@@ -306,46 +306,46 @@ export default function Navbar({
 
             {/* 2. Main Navigation Links */}
             <div className="space-y-1.5">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2 pb-1">
+              <div className="text-[11px] font-extrabold uppercase tracking-wider text-slate-600 px-2 pb-1">
                 Navigasi Modul
               </div>
 
               {/* Beranda */}
               <button
                 onClick={() => handleNav('home')}
-                className={`w-full p-3 rounded-xl flex items-center justify-between transition-colors text-left font-semibold text-sm ${
+                className={`w-full p-3 rounded-xl border-2 flex items-center justify-between transition-colors text-left font-bold text-sm cursor-pointer ${
                   currentView === 'home'
-                    ? 'bg-primary-50 text-primary-800 border border-primary-200'
-                    : 'text-slate-700 hover:bg-slate-50 border border-transparent'
+                    ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]'
+                    : 'text-slate-800 hover:bg-slate-100 border-slate-900/20'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                    currentView === 'home' ? 'bg-primary-700 text-white' : 'bg-slate-100 text-slate-600'
+                  <div className={`w-8 h-8 rounded-lg border-2 border-slate-900 flex items-center justify-center ${
+                    currentView === 'home' ? 'bg-white text-slate-900' : 'bg-slate-100 text-slate-800'
                   }`}>
                     <Home className="w-4 h-4" />
                   </div>
                   <div>
                     <div>Beranda Utama</div>
-                    <div className="text-[11px] font-normal text-slate-500">Ringkasan modul & progres</div>
+                    <div className="text-[11px] font-medium text-slate-700">Ringkasan modul & progres</div>
                   </div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-slate-400" />
+                <ChevronRight className="w-4 h-4 text-slate-900" />
               </button>
 
               {/* Materi & Kuis Container with Sub-Units */}
-              <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-2 space-y-1.5">
+              <div className="rounded-xl border-2 border-slate-900 bg-surface-page p-2 space-y-1.5 shadow-[3px_3px_0px_0px_#0F172A]">
                 <button
                   onClick={() => handleNav('unit', 1)}
-                  className="w-full p-2 rounded-lg flex items-center justify-between text-left font-semibold text-sm text-slate-800 hover:bg-white transition-colors"
+                  className="w-full p-2 rounded-lg flex items-center justify-between text-left font-bold text-sm text-slate-900 hover:bg-white transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-primary-600 border-2 border-slate-900 text-white flex items-center justify-center">
                       <BookOpen className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="font-heading font-bold text-slate-900">Materi & Kuis Interaktif</div>
-                      <div className="text-[11px] font-normal text-slate-500">Pilih salah satu unit di bawah:</div>
+                      <div className="font-heading font-extrabold text-slate-900">Materi & Kuis Interaktif</div>
+                      <div className="text-[11px] font-medium text-slate-600">Pilih salah satu unit di bawah:</div>
                     </div>
                   </div>
                 </button>
@@ -354,24 +354,24 @@ export default function Navbar({
                 <div className="grid grid-cols-3 gap-1.5 pt-1">
                   <button
                     onClick={() => handleNav('unit', 1)}
-                    className="p-2 rounded-lg bg-white border border-slate-200 hover:border-primary-400 hover:bg-primary-50/50 text-left transition-all active:scale-95"
+                    className="neo-btn-sm p-2 rounded-lg bg-sky-200 hover:bg-sky-300 text-left cursor-pointer"
                   >
-                    <div className="text-[10px] font-bold text-primary-700">UNIT 1</div>
-                    <div className="text-[11px] font-semibold text-slate-800 leading-tight truncate">Von Neumann</div>
+                    <div className="text-[10px] font-extrabold text-slate-900">UNIT 1</div>
+                    <div className="text-[11px] font-bold text-slate-900 leading-tight truncate">Von Neumann</div>
                   </button>
                   <button
                     onClick={() => handleNav('unit', 2)}
-                    className="p-2 rounded-lg bg-white border border-slate-200 hover:border-primary-400 hover:bg-primary-50/50 text-left transition-all active:scale-95"
+                    className="neo-btn-sm p-2 rounded-lg bg-yellow-300 hover:bg-yellow-200 text-left cursor-pointer"
                   >
-                    <div className="text-[10px] font-bold text-primary-700">UNIT 2</div>
-                    <div className="text-[11px] font-semibold text-slate-800 leading-tight truncate">Alur IPO</div>
+                    <div className="text-[10px] font-extrabold text-slate-900">UNIT 2</div>
+                    <div className="text-[11px] font-bold text-slate-900 leading-tight truncate">Alur IPO</div>
                   </button>
                   <button
                     onClick={() => handleNav('unit', 3)}
-                    className="p-2 rounded-lg bg-white border border-slate-200 hover:border-primary-400 hover:bg-primary-50/50 text-left transition-all active:scale-95"
+                    className="neo-btn-sm p-2 rounded-lg bg-emerald-300 hover:bg-emerald-200 text-left cursor-pointer"
                   >
-                    <div className="text-[10px] font-bold text-primary-700">UNIT 3</div>
-                    <div className="text-[11px] font-semibold text-slate-800 leading-tight truncate">Siklus FDE</div>
+                    <div className="text-[10px] font-extrabold text-slate-900">UNIT 3</div>
+                    <div className="text-[11px] font-bold text-slate-900 leading-tight truncate">Siklus FDE</div>
                   </button>
                 </div>
               </div>
@@ -379,104 +379,104 @@ export default function Navbar({
               {/* Capaian Belajar */}
               <button
                 onClick={() => handleNav('achievement')}
-                className={`w-full p-3 rounded-xl flex items-center justify-between transition-colors text-left font-semibold text-sm ${
+                className={`w-full p-3 rounded-xl border-2 flex items-center justify-between transition-colors text-left font-bold text-sm cursor-pointer ${
                   currentView === 'achievement'
-                    ? 'bg-primary-50 text-primary-800 border border-primary-200'
-                    : 'text-slate-700 hover:bg-slate-50 border border-transparent'
+                    ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[3px_3px_0px_0px_#0F172A]'
+                    : 'text-slate-800 hover:bg-slate-100 border-slate-900/20'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                    currentView === 'achievement' ? 'bg-primary-700 text-white' : 'bg-slate-100 text-slate-600'
+                  <div className={`w-8 h-8 rounded-lg border-2 border-slate-900 flex items-center justify-center ${
+                    currentView === 'achievement' ? 'bg-white text-slate-900' : 'bg-slate-100 text-slate-800'
                   }`}>
                     <Award className="w-4 h-4" />
                   </div>
                   <div>
                     <div>Capaian Belajar & Lencana</div>
-                    <div className="text-[11px] font-normal text-slate-500">{completedUnits} dari 3 unit tuntas</div>
+                    <div className="text-[11px] font-medium text-slate-700">{completedUnits} dari 3 unit tuntas</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-slate-100 text-slate-600">
+                  <span className="px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-white border border-slate-900 text-slate-900">
                     {completedUnits}/3
                   </span>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                  <ChevronRight className="w-4 h-4 text-slate-900" />
                 </div>
               </button>
 
               {/* Portal Guru */}
               <button
                 onClick={() => handleNav('verification')}
-                className={`w-full p-3 rounded-xl flex items-center justify-between transition-colors text-left font-semibold text-sm ${
+                className={`w-full p-3 rounded-xl border-2 border-slate-900 flex items-center justify-between transition-colors text-left font-bold text-sm cursor-pointer ${
                   currentView === 'verification'
-                    ? 'bg-teal-50 text-teal-900 border border-teal-300'
-                    : 'text-teal-800 bg-teal-50/60 hover:bg-teal-100/60 border border-teal-200/60'
+                    ? 'bg-emerald-300 text-slate-900 shadow-[3px_3px_0px_0px_#0F172A]'
+                    : 'text-slate-900 bg-emerald-200 hover:bg-emerald-300 shadow-[2px_2px_0px_0px_#0F172A]'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-white border-2 border-slate-900 text-slate-900 flex items-center justify-center">
                     <GraduationCap className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
                       <span>Portal Guru</span>
-                      <span className="px-1.5 py-0.2 text-[9px] font-extrabold uppercase tracking-wide bg-teal-200 text-teal-900 rounded-full">
+                      <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide bg-yellow-300 border border-slate-900 text-slate-900 rounded-md">
                         Cloud 24 Jam
                       </span>
                     </div>
-                    <div className="text-[11px] font-normal text-teal-700">Rekap nilai kelas (Khusus Guru)</div>
+                    <div className="text-[11px] font-medium text-slate-800">Rekap nilai kelas (Khusus Guru)</div>
                   </div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-teal-600" />
+                <ChevronRight className="w-4 h-4 text-slate-900" />
               </button>
             </div>
 
             {/* 3. Panduan & Informasi Pembelajaran */}
-            <div className="pt-2 border-t border-slate-100 space-y-1.5">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2 pb-1">
+            <div className="pt-2 border-t-2 border-slate-900/15 space-y-1.5">
+              <div className="text-[11px] font-extrabold uppercase tracking-wider text-slate-600 px-2 pb-1">
                 Informasi & Panduan
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={handleOpenTPModal}
-                  className="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-left flex items-center gap-2 transition-colors"
+                  className="neo-btn-sm p-2.5 rounded-xl bg-white hover:bg-emerald-100 text-left flex items-center gap-2 cursor-pointer"
                 >
                   <Compass className="w-4 h-4 text-primary-600 flex-shrink-0" />
-                  <span className="text-xs font-semibold text-slate-700">Tujuan Belajar</span>
+                  <span className="text-xs font-extrabold text-slate-900">Tujuan Belajar</span>
                 </button>
 
                 <button
                   onClick={handleOpenGuideModal}
-                  className="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-left flex items-center gap-2 transition-colors"
+                  className="neo-btn-sm p-2.5 rounded-xl bg-white hover:bg-sky-100 text-left flex items-center gap-2 cursor-pointer"
                 >
                   <HelpCircle className="w-4 h-4 text-primary-600 flex-shrink-0" />
-                  <span className="text-xs font-semibold text-slate-700">Petunjuk Pakai</span>
+                  <span className="text-xs font-extrabold text-slate-900">Petunjuk Pakai</span>
                 </button>
               </div>
             </div>
 
             {/* 4. Action & Kontrol Khusus */}
-            <div className="pt-2 border-t border-slate-100 space-y-2.5">
+            <div className="pt-2 border-t-2 border-slate-900/15 space-y-2.5">
               {/* Baris Kontrol: Audio & Reset */}
               <div className="grid grid-cols-2 gap-2 pt-1">
                 {/* Audio Narasi Toggle */}
                 <button
                   onClick={toggleAudio}
-                  className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-2 transition-colors ${
+                  className={`neo-btn-sm p-2.5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer ${
                     audioEnabled
-                      ? 'bg-teal-50 border-teal-200 text-teal-800'
-                      : 'bg-slate-50 border-slate-200 text-slate-500'
+                      ? 'bg-emerald-200 text-slate-900'
+                      : 'bg-slate-100 text-slate-600'
                   }`}
                 >
                   {audioEnabled ? (
                     <>
-                      <Volume2 className="w-4 h-4 text-teal-600" />
+                      <Volume2 className="w-4 h-4 text-slate-900" />
                       <span>Audio Aktif</span>
                     </>
                   ) : (
                     <>
-                      <VolumeX className="w-4 h-4 text-slate-400" />
+                      <VolumeX className="w-4 h-4 text-slate-600" />
                       <span>Audio Bisu</span>
                     </>
                   )}
@@ -485,9 +485,9 @@ export default function Navbar({
                 {/* Reset Progress */}
                 <button
                   onClick={handleReset}
-                  className="p-2.5 rounded-xl border border-rose-200 bg-rose-50/60 hover:bg-rose-100 text-rose-700 text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+                  className="neo-btn-sm p-2.5 rounded-xl bg-rose-200 hover:bg-rose-300 text-slate-900 text-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <RotateCcw className="w-4 h-4 text-rose-600" />
+                  <RotateCcw className="w-4 h-4 text-slate-900" />
                   <span>Mulai Ulang</span>
                 </button>
               </div>
