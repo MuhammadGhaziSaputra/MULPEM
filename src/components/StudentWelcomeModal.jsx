@@ -4,26 +4,35 @@ import { triggerConfetti } from '../utils/confetti';
 
 export default function StudentWelcomeModal({
   isOpen,
+  mode = 'welcome',
   onSave,
+  onClose,
   onEnterTeacherPortal,
   initialName = '',
   initialClass = 'X-2'
 }) {
+  const isEditMode = mode === 'edit';
   const [name, setName] = useState(initialName === 'Siswa Mandiri' ? '' : initialName);
   const [studentClass, setStudentClass] = useState(initialClass || 'X-2');
   const [error, setError] = useState('');
   const nameInputRef = useRef(null);
 
-  // Sinkronkan ulang form ketika modal dibuka kembali (misalnya setelah Reset Progres)
+  // Sinkronkan ulang form ketika modal dibuka kembali (misalnya saat ganti nama atau setelah Reset Progres)
   useEffect(() => {
     if (isOpen) {
       setName(initialName === 'Siswa Mandiri' ? '' : initialName || '');
       setStudentClass(initialClass || 'X-2');
       setError('');
     }
-  }, [isOpen, initialName, initialClass]);
+  }, [isOpen, initialName, initialClass, mode]);
 
   const handleAttemptClose = () => {
+    if (isEditMode && onClose) {
+      setError('');
+      onClose();
+      return;
+    }
+
     const cleanName = name.trim();
     if (!cleanName) {
       setError('Nama lengkap wajib diisi sebelum menutup jendela ini (atau pilih Masuk ke Portal Guru).');
@@ -37,7 +46,7 @@ export default function StudentWelcomeModal({
     nameInputRef.current?.focus();
   };
 
-  // Tangkap tombol Escape agar tidak menutup paksa sebelum nama lengkap terisi
+  // Tangkap tombol Escape agar tidak menutup paksa sebelum nama lengkap terisi pada mode welcome
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
@@ -48,7 +57,7 @@ export default function StudentWelcomeModal({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, name]);
+  }, [isOpen, name, isEditMode]);
 
   if (!isOpen) return null;
 
@@ -68,7 +77,9 @@ export default function StudentWelcomeModal({
 
     setError('');
     onSave(cleanName, studentClass.trim() || 'X-2');
-    triggerConfetti();
+    if (!isEditMode) {
+      triggerConfetti();
+    }
   };
 
   const handleGoTeacherPortal = () => {
@@ -101,8 +112,8 @@ export default function StudentWelcomeModal({
           <button
             type="button"
             onClick={handleAttemptClose}
-            aria-label="Tutup jendela selamat datang"
-            title="Tutup pop-up"
+            aria-label={isEditMode ? 'Tutup ubah identitas' : 'Tutup jendela selamat datang'}
+            title={isEditMode ? 'Batal ubah identitas' : 'Tutup pop-up'}
             className="absolute top-4 right-4 z-20 p-2 rounded-full text-white/75 hover:text-white hover:bg-white/15 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -111,25 +122,35 @@ export default function StudentWelcomeModal({
           <div className="relative z-10 pr-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/15 backdrop-blur-md border border-white/20 text-teal-200 mb-3 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>Selamat Datang di Studio Informatika</span>
+              <span>{isEditMode ? 'Pengaturan Identitas Siswa' : 'Selamat Datang di Studio Informatika'}</span>
             </div>
 
             <h2
               id="welcome-modal-title"
               className="text-xl sm:text-2xl font-heading font-extrabold text-white leading-tight"
             >
-              Mulai Perjalanan Belajarmu!
+              {isEditMode ? 'Ubah Nama & Kelas Siswa' : 'Mulai Perjalanan Belajarmu!'}
             </h2>
             <p className="mt-1 text-xs sm:text-sm text-indigo-100/90 leading-relaxed">
-              Fase E (Kelas X SMA) • Media Pembelajaran Mandiri Sistem Komputer
+              {isEditMode
+                ? 'Perbaiki ejaan nama lengkap atau pindah kelas agar data belajarmu tercatat akurat.'
+                : 'Fase E (Kelas X SMA) • Media Pembelajaran Mandiri Sistem Komputer'}
             </p>
           </div>
         </div>
 
-        {/* Form Isi Identitas Siswa + Opsi Portal Guru */}
+        {/* Form Isi / Ubah Identitas Siswa + Opsi Portal Guru */}
         <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5">
           <p className="text-xs text-slate-600 leading-relaxed">
-            Masukkan namamu agar seluruh poin latihan, skor kuis, dan capaian belajarmu tercatat secara resmi dan otomatis tersinkronisasi ke <b>Portal Guru</b> di kelas.
+            {isEditMode ? (
+              <>
+                Seluruh poin, skor kuis, dan progres belajar yang sudah kamu kumpulkan akan tetap tersimpan dan langsung terhubung ke nama baru di <b>Portal Guru</b>.
+              </>
+            ) : (
+              <>
+                Masukkan namamu agar seluruh poin latihan, skor kuis, dan capaian belajarmu tercatat secara resmi dan otomatis tersinkronisasi ke <b>Portal Guru</b> di kelas.
+              </>
+            )}
           </p>
 
           <div>
@@ -204,29 +225,50 @@ export default function StudentWelcomeModal({
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 px-5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-heading font-extrabold text-sm sm:text-base shadow-lg shadow-primary-700/25 flex items-center justify-center gap-2 transition-all hover:scale-102 cursor-pointer"
-          >
-            <span>Mulai Petualangan Belajar</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          {isEditMode ? (
+            <div className="flex items-center gap-3 pt-1">
+              <button
+                type="button"
+                onClick={handleAttemptClose}
+                className="px-4 py-3 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-heading font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="flex-1 py-3 px-5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-heading font-extrabold text-sm sm:text-base shadow-lg shadow-primary-700/25 flex items-center justify-center gap-2 transition-all hover:scale-102 cursor-pointer"
+              >
+                <span>Simpan Perubahan</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                type="submit"
+                className="w-full py-3 px-5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-heading font-extrabold text-sm sm:text-base shadow-lg shadow-primary-700/25 flex items-center justify-center gap-2 transition-all hover:scale-102 cursor-pointer"
+              >
+                <span>Mulai Petualangan Belajar</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
 
-          {/* Opsi Khusus Guru agar bisa masuk Portal Guru tanpa mengisi nama siswa */}
-          <div className="pt-3.5 border-t border-slate-200 space-y-2">
-            <p className="text-[11px] font-semibold text-slate-500 text-center">
-              Masuk sebagai Guru / Pengajar?
-            </p>
-            <button
-              type="button"
-              onClick={handleGoTeacherPortal}
-              className="w-full py-2.5 px-4 rounded-xl border border-indigo-200 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-900 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
-            >
-              <GraduationCap className="w-4 h-4 text-indigo-700 shrink-0" />
-              <span>Masuk ke Portal Guru (Tanpa Isi Nama)</span>
-              <ArrowRight className="w-3.5 h-3.5 text-indigo-700 shrink-0" />
-            </button>
-          </div>
+              {/* Opsi Khusus Guru agar bisa masuk Portal Guru tanpa mengisi nama siswa */}
+              <div className="pt-3.5 border-t border-slate-200 space-y-2">
+                <p className="text-[11px] font-semibold text-slate-500 text-center">
+                  Masuk sebagai Guru / Pengajar?
+                </p>
+                <button
+                  type="button"
+                  onClick={handleGoTeacherPortal}
+                  className="w-full py-2.5 px-4 rounded-xl border border-indigo-200 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-900 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  <GraduationCap className="w-4 h-4 text-indigo-700 shrink-0" />
+                  <span>Masuk ke Portal Guru (Tanpa Isi Nama)</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-indigo-700 shrink-0" />
+                </button>
+              </div>
+            </>
+          )}
         </form>
       </div>
     </div>

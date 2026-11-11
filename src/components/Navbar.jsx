@@ -15,7 +15,8 @@ import {
   ChevronRight, 
   User, 
   Sparkles,
-  Cpu
+  Cpu,
+  Pencil
 } from 'lucide-react';
 import { storage } from '../utils/storage';
 
@@ -24,7 +25,8 @@ export default function Navbar({
   currentView, 
   onNavigate, 
   onOpenTP, 
-  onOpenGuide 
+  onOpenGuide,
+  onEditProfile
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const audioEnabled = state?.preferences?.audioEnabled ?? true;
@@ -159,7 +161,21 @@ export default function Navbar({
           </nav>
 
           {/* Action Right - Desktop Controls */}
-          <div className="hidden md:flex items-center gap-2 sm:gap-3">
+          <div className="hidden md:flex items-center gap-2 sm:gap-2.5">
+            {/* Identitas Siswa + Tombol Ganti Nama */}
+            {onEditProfile && state?.student?.name && state.student.name !== 'Siswa Mandiri' && (
+              <button
+                type="button"
+                onClick={onEditProfile}
+                title={`Ganti nama / kelas (${studentName} • ${studentClass})`}
+                className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 hover:bg-primary-50 border border-slate-200 hover:border-primary-300 rounded-full text-xs font-semibold text-slate-700 hover:text-primary-800 transition-colors cursor-pointer max-w-[155px]"
+              >
+                <User className="w-3.5 h-3.5 text-primary-700 shrink-0" />
+                <span className="truncate">{studentName}</span>
+                <Pencil className="w-3 h-3 text-slate-400 shrink-0" />
+              </button>
+            )}
+
             {/* Poin Counter Pill */}
             <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200/80 rounded-full text-xs font-semibold text-amber-900 shadow-sm">
               <span className="text-sm">⚡</span>
@@ -247,21 +263,37 @@ export default function Navbar({
           <div className="relative z-10 bg-white border-b border-slate-200 shadow-2xl max-h-[calc(100dvh-4rem)] overflow-y-auto px-4 py-5 space-y-4 animate-in slide-in-from-top-2 duration-200">
             
             {/* 1. Student Identity & Gamification Card */}
-            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-primary-50 via-white to-primary-50/40 border border-primary-200/80 shadow-sm flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-primary-50 via-white to-primary-50/40 border border-primary-200/80 shadow-sm flex items-center justify-between gap-2">
+              <div className="flex items-center gap-3 min-w-0">
                 <div className="w-10 h-10 rounded-xl bg-primary-700 text-white flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0">
                   <User className="w-5 h-5" />
                 </div>
-                <div>
-                  <div className="font-heading font-extrabold text-slate-900 text-sm leading-tight">
+                <div className="min-w-0">
+                  <div className="font-heading font-extrabold text-slate-900 text-sm leading-tight truncate">
                     {studentName}
                   </div>
-                  <div className="text-xs text-slate-500 font-medium">
+                  <div className="text-xs text-slate-500 font-medium truncate">
                     Kelas {studentClass} • SMA Negeri 2 Makassar
                   </div>
+                  {onEditProfile &&
+                    state?.student?.name &&
+                    state.student.name.trim().length >= 2 &&
+                    state.student.name !== 'Siswa Mandiri' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        onEditProfile();
+                      }}
+                      className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-primary-700 hover:text-primary-900 hover:underline cursor-pointer"
+                    >
+                      <Pencil className="w-3 h-3" />
+                      <span>Ganti Nama / Kelas</span>
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className="text-right">
+              <div className="text-right shrink-0">
                 <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold text-[11px]">
                   <span>⚡</span>
                   <span>{totalPoints} Poin</span>

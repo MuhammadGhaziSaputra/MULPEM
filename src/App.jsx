@@ -37,16 +37,27 @@ export default function App() {
   const [activeUnitId, setActiveUnitId] = useState(1);
   const [isTPModalOpen, setIsTPModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
-  // Tampilkan pop-up identitas pada kunjungan pertama sebelum isi nama, kecuali sedang di Portal Guru
-  const isWelcomeModalOpen =
+  // Tampilkan pop-up wajib jika di halaman siswa dan belum isi nama, ATAU dibuka manual saat ganti nama
+  const requiresWelcome =
     currentView !== 'verification' && !hasValidStudentName(appState.student?.name);
+  const profileModalMode = requiresWelcome ? 'welcome' : 'edit';
+  const isWelcomeModalOpen = requiresWelcome || isEditProfileOpen;
 
   const handleSaveStudentWelcome = (name, studentClass) => {
     storage.setStudentProfile(name, studentClass);
+    setIsEditProfileOpen(false);
+  };
+
+  const handleCloseEditProfile = () => {
+    if (!requiresWelcome) {
+      setIsEditProfileOpen(false);
+    }
   };
 
   const handleEnterTeacherPortalFromWelcome = () => {
+    setIsEditProfileOpen(false);
     navigateTo('verification');
   };
 
@@ -107,6 +118,7 @@ export default function App() {
         onNavigate={navigateTo}
         onOpenTP={() => setIsTPModalOpen(true)}
         onOpenGuide={() => setIsGuideModalOpen(true)}
+        onEditProfile={() => setIsEditProfileOpen(true)}
       />
 
       <main className="flex-1">
@@ -117,6 +129,7 @@ export default function App() {
             onOpenTP={() => setIsTPModalOpen(true)}
             onOpenGuide={() => setIsGuideModalOpen(true)}
             onOpenAchievement={() => navigateTo('achievement')}
+            onEditProfile={() => setIsEditProfileOpen(true)}
           />
         )}
 
@@ -158,12 +171,14 @@ export default function App() {
         onClose={() => setIsGuideModalOpen(false)}
       />
 
-      {/* Modal Wajib Masukkan Nama untuk Siswa Baru + Opsi Portal Guru */}
+      {/* Modal Wajib Masukkan Nama untuk Siswa Baru / Ubah Identitas + Opsi Portal Guru */}
       <StudentWelcomeModal
         isOpen={isWelcomeModalOpen}
+        mode={profileModalMode}
         initialName={appState.student?.name || ''}
         initialClass={appState.student?.class || 'X-2'}
         onSave={handleSaveStudentWelcome}
+        onClose={handleCloseEditProfile}
         onEnterTeacherPortal={handleEnterTeacherPortalFromWelcome}
       />
     </div>

@@ -33,40 +33,83 @@ export function getSupabase() {
 }
 
 // 1. SINKRONISASI SISWA & NILAI KE SUPABASE
-export async function syncStudentToSupabase(state) {
+export async function syncStudentToSupabase(state, renameFrom = null) {
   const supabase = getSupabase();
   if (!supabase || !state) return null;
 
   try {
-    const nama = state.student?.name || 'Siswa Mandiri';
-    const kelas = state.student?.class || 'X-2';
+    const rawName = state.student?.name?.trim();
+    if (!rawName || rawName.length < 2 || rawName.toLowerCase() === 'siswa mandiri') {
+      return null;
+    }
+
+    const nama = rawName;
+    const kelas = state.student?.class?.trim() || 'X-2';
     const totalPoin = state.overall?.totalPoints || 0;
     const level = state.overall?.level || 1;
     const levelName = state.overall?.levelName || 'Pemula';
 
-    // 1. Upsert Data Siswa
-    const { data: studentData, error: studentError } = await supabase
-      .from('siswa')
-      .upsert(
-        { 
-          nama, 
-          kelas, 
-          total_poin: totalPoin, 
-          level_gamifikasi: level, 
-          nama_level: levelName,
-          updated_at: new Date().toISOString()
-        },
-        { onConflict: 'nama,kelas' }
-      )
-      .select('id')
-      .single();
+    let studentId = null;
 
-    if (studentError) {
-      console.warn("Error upsert siswa di Supabase:", studentError);
-      return null;
+    // Jika siswa mengganti nama/kelas, perbarui entri lama di Supabase agar tidak ada nama ganda
+    if (
+      renameFrom?.name &&
+      (renameFrom.name !== nama || (renameFrom.class || 'X-2') !== kelas)
+    ) {
+      const { data: existingTarget } = await supabase
+        .from('siswa')
+        .select('id')
+        .eq('nama', nama)
+        .eq('kelas', kelas)
+        .maybeSingle();
+
+      if (!existingTarget) {
+        const { data: renamedRow } = await supabase
+          .from('siswa')
+          .update({
+            nama,
+            kelas,
+            total_poin: totalPoin,
+            level_gamifikasi: level,
+            nama_level: levelName,
+            updated_at: new Date().toISOString()
+          })
+          .eq('nama', renameFrom.name)
+          .eq('kelas', renameFrom.class || 'X-2')
+          .select('id')
+          .maybeSingle();
+
+        if (renamedRow?.id) {
+          studentId = renamedRow.id;
+        }
+      }
     }
 
-    const studentId = studentData.id;
+    // 1. Upsert Data Siswa jika belum didapat dari pembaruan ganti nama
+    if (!studentId) {
+      const { data: studentData, error: studentError } = await supabase
+        .from('siswa')
+        .upsert(
+          { 
+            nama, 
+            kelas, 
+            total_poin: totalPoin, 
+            level_gamifikasi: level, 
+            nama_level: levelName,
+            updated_at: new Date().toISOString()
+          },
+          { onConflict: 'nama,kelas' }
+        )
+        .select('id')
+        .single();
+
+      if (studentError) {
+        console.warn("Error upsert siswa di Supabase:", studentError);
+        return null;
+      }
+
+      studentId = studentData.id;
+    }
 
     // 2. Upsert Nilai Kuis Unit 1, 2, 3
     const units = [

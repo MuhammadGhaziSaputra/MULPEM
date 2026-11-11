@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   BarChart3, 
   Sparkles, 
@@ -11,24 +11,21 @@ import {
   ArrowRight,
   TrendingUp,
   BrainCircuit,
-  Compass
+  Compass,
+  Pencil
 } from 'lucide-react';
 import HeroHeader from './HeroHeader';
 import UnitCard from './UnitCard';
 import { unitsData } from '../data/contentData';
-import { storage } from '../utils/storage';
 
 export default function HomeView({ 
   state, 
   onOpenUnit, 
   onOpenTP, 
   onOpenGuide, 
-  onOpenAchievement
+  onOpenAchievement,
+  onEditProfile
 }) {
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [tempName, setTempName] = useState(state.student?.name || '');
-  const [tempClass, setTempClass] = useState(state.student?.class || 'X-2');
-
   const overall = state.overall;
   const completedCount = overall.completedUnits;
   const averageScore = overall.averageQuizScore;
@@ -44,11 +41,6 @@ export default function HomeView({
       totalActivitiesCompleted += Object.keys(u.practice.answers).length;
     }
   });
-
-  const handleSaveStudent = () => {
-    storage.setStudentProfile(tempName, tempClass);
-    setIsEditingName(false);
-  };
 
   // Kata-kata penyemangat dinamis berdasarkan progres belajar
   let motivationTitle = "Mulai Langkah Pertamamu!";
@@ -106,40 +98,18 @@ export default function HomeView({
                 </div>
               </div>
 
-              {/* Edit Profil Pelajar */}
+              {/* Profil & Tombol Ganti Nama Pelajar */}
               <div>
-                {!isEditingName ? (
-                  <button
-                    onClick={() => setIsEditingName(true)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                  >
-                    <User className="w-3.5 h-3.5 text-primary-700" />
-                    <span>{state.student?.name ? `${state.student.name} (${state.student.class})` : '+ Atur Nama Siswa'}</span>
-                  </button>
-                ) : (
-                  <div className="flex items-center gap-1.5">
-                    <input
-                      type="text"
-                      value={tempName}
-                      onChange={(e) => setTempName(e.target.value)}
-                      placeholder="Nama"
-                      className="px-2 py-1 text-xs border rounded-lg w-28 bg-slate-50"
-                    />
-                    <input
-                      type="text"
-                      value={tempClass}
-                      onChange={(e) => setTempClass(e.target.value)}
-                      placeholder="Kelas"
-                      className="px-2 py-1 text-xs border rounded-lg w-16 bg-slate-50"
-                    />
-                    <button
-                      onClick={handleSaveStudent}
-                      className="px-2.5 py-1 text-xs bg-primary-700 text-white rounded-lg font-bold"
-                    >
-                      Simpan
-                    </button>
-                  </div>
-                )}
+                <button
+                  type="button"
+                  onClick={onEditProfile}
+                  title="Klik untuk mengganti nama atau kelas siswa"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-primary-50 hover:text-primary-800 border border-slate-200 hover:border-primary-300 transition-colors cursor-pointer"
+                >
+                  <User className="w-3.5 h-3.5 text-primary-700 shrink-0" />
+                  <span>{state.student?.name ? `${state.student.name} (${state.student.class})` : '+ Atur Nama Siswa'}</span>
+                  <Pencil className="w-3 h-3 text-slate-400 shrink-0" />
+                </button>
               </div>
             </div>
 

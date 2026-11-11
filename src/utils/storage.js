@@ -171,12 +171,17 @@ class StorageService {
   }
 
   // Sinkronisasi background ke Supabase Cloud (24 Jam) atau MySQL
-  async syncToBackend(state) {
+  async syncToBackend(state, renameFrom = null) {
     if (!state) return;
+
+    const rawName = state.student?.name?.trim();
+    if (!rawName || rawName.length < 2 || rawName.toLowerCase() === 'siswa mandiri') {
+      return;
+    }
 
     // 1. Coba sinkronisasi ke Supabase Cloud jika sudah dihubungkan
     try {
-      await syncStudentToSupabase(state);
+      await syncStudentToSupabase(state, renameFrom);
     } catch (e) {
       // lewati jika belum diatur
     }
@@ -314,14 +319,34 @@ class StorageService {
   // --- ACTIONS ---
 
   setStudentProfile(name, studentClass) {
+    const cleanName = typeof name === 'string' ? name.trim() : '';
+    const cleanClass =
+      typeof studentClass === 'string' && studentClass.trim()
+        ? studentClass.trim()
+        : this.state.student?.class || 'X-2';
+
+    if (!cleanName || cleanName.length < 2) return;
+
     if (!this.state.student) {
       this.state.student = { ...INITIAL_STATE.student };
     }
-    this.state.student.name = name;
-    if (studentClass) this.state.student.class = studentClass;
+
+    const previousName = this.state.student.name;
+    const previousClass = this.state.student.class;
+    const renameFrom =
+      previousName &&
+      previousName.trim() &&
+      previousName !== 'Siswa Mandiri' &&
+      (previousName !== cleanName || previousClass !== cleanClass)
+        ? { name: previousName, class: previousClass }
+        : null;
+
+    this.state.student.name = cleanName;
+    this.state.student.class = cleanClass;
     this.saveState();
-    // Sinkronisasi instan ke database saat nama baru dimasukkan
-    this.syncToBackend(this.state);
+    // Gunakan pemanggilan langsung dengan informasi renameFrom dan hentikan debounce ganda
+    clearTimeout(this.debounceTimer);
+    this.syncToBackend(this.state, renameFrom);
   }
 
   setPreference(key, value) {
