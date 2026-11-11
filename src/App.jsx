@@ -7,7 +7,6 @@ import AchievementView from './components/AchievementView';
 import TeacherVerificationView from './components/TeacherVerificationView';
 import TujuanPembelajaranModal from './components/TujuanPembelajaranModal';
 import PetunjukPenggunaanModal from './components/PetunjukPenggunaanModal';
-import ReportModal from './components/ReportModal';
 import StudentWelcomeModal from './components/StudentWelcomeModal';
 import { storage } from './utils/storage';
 import { unitsData } from './data/contentData';
@@ -18,7 +17,6 @@ export default function App() {
   const [activeUnitId, setActiveUnitId] = useState(1);
   const [isTPModalOpen, setIsTPModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
 
   // Periksa apakah siswa baru pertama kali masuk (belum mengisi nama)
@@ -89,7 +87,6 @@ export default function App() {
         state={appState}
         currentView={currentView}
         onNavigate={navigateTo}
-        onOpenReport={() => setIsReportModalOpen(true)}
         onOpenTP={() => setIsTPModalOpen(true)}
         onOpenGuide={() => setIsGuideModalOpen(true)}
       />
@@ -102,7 +99,6 @@ export default function App() {
             onOpenTP={() => setIsTPModalOpen(true)}
             onOpenGuide={() => setIsGuideModalOpen(true)}
             onOpenAchievement={() => navigateTo('achievement')}
-            onOpenReport={() => setIsReportModalOpen(true)}
           />
         )}
 
@@ -142,12 +138,6 @@ export default function App() {
       <PetunjukPenggunaanModal
         isOpen={isGuideModalOpen}
         onClose={() => setIsGuideModalOpen(false)}
-      />
-
-      <ReportModal
-        isOpen={isReportModalOpen}
-        onClose={() => setIsReportModalOpen(false)}
-        state={appState}
       />
 
       {/* Modal Wajib Masukkan Nama untuk Siswa Baru */}

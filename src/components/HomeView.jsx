@@ -5,7 +5,6 @@ import {
   Flame, 
   Award, 
   CheckCircle2, 
-  Share2, 
   BookOpen, 
   HelpCircle, 
   User, 
@@ -24,8 +23,7 @@ export default function HomeView({
   onOpenUnit, 
   onOpenTP, 
   onOpenGuide, 
-  onOpenAchievement,
-  onOpenReport
+  onOpenAchievement
 }) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState(state.student?.name || '');
@@ -219,20 +217,12 @@ export default function HomeView({
             </div>
           </div>
 
-          {/* Tombol Serahkan Nilai ke Guru */}
-          <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span className="text-xs text-slate-500 flex items-center gap-1">
+          {/* Status Penyimpanan Progres */}
+          <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+            <span className="text-xs text-slate-500 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-teal-500 inline-block"></span>
-              Data tersimpan aman di browser lokal.
+              Data tersimpan aman &amp; tersinkronisasi otomatis ke sistem guru.
             </span>
-
-            <button
-              onClick={onOpenReport}
-              className="w-full sm:w-auto px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-102"
-            >
-              <Share2 className="w-3.5 h-3.5 text-teal-400" />
-              <span>Bagikan / Kirim Nilai ke Guru</span>
-            </button>
           </div>
         </div>
 

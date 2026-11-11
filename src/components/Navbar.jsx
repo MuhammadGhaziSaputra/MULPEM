@@ -6,7 +6,6 @@ import {
   Award, 
   Home, 
   RotateCcw, 
-  Share2, 
   GraduationCap, 
   Menu, 
   X, 
@@ -24,7 +23,6 @@ export default function Navbar({
   state, 
   currentView, 
   onNavigate, 
-  onOpenReport, 
   onOpenTP, 
   onOpenGuide 
 }) {
@@ -69,11 +67,6 @@ export default function Navbar({
   const handleNav = (view, unitId = 1) => {
     setIsMobileMenuOpen(false);
     onNavigate(view, unitId);
-  };
-
-  const handleOpenReportModal = () => {
-    setIsMobileMenuOpen(false);
-    if (onOpenReport) onOpenReport();
   };
 
   const handleOpenTPModal = () => {
@@ -167,16 +160,6 @@ export default function Navbar({
 
           {/* Action Right - Desktop Controls */}
           <div className="hidden md:flex items-center gap-2 sm:gap-3">
-            {/* Tombol Kirim Nilai ke Guru */}
-            <button
-              onClick={handleOpenReportModal}
-              title="Kirim nilai dan progres ke Guru (Tanpa Login)"
-              className="px-3 py-1.5 rounded-lg bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              <span>Kirim Nilai</span>
-            </button>
-
             {/* Poin Counter Pill */}
             <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200/80 rounded-full text-xs font-semibold text-amber-900 shadow-sm">
               <span className="text-sm">⚡</span>
@@ -443,15 +426,6 @@ export default function Navbar({
 
             {/* 4. Action & Kontrol Khusus */}
             <div className="pt-2 border-t border-slate-100 space-y-2.5">
-              {/* Tombol Kirim Nilai ke Guru */}
-              <button
-                onClick={handleOpenReportModal}
-                className="w-full py-3 px-4 rounded-xl bg-primary-700 hover:bg-primary-800 active:scale-[0.99] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-primary-700/20 transition-all"
-              >
-                <Share2 className="w-4 h-4" />
-                <span>Kirim Nilai ke Guru (Kode / WA)</span>
-              </button>
-
               {/* Baris Kontrol: Audio & Reset */}
               <div className="grid grid-cols-2 gap-2 pt-1">
                 {/* Audio Narasi Toggle */}

@@ -432,49 +432,6 @@ class StorageService {
     localStorage.removeItem(STORAGE_KEY);
     this.saveState();
   }
-
-  // Generate Base64 Report Token (Untuk verifikasi guru tanpa login)
-  generateReportToken() {
-    const payload = {
-      nama: this.state.student?.name || 'Siswa Mandiri',
-      kelas: this.state.student?.class || 'X-2',
-      sekolah: 'SMA Negeri 2 Makassar',
-      waktu: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
-      totalPoin: this.state.overall.totalPoints,
-      level: this.state.overall.levelName,
-      levelNum: this.state.overall.level,
-      rataRataKuis: this.state.overall.averageQuizScore,
-      unit1: {
-        status: this.state.units.unit1.status,
-        skorKuis: this.state.units.unit1.quiz?.firstAttemptScorePercent ?? null,
-        poin: this.state.units.unit1.totalPoints
-      },
-      unit2: {
-        status: this.state.units.unit2.status,
-        skorKuis: this.state.units.unit2.quiz?.firstAttemptScorePercent ?? null,
-        poin: this.state.units.unit2.totalPoints
-      },
-      unit3: {
-        status: this.state.units.unit3.status,
-        skorKuis: this.state.units.unit3.quiz?.firstAttemptScorePercent ?? null,
-        poin: this.state.units.unit3.totalPoints
-      }
-    };
-
-    try {
-      return btoa(encodeURIComponent(JSON.stringify(payload)));
-    } catch (e) {
-      return '';
-    }
-  }
-
-  decodeReportToken(token) {
-    try {
-      return JSON.parse(decodeURIComponent(atob(token)));
-    } catch (e) {
-      return null;
-    }
-  }
 }
 
 export const storage = new StorageService();
