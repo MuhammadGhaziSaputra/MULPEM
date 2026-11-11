@@ -12,20 +12,24 @@ import {
   TrendingUp,
   BrainCircuit,
   Compass,
-  Pencil
+  Pencil,
+  GraduationCap
 } from 'lucide-react';
 import HeroHeader from './HeroHeader';
 import UnitCard from './UnitCard';
 import { unitsData } from '../data/contentData';
+import { storage } from '../utils/storage';
 
 export default function HomeView({ 
   state, 
+  userRole,
   onOpenUnit, 
   onOpenTP, 
   onOpenGuide, 
   onOpenAchievement,
   onEditProfile
 }) {
+  const isTeacherRole = (userRole ?? storage.getUserRole(state)) === 'teacher';
   const overall = state.overall;
   const completedCount = overall.completedUnits;
   const averageScore = overall.averageQuizScore;
@@ -98,18 +102,25 @@ export default function HomeView({
                 </div>
               </div>
 
-              {/* Profil & Tombol Ganti Nama Pelajar */}
+              {/* Profil & Tombol Ganti Nama Pelajar / Indikator Mode Guru */}
               <div>
-                <button
-                  type="button"
-                  onClick={onEditProfile}
-                  title="Klik untuk mengganti nama atau kelas siswa"
-                  className="neo-btn-sm inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-yellow-200 hover:bg-yellow-300 text-slate-900 cursor-pointer"
-                >
-                  <User className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                  <span>{state.student?.name ? `${state.student.name} (${state.student.class})` : '+ Atur Nama Siswa'}</span>
-                  <Pencil className="w-3 h-3 text-slate-700 shrink-0" />
-                </button>
+                {isTeacherRole ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-extrabold bg-emerald-200 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-slate-900">
+                    <GraduationCap className="w-3.5 h-3.5 text-slate-900 shrink-0" />
+                    <span>Mode Pratinjau Guru</span>
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={onEditProfile}
+                    title="Klik untuk mengganti nama atau kelas siswa"
+                    className="neo-btn-sm inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-yellow-200 hover:bg-yellow-300 text-slate-900 cursor-pointer"
+                  >
+                    <User className="w-3.5 h-3.5 text-slate-900 shrink-0" />
+                    <span>{state.student?.name ? `${state.student.name} (${state.student.class})` : '+ Atur Nama Siswa'}</span>
+                    <Pencil className="w-3 h-3 text-slate-700 shrink-0" />
+                  </button>
+                )}
               </div>
             </div>
 

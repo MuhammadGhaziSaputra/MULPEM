@@ -8,40 +8,47 @@ import TeacherVerificationView from './components/TeacherVerificationView';
 import TujuanPembelajaranModal from './components/TujuanPembelajaranModal';
 import PetunjukPenggunaanModal from './components/PetunjukPenggunaanModal';
 import StudentWelcomeModal from './components/StudentWelcomeModal';
-import { storage } from './utils/storage';
+import { storage, isValidStudentName } from './utils/storage';
 import { unitsData } from './data/contentData';
 
-const hasValidStudentName = (name) => {
-  if (!name || typeof name !== 'string') return false;
-  const trimmed = name.trim();
-  return trimmed.length >= 2 && trimmed.toLowerCase() !== 'siswa mandiri';
-};
-
-const getViewFromHash = () => {
-  if (typeof window === 'undefined') return 'home';
-  const hash = window.location.hash;
+const resolveRouteFromHash = (hash = '', role = null) => {
   if (hash.startsWith('#/unit/')) {
     const uId = parseInt(hash.replace('#/unit/', ''), 10);
-    if ([1, 2, 3].includes(uId)) return 'unit';
+    if ([1, 2, 3].includes(uId)) return { view: 'unit', unitId: uId };
   } else if (hash === '#/achievement') {
-    return 'achievement';
+    return { view: 'achievement' };
   } else if (hash.startsWith('#/verifikasi')) {
-    return 'verification';
+    if (role === 'student') {
+      return { view: 'home', redirectToHomeHash: true };
+    }
+    return { view: 'verification' };
+  } else if ((!hash || hash === '#') && role === 'teacher') {
+    return { view: 'verification' };
   }
-  return 'home';
+  return { view: 'home' };
 };
 
 export default function App() {
-  const [appState, setAppState] = useState(storage.getState());
-  const [currentView, setCurrentView] = useState(getViewFromHash); // 'home' | 'unit' | 'achievement' | 'verification'
-  const [activeUnitId, setActiveUnitId] = useState(1);
+  const [appState, setAppState] = useState(() => storage.getState());
+  const initialRoute = resolveRouteFromHash(
+    typeof window !== 'undefined' ? window.location.hash : '',
+    storage.getUserRole(storage.getState())
+  );
+  const [currentView, setCurrentView] = useState(initialRoute.view); // 'home' | 'unit' | 'achievement' | 'verification'
+  const [activeUnitId, setActiveUnitId] = useState(initialRoute.unitId || 1);
   const [isTPModalOpen, setIsTPModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
-  // Tampilkan pop-up wajib jika di halaman siswa dan belum isi nama, ATAU dibuka manual saat ganti nama
+  const userRole = storage.getUserRole(appState);
+  const isTeacherMode = userRole === 'teacher';
+  const isStudentMode = userRole === 'student';
+
+  // Tampilkan pop-up wajib jika bukan guru, berada di halaman siswa, dan belum mengisi nama lengkap
   const requiresWelcome =
-    currentView !== 'verification' && !hasValidStudentName(appState.student?.name);
+    !isTeacherMode &&
+    currentView !== 'verification' &&
+    !isValidStudentName(appState.student?.name);
   const profileModalMode = requiresWelcome ? 'welcome' : 'edit';
   const isWelcomeModalOpen = requiresWelcome || isEditProfileOpen;
 
@@ -69,23 +76,19 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Hash Routing support
+  // Hash Routing support + proteksi rute Portal Guru untuk siswa
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash.startsWith('#/unit/')) {
-        const uId = parseInt(hash.replace('#/unit/', ''), 10);
-        if ([1, 2, 3].includes(uId)) {
-          setActiveUnitId(uId);
-          setCurrentView('unit');
-        }
-      } else if (hash === '#/achievement') {
-        setCurrentView('achievement');
-      } else if (hash.startsWith('#/verifikasi')) {
-        setCurrentView('verification');
-      } else {
-        setCurrentView('home');
+      const liveRole = storage.getUserRole();
+      const next = resolveRouteFromHash(hash, liveRole);
+      if (next.redirectToHomeHash) {
+        window.location.hash = '#/';
       }
+      if (next.unitId) {
+        setActiveUnitId(next.unitId);
+      }
+      setCurrentView(next.view);
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -94,6 +97,14 @@ export default function App() {
   }, []);
 
   const navigateTo = (view, unitId = 1) => {
+    const liveRole = storage.getUserRole(appState);
+    if (view === 'verification' && (isStudentMode || liveRole === 'student')) {
+      setCurrentView('home');
+      window.location.hash = '#/';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setCurrentView(view);
     if (view === 'unit') {
       setActiveUnitId(unitId);
@@ -114,6 +125,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-surface-page font-body text-slate-900">
       <Navbar
         state={appState}
+        userRole={userRole}
         currentView={currentView}
         onNavigate={navigateTo}
         onOpenTP={() => setIsTPModalOpen(true)}
@@ -125,6 +137,7 @@ export default function App() {
         {currentView === 'home' && (
           <HomeView
             state={appState}
+            userRole={userRole}
             onOpenUnit={(id) => navigateTo('unit', id)}
             onOpenTP={() => setIsTPModalOpen(true)}
             onOpenGuide={() => setIsGuideModalOpen(true)}
@@ -150,7 +163,7 @@ export default function App() {
           />
         )}
 
-        {currentView === 'verification' && (
+        {currentView === 'verification' && !isStudentMode && (
           <TeacherVerificationView
             onBackHome={() => navigateTo('home')}
           />

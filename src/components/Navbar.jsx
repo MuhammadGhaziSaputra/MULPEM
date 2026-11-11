@@ -18,10 +18,11 @@ import {
   Cpu,
   Pencil
 } from 'lucide-react';
-import { storage } from '../utils/storage';
+import { storage, isValidStudentName } from '../utils/storage';
 
 export default function Navbar({ 
   state, 
+  userRole,
   currentView, 
   onNavigate, 
   onOpenTP, 
@@ -30,6 +31,9 @@ export default function Navbar({
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const audioEnabled = state?.preferences?.audioEnabled ?? true;
+  const resolvedRole = userRole ?? storage.getUserRole(state);
+  const isTeacherRole = resolvedRole === 'teacher';
+  const isStudentRole = resolvedRole === 'student';
 
   // Kunci scroll halaman saat mobile menu sedang terbuka
   useEffect(() => {
@@ -46,7 +50,7 @@ export default function Navbar({
   // Tutup menu otomatis jika pengguna memperlebar layar ke desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -59,7 +63,10 @@ export default function Navbar({
   };
 
   const handleReset = () => {
-    if (window.confirm('Apakah kamu yakin ingin mengulang seluruh capaian belajar dari awal?')) {
+    const confirmMsg = isTeacherRole
+      ? 'Apakah kamu yakin ingin menghapus seluruh data progres & keluar dari Mode Guru di browser ini?'
+      : 'Apakah kamu yakin ingin mengulang seluruh capaian belajar dan mengatur ulang identitas siswa dari awal?';
+    if (window.confirm(confirmMsg)) {
       storage.resetAll();
       setIsMobileMenuOpen(false);
       onNavigate('home');
@@ -149,33 +156,48 @@ export default function Navbar({
               <Award className="w-4 h-4 shrink-0" />
               <span>Capaian Belajar</span>
             </button>
-            <button
-              onClick={() => handleNav('verification')}
-              className={`px-2.5 xl:px-3 py-1.5 rounded-xl border-2 text-xs xl:text-[13px] whitespace-nowrap shrink-0 transition-all flex items-center gap-1.5 cursor-pointer ${
-                currentView === 'verification'
-                  ? 'bg-emerald-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
-                  : 'text-slate-900 bg-emerald-100 hover:bg-emerald-200 border-slate-900 font-bold'
-              }`}
-            >
-              <GraduationCap className="w-4 h-4 text-slate-900 shrink-0" />
-              <span>Portal Guru</span>
-            </button>
+            {!isStudentRole && (
+              <button
+                onClick={() => handleNav('verification')}
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl border-2 text-xs xl:text-[13px] whitespace-nowrap shrink-0 transition-all flex items-center gap-1.5 cursor-pointer ${
+                  currentView === 'verification'
+                    ? 'bg-emerald-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
+                    : 'text-slate-900 bg-emerald-100 hover:bg-emerald-200 border-slate-900 font-bold'
+                }`}
+              >
+                <GraduationCap className="w-4 h-4 text-slate-900 shrink-0" />
+                <span>Portal Guru</span>
+              </button>
+            )}
           </nav>
 
           {/* Action Right - Desktop Controls (>= lg) */}
           <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 shrink-0">
-            {/* Identitas Siswa + Tombol Ganti Nama */}
-            {onEditProfile && state?.student?.name && state.student.name !== 'Siswa Mandiri' && (
+            {/* Identitas Pengguna: Mode Guru atau Nama Siswa */}
+            {isTeacherRole ? (
               <button
                 type="button"
-                onClick={onEditProfile}
-                title={`Ganti nama / kelas (${studentName} • ${studentClass})`}
-                className="neo-btn-sm inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-sky-100 hover:bg-sky-200 rounded-full text-xs font-extrabold text-slate-900 cursor-pointer max-w-[115px] xl:max-w-[150px] whitespace-nowrap shrink-0"
+                onClick={() => handleNav('verification')}
+                title="Sesi Guru tersimpan di browser ini — Klik untuk buka Portal Guru"
+                className="neo-btn-sm inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-emerald-200 hover:bg-emerald-300 rounded-full text-xs font-extrabold text-slate-900 cursor-pointer whitespace-nowrap shrink-0"
               >
-                <User className="w-3.5 h-3.5 text-slate-900 shrink-0" />
-                <span className="truncate">{studentName}</span>
-                <Pencil className="w-3 h-3 text-slate-700 shrink-0" />
+                <GraduationCap className="w-3.5 h-3.5 text-slate-900 shrink-0" />
+                <span>Mode Guru</span>
               </button>
+            ) : (
+              onEditProfile &&
+              isValidStudentName(state?.student?.name) && (
+                <button
+                  type="button"
+                  onClick={onEditProfile}
+                  title={`Ganti nama / kelas (${studentName} • ${studentClass})`}
+                  className="neo-btn-sm inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-sky-100 hover:bg-sky-200 rounded-full text-xs font-extrabold text-slate-900 cursor-pointer max-w-[115px] xl:max-w-[150px] whitespace-nowrap shrink-0"
+                >
+                  <User className="w-3.5 h-3.5 text-slate-900 shrink-0" />
+                  <span className="truncate">{studentName}</span>
+                  <Pencil className="w-3 h-3 text-slate-700 shrink-0" />
+                </button>
+              )
             )}
 
             {/* Poin Counter Pill */}
@@ -266,23 +288,28 @@ export default function Navbar({
           {/* Menu Drawer Content */}
           <div className="relative z-10 bg-white border-b-[3px] border-slate-900 shadow-[0_6px_0_0_#0F172A] max-h-[calc(100dvh-4rem)] overflow-y-auto px-4 py-5 space-y-4 animate-in slide-in-from-top-2 duration-200">
             
-            {/* 1. Student Identity & Gamification Card */}
-            <div className="p-3.5 rounded-2xl bg-sky-100 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A] flex items-center justify-between gap-2">
+            {/* 1. User Identity & Gamification Card */}
+            <div className={`p-3.5 rounded-2xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0F172A] flex items-center justify-between gap-2 ${
+              isTeacherRole ? 'bg-emerald-100' : 'bg-sky-100'
+            }`}>
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-primary-600 border-2 border-slate-900 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
-                  <User className="w-5 h-5" />
+                <div className={`w-10 h-10 rounded-xl border-2 border-slate-900 flex items-center justify-center font-bold text-sm flex-shrink-0 ${
+                  isTeacherRole ? 'bg-emerald-300 text-slate-900' : 'bg-primary-600 text-white'
+                }`}>
+                  {isTeacherRole ? <GraduationCap className="w-5 h-5" /> : <User className="w-5 h-5" />}
                 </div>
                 <div className="min-w-0">
                   <div className="font-heading font-extrabold text-slate-900 text-sm leading-tight truncate">
-                    {studentName}
+                    {isTeacherRole ? 'Guru Informatika' : studentName}
                   </div>
                   <div className="text-xs text-slate-700 font-semibold truncate">
-                    Kelas {studentClass} • SMA Negeri 2 Makassar
+                    {isTeacherRole
+                      ? 'Mode Pengajar Aktif • SMAN 2 Makassar'
+                      : `Kelas ${studentClass} • SMA Negeri 2 Makassar`}
                   </div>
-                  {onEditProfile &&
-                    state?.student?.name &&
-                    state.student.name.trim().length >= 2 &&
-                    state.student.name !== 'Siswa Mandiri' && (
+                  {!isTeacherRole &&
+                    onEditProfile &&
+                    isValidStudentName(state?.student?.name) && (
                     <button
                       type="button"
                       onClick={() => {
@@ -297,15 +324,17 @@ export default function Navbar({
                   )}
                 </div>
               </div>
-              <div className="text-right shrink-0">
-                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-yellow-300 border border-slate-900 text-slate-900 font-extrabold text-[11px]">
-                  <span>⚡</span>
-                  <span>{totalPoints} Poin</span>
+              {!isTeacherRole && (
+                <div className="text-right shrink-0">
+                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-yellow-300 border border-slate-900 text-slate-900 font-extrabold text-[11px]">
+                    <span>⚡</span>
+                    <span>{totalPoints} Poin</span>
+                  </div>
+                  <div className="text-[10px] text-slate-800 font-bold mt-0.5">
+                    {levelName}
+                  </div>
                 </div>
-                <div className="text-[10px] text-slate-800 font-bold mt-0.5">
-                  {levelName}
-                </div>
-              </div>
+              )}
             </div>
 
             {/* 2. Main Navigation Links */}
@@ -408,31 +437,33 @@ export default function Navbar({
                 </div>
               </button>
 
-              {/* Portal Guru */}
-              <button
-                onClick={() => handleNav('verification')}
-                className={`w-full p-3 rounded-xl border-2 border-slate-900 flex items-center justify-between transition-colors text-left font-bold text-sm cursor-pointer ${
-                  currentView === 'verification'
-                    ? 'bg-emerald-300 text-slate-900 shadow-[3px_3px_0px_0px_#0F172A]'
-                    : 'text-slate-900 bg-emerald-200 hover:bg-emerald-300 shadow-[2px_2px_0px_0px_#0F172A]'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-white border-2 border-slate-900 text-slate-900 flex items-center justify-center">
-                    <GraduationCap className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span>Portal Guru</span>
-                      <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide bg-yellow-300 border border-slate-900 text-slate-900 rounded-md">
-                        Cloud 24 Jam
-                      </span>
+              {/* Portal Guru (Hanya tampil jika bukan Siswa) */}
+              {!isStudentRole && (
+                <button
+                  onClick={() => handleNav('verification')}
+                  className={`w-full p-3 rounded-xl border-2 border-slate-900 flex items-center justify-between transition-colors text-left font-bold text-sm cursor-pointer ${
+                    currentView === 'verification'
+                      ? 'bg-emerald-300 text-slate-900 shadow-[3px_3px_0px_0px_#0F172A]'
+                      : 'text-slate-900 bg-emerald-200 hover:bg-emerald-300 shadow-[2px_2px_0px_0px_#0F172A]'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white border-2 border-slate-900 text-slate-900 flex items-center justify-center">
+                      <GraduationCap className="w-4 h-4" />
                     </div>
-                    <div className="text-[11px] font-medium text-slate-800">Rekap nilai kelas (Khusus Guru)</div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span>Portal Guru</span>
+                        <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide bg-yellow-300 border border-slate-900 text-slate-900 rounded-md">
+                          Cloud 24 Jam
+                        </span>
+                      </div>
+                      <div className="text-[11px] font-medium text-slate-800">Rekap nilai kelas (Khusus Guru)</div>
+                    </div>
                   </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-slate-900" />
-              </button>
+                  <ChevronRight className="w-4 h-4 text-slate-900" />
+                </button>
+              )}
             </div>
 
             {/* 3. Panduan & Informasi Pembelajaran */}

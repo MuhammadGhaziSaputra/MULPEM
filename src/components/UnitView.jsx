@@ -231,33 +231,40 @@ export default function UnitView({ unit, state, onBackHome }) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 animate-in fade-in duration-300">
-      {/* Top Banner Navigation Bar */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-4 border-b-2 border-slate-900/15">
-        <div className="flex items-center gap-3 min-w-0">
-          <button
-            onClick={onBackHome}
-            className="neo-btn-sm p-2 rounded-xl bg-white hover:bg-yellow-200 text-slate-900 cursor-pointer shrink-0"
-            title="Kembali ke Beranda"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-200 border-2 border-slate-900 text-slate-900 uppercase whitespace-nowrap">
-                {unit.badge}
-              </span>
-              <span className="text-xs text-slate-600 font-bold whitespace-nowrap">
-                {unit.estTime}
-              </span>
+      {/* Top Banner Navigation Bar (2 Baris Terpisah agar Judul & 6 Step Rapi Tanpa Bertabrakan) */}
+      <div className="flex flex-col gap-3.5 pb-4 border-b-2 border-slate-900/15">
+        {/* Baris 1: Tombol Kembali + Judul Unit + Indikator Bagian */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-start sm:items-center gap-3 min-w-0">
+            <button
+              onClick={onBackHome}
+              className="neo-btn-sm p-2 rounded-xl bg-white hover:bg-yellow-200 text-slate-900 cursor-pointer shrink-0 mt-0.5 sm:mt-0"
+              title="Kembali ke Beranda"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-200 border-2 border-slate-900 text-slate-900 uppercase whitespace-nowrap">
+                  {unit.badge}
+                </span>
+                <span className="text-xs text-slate-600 font-bold whitespace-nowrap">
+                  {unit.estTime}
+                </span>
+              </div>
+              <h2 className="font-heading font-extrabold text-slate-900 text-lg sm:text-2xl mt-1 leading-snug">
+                {unit.title}
+              </h2>
             </div>
-            <h2 className="font-heading font-extrabold text-slate-900 text-lg sm:text-2xl mt-0.5 leading-snug">
-              {unit.title}
-            </h2>
+          </div>
+
+          <div className="self-start sm:self-center inline-flex items-center px-3 py-1 rounded-full bg-sky-100 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] text-xs font-extrabold text-slate-900 whitespace-nowrap shrink-0">
+            <span>Bagian {currentStep} dari {steps.length}</span>
           </div>
         </div>
 
-        {/* 6 Steps Pill Navigation dengan Indikator Tuntas / Terkunci */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 shrink-0">
+        {/* Baris 2: 6 Steps Pill Navigation dengan Indikator Tuntas / Terkunci */}
+        <div className="flex items-center gap-2 overflow-x-auto md:overflow-visible md:flex-wrap no-scrollbar py-1.5 px-0.5">
           {steps.map((st) => {
             const isActive = currentStep === st.num;
             const isCompleted = stepDoneMap[st.num];
@@ -429,7 +436,7 @@ export default function UnitView({ unit, state, onBackHome }) {
               </div>
 
               {/* Slider Segmen Kontrol */}
-              <div className="flex items-center justify-between pt-4 border-t-2 border-slate-900/15">
+              <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 pt-4 border-t-2 border-slate-900/15">
                 <button
                   onClick={() => setSegmentIdx(Math.max(0, segmentIdx - 1))}
                   disabled={segmentIdx === 0}

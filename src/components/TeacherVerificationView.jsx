@@ -14,7 +14,7 @@ import {
   Settings,
   Globe
 } from 'lucide-react';
-import { getApiEndpoint } from '../utils/storage';
+import { getApiEndpoint, storage } from '../utils/storage';
 import { verifyTeacherPin } from '../utils/pinAuth';
 import { 
   fetchClassRekapFromSupabase, 
@@ -31,10 +31,8 @@ export default function TeacherVerificationView({ onBackHome }) {
      window.location.hostname.endsWith('.test') || 
      window.location.hostname.endsWith('.local'));
 
-  // PIN Security Protection State
-  const [isUnlocked, setIsUnlocked] = useState(() => {
-    return sessionStorage.getItem('teacher_portal_unlocked') === 'true';
-  });
+  // PIN Security Protection State (disimpan permanen di localStorage browser guru)
+  const [isUnlocked, setIsUnlocked] = useState(() => storage.isTeacherUnlocked());
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState('');
   const [showPin, setShowPin] = useState(false);
@@ -52,8 +50,9 @@ export default function TeacherVerificationView({ onBackHome }) {
   const handleVerifyPin = (e) => {
     e.preventDefault();
     if (verifyTeacherPin(pinInput)) {
-      sessionStorage.setItem('teacher_portal_unlocked', 'true');
+      storage.setTeacherSession();
       setIsUnlocked(true);
+      setPinInput('');
       setPinError('');
     } else {
       setPinError('PIN Keamanan salah! Akses khusus Guru Informatika.');
@@ -61,7 +60,7 @@ export default function TeacherVerificationView({ onBackHome }) {
   };
 
   const handleLockPortal = () => {
-    sessionStorage.removeItem('teacher_portal_unlocked');
+    storage.clearTeacherSession();
     setIsUnlocked(false);
     setPinInput('');
   };
@@ -181,7 +180,7 @@ export default function TeacherVerificationView({ onBackHome }) {
             Akses Khusus Guru
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1.5 leading-relaxed">
-            Portal ini berisi data rekapitulasi nilai dan capaian seluruh siswa di kelas. Masukkan PIN Keamanan Guru untuk membuka.
+            Portal ini berisi data rekapitulasi nilai dan capaian seluruh siswa di kelas. Masukkan PIN Keamanan Guru sekali untuk menyimpan akses di browser ini.
           </p>
 
           <form onSubmit={handleVerifyPin} className="mt-6 space-y-4 text-left">
@@ -219,11 +218,16 @@ export default function TeacherVerificationView({ onBackHome }) {
               )}
             </div>
 
+            <div className="p-3 rounded-xl bg-emerald-100 border-2 border-slate-900 text-[11px] font-bold text-slate-900 leading-relaxed flex items-start gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+              <span>Setelah berhasil masuk, sesi guru tersimpan di peramban lokal sehingga kunjungan berikutnya tidak perlu memasukkan PIN lagi.</span>
+            </div>
+
             <button
               type="submit"
               className="neo-btn w-full py-2.5 rounded-xl bg-yellow-300 hover:bg-yellow-200 text-slate-900 font-extrabold text-xs sm:text-sm cursor-pointer"
             >
-              Buka Portal Guru
+              Buka &amp; Simpan Akses Portal Guru
             </button>
           </form>
 
@@ -286,10 +290,10 @@ export default function TeacherVerificationView({ onBackHome }) {
           <button
             onClick={handleLockPortal}
             className="neo-btn-sm flex items-center gap-1.5 text-xs font-extrabold text-slate-900 px-3 py-1.5 rounded-full bg-rose-200 hover:bg-rose-300 cursor-pointer"
-            title="Kunci kembali portal guru"
+            title="Kunci kembali Portal Guru dan hapus sesi tersimpan di browser ini"
           >
             <Lock className="w-3.5 h-3.5" />
-            <span>Kunci</span>
+            <span>Kunci Portal</span>
           </button>
         </div>
       </div>

@@ -29,7 +29,16 @@ export function getApiEndpoint(path = 'simpan_progres.php') {
 // Zero-Login: Data tersimpan aman di peramban lokal
 
 const STORAGE_KEY = 'studio-informatika-progress';
+const ROLE_STORAGE_KEY = 'studio_informatika_role';
+const TEACHER_UNLOCKED_KEY = 'studio_teacher_portal_unlocked';
+const LEGACY_SESSION_UNLOCKED_KEY = 'teacher_portal_unlocked';
 const CURRENT_VERSION = '1.0';
+
+export function isValidStudentName(name) {
+  if (!name || typeof name !== 'string') return false;
+  const trimmed = name.trim();
+  return trimmed.length >= 2 && trimmed.toLowerCase() !== 'siswa mandiri';
+}
 
 export const INITIAL_STATE = {
   version: CURRENT_VERSION,
@@ -130,6 +139,13 @@ class StorageService {
       if (!parsed.student) {
         parsed.student = { ...INITIAL_STATE.student };
       }
+      if (!parsed.role) {
+        parsed.role = this.isTeacherUnlocked()
+          ? 'teacher'
+          : isValidStudentName(parsed.student?.name)
+          ? 'student'
+          : null;
+      }
       if (parsed.units) {
         ['unit1', 'unit2', 'unit3'].forEach((uKey) => {
           const u = parsed.units[uKey];
@@ -153,15 +169,58 @@ class StorageService {
     }
   }
 
-  saveState() {
+  isTeacherUnlocked() {
     try {
-      this.state.lastUpdated = new Date().toISOString();
-      this.recalculateOverall();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
-      this.notifySubscribers();
+      if (typeof localStorage !== 'undefined' && localStorage.getItem(TEACHER_UNLOCKED_KEY) === 'true') {
+        return true;
+      }
+      if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(LEGACY_SESSION_UNLOCKED_KEY) === 'true') {
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem(TEACHER_UNLOCKED_KEY, 'true');
+          localStorage.setItem(ROLE_STORAGE_KEY, 'teacher');
+        }
+        return true;
+      }
+    } catch (e) {
+      // Abaikan jika browser membatasi akses storage
+    }
+    return false;
+  }
+
+  getUserRole(stateOverride = null) {
+    const targetState = stateOverride || this.state;
+    const unlocked = this.isTeacherUnlocked();
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const storedRole = localStorage.getItem(ROLE_STORAGE_KEY);
+        if (storedRole === 'teacher' && unlocked) return 'teacher';
+        if (storedRole === 'student') return 'student';
+      }
+    } catch (e) {
+      // Abaikan jika browser membatasi akses storage
+    }
+    if (unlocked || targetState?.role === 'teacher') return 'teacher';
+    if (targetState?.role === 'student' || isValidStudentName(targetState?.student?.name)) {
+      return 'student';
+    }
+    return null;
+  }
+
+  _persistLocally() {
+    this.state.lastUpdated = new Date().toISOString();
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+      }
     } catch (e) {
       console.error('Gagal menyimpan ke localStorage:', e);
     }
+    this.notifySubscribers();
+  }
+
+  saveState() {
+    this.recalculateOverall();
+    this._persistLocally();
 
     // Debounce sinkronisasi network ke Supabase Cloud / backend agar tidak spam request
     clearTimeout(this.debounceTimer);
@@ -318,6 +377,28 @@ class StorageService {
 
   // --- ACTIONS ---
 
+  _writeRoleFlags(role, teacherUnlocked) {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        if (role) {
+          localStorage.setItem(ROLE_STORAGE_KEY, role);
+        } else {
+          localStorage.removeItem(ROLE_STORAGE_KEY);
+        }
+        if (teacherUnlocked) {
+          localStorage.setItem(TEACHER_UNLOCKED_KEY, 'true');
+        } else {
+          localStorage.removeItem(TEACHER_UNLOCKED_KEY);
+        }
+      }
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem(LEGACY_SESSION_UNLOCKED_KEY);
+      }
+    } catch (e) {
+      console.error('Gagal menyimpan status peran di browser:', e);
+    }
+  }
+
   setStudentProfile(name, studentClass) {
     const cleanName = typeof name === 'string' ? name.trim() : '';
     const cleanClass =
@@ -325,7 +406,7 @@ class StorageService {
         ? studentClass.trim()
         : this.state.student?.class || 'X-2';
 
-    if (!cleanName || cleanName.length < 2) return;
+    if (!isValidStudentName(cleanName)) return;
 
     if (!this.state.student) {
       this.state.student = { ...INITIAL_STATE.student };
@@ -334,19 +415,36 @@ class StorageService {
     const previousName = this.state.student.name;
     const previousClass = this.state.student.class;
     const renameFrom =
-      previousName &&
-      previousName.trim() &&
-      previousName !== 'Siswa Mandiri' &&
+      isValidStudentName(previousName) &&
       (previousName !== cleanName || previousClass !== cleanClass)
         ? { name: previousName, class: previousClass }
         : null;
 
+    this._writeRoleFlags('student', false);
+    this.state.role = 'student';
     this.state.student.name = cleanName;
     this.state.student.class = cleanClass;
     this.saveState();
     // Gunakan pemanggilan langsung dengan informasi renameFrom dan hentikan debounce ganda
     clearTimeout(this.debounceTimer);
     this.syncToBackend(this.state, renameFrom);
+  }
+
+  setTeacherSession() {
+    this._writeRoleFlags('teacher', true);
+    if (!this.state) {
+      this.state = JSON.parse(JSON.stringify(INITIAL_STATE));
+    }
+    this.state.role = 'teacher';
+    this._persistLocally();
+  }
+
+  clearTeacherSession() {
+    this._writeRoleFlags(null, false);
+    if (this.state) {
+      this.state.role = isValidStudentName(this.state.student?.name) ? 'student' : null;
+      this._persistLocally();
+    }
   }
 
   setPreference(key, value) {
@@ -453,8 +551,15 @@ class StorageService {
   }
 
   resetAll() {
-    this.state = { ...JSON.parse(JSON.stringify(INITIAL_STATE)), createdAt: new Date().toISOString() };
-    localStorage.removeItem(STORAGE_KEY);
+    this.state = {
+      ...JSON.parse(JSON.stringify(INITIAL_STATE)),
+      role: null,
+      createdAt: new Date().toISOString()
+    };
+    this._writeRoleFlags(null, false);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(STORAGE_KEY);
+    }
     this.saveState();
   }
 }

@@ -83,7 +83,7 @@ export default function ExplorationDragDropIPO({ explorationData, unitState, uni
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-5 border-b-2 border-slate-900/15">
         <div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-primary-600 border border-slate-900 animate-ping"></span>
+            <span className="w-3 h-3 rounded-full bg-primary-600 border-2 border-slate-900 shrink-0"></span>
             <h3 className="font-heading font-extrabold text-slate-900 text-lg sm:text-xl">
               Aktivitas Interaktif: Susun Alur Data IPO
             </h3>
