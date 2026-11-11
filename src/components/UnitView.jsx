@@ -232,32 +232,32 @@ export default function UnitView({ unit, state, onBackHome }) {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 animate-in fade-in duration-300">
       {/* Top Banner Navigation Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b-2 border-slate-900/15">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-4 border-b-2 border-slate-900/15">
+        <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onBackHome}
-            className="neo-btn-sm p-2 rounded-xl bg-white hover:bg-yellow-200 text-slate-900 cursor-pointer"
+            className="neo-btn-sm p-2 rounded-xl bg-white hover:bg-yellow-200 text-slate-900 cursor-pointer shrink-0"
             title="Kembali ke Beranda"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-200 border-2 border-slate-900 text-slate-900 uppercase">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-sky-200 border-2 border-slate-900 text-slate-900 uppercase whitespace-nowrap">
                 {unit.badge}
               </span>
-              <span className="text-xs text-slate-600 font-bold">
+              <span className="text-xs text-slate-600 font-bold whitespace-nowrap">
                 {unit.estTime}
               </span>
             </div>
-            <h2 className="font-heading font-extrabold text-slate-900 text-lg sm:text-2xl mt-0.5">
+            <h2 className="font-heading font-extrabold text-slate-900 text-lg sm:text-2xl mt-0.5 leading-snug">
               {unit.title}
             </h2>
           </div>
         </div>
 
         {/* 6 Steps Pill Navigation dengan Indikator Tuntas / Terkunci */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 shrink-0">
           {steps.map((st) => {
             const isActive = currentStep === st.num;
             const isCompleted = stepDoneMap[st.num];
@@ -267,7 +267,7 @@ export default function UnitView({ unit, state, onBackHome }) {
               <button
                 key={st.num}
                 onClick={() => handleStepChange(st.num)}
-                className={`px-3 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5 border-2 cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs whitespace-nowrap shrink-0 transition-all flex items-center gap-1.5 border-2 cursor-pointer ${
                   isActive
                     ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
                     : isCompleted

@@ -89,86 +89,88 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b-[3px] border-slate-900 transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-5 xl:px-8">
+        <div className="flex items-center justify-between h-16 gap-3 xl:gap-6">
           {/* Brand Left */}
           <div 
             onClick={() => handleNav('home')} 
-            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none"
+            className="flex items-center gap-2.5 cursor-pointer group select-none shrink-0"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] flex items-center justify-center text-slate-900 group-hover:-translate-y-0.5 transition-transform flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] flex items-center justify-center text-slate-900 group-hover:-translate-y-0.5 transition-transform shrink-0">
               <Cpu className="w-5 h-5" />
             </div>
-            <div>
-              <div className="font-heading font-extrabold text-slate-900 text-sm sm:text-base leading-tight flex items-center gap-1.5">
-                Studio Informatika
-                <span className="px-1.5 py-0.5 text-[10px] sm:text-[11px] font-extrabold bg-sky-200 text-slate-900 border border-slate-900 rounded-md">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 whitespace-nowrap">
+                <span className="font-heading font-extrabold text-slate-900 text-sm sm:text-base leading-none whitespace-nowrap">
+                  Studio Informatika
+                </span>
+                <span className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-extrabold leading-none bg-sky-200 text-slate-900 border border-slate-900 rounded-md whitespace-nowrap shrink-0">
                   Kelas X
                 </span>
               </div>
-              <div className="text-[11px] text-slate-600 font-semibold truncate max-w-[170px] sm:max-w-none">
+              <div className="text-[11px] text-slate-600 font-semibold leading-tight mt-0.5 whitespace-nowrap">
                 SMAN 2 Makassar • Fase E
               </div>
             </div>
           </div>
 
-          {/* Navigation Links - Desktop Only */}
-          <nav className="hidden md:flex items-center gap-1.5 text-sm font-bold">
+          {/* Navigation Links - Desktop Only (>= lg) */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 shrink-0">
             <button
               onClick={() => handleNav('home')}
-              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl border-2 text-xs xl:text-[13px] whitespace-nowrap shrink-0 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'home'
                   ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
-                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900 font-bold'
               }`}
             >
-              <Home className="w-4 h-4" />
+              <Home className="w-4 h-4 shrink-0" />
               <span>Beranda</span>
             </button>
             <button
               onClick={() => handleNav('unit', 1)}
-              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl border-2 text-xs xl:text-[13px] whitespace-nowrap shrink-0 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'unit'
                   ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
-                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900 font-bold'
               }`}
             >
-              <BookOpen className="w-4 h-4" />
+              <BookOpen className="w-4 h-4 shrink-0" />
               <span>Materi & Kuis</span>
             </button>
             <button
               onClick={() => handleNav('achievement')}
-              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl border-2 text-xs xl:text-[13px] whitespace-nowrap shrink-0 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'achievement'
                   ? 'bg-yellow-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
-                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-slate-700 border-transparent hover:border-slate-900 hover:bg-slate-100 hover:text-slate-900 font-bold'
               }`}
             >
-              <Award className="w-4 h-4" />
+              <Award className="w-4 h-4 shrink-0" />
               <span>Capaian Belajar</span>
             </button>
             <button
               onClick={() => handleNav('verification')}
-              className={`px-3 py-1.5 rounded-lg border-2 transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 xl:px-3 py-1.5 rounded-xl border-2 text-xs xl:text-[13px] whitespace-nowrap shrink-0 transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentView === 'verification'
                   ? 'bg-emerald-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] font-extrabold'
-                  : 'text-slate-900 bg-emerald-100 hover:bg-emerald-200 border-slate-900'
+                  : 'text-slate-900 bg-emerald-100 hover:bg-emerald-200 border-slate-900 font-bold'
               }`}
             >
-              <GraduationCap className="w-4 h-4 text-slate-900" />
+              <GraduationCap className="w-4 h-4 text-slate-900 shrink-0" />
               <span>Portal Guru</span>
             </button>
           </nav>
 
-          {/* Action Right - Desktop Controls */}
-          <div className="hidden md:flex items-center gap-2 sm:gap-2.5">
+          {/* Action Right - Desktop Controls (>= lg) */}
+          <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 shrink-0">
             {/* Identitas Siswa + Tombol Ganti Nama */}
             {onEditProfile && state?.student?.name && state.student.name !== 'Siswa Mandiri' && (
               <button
                 type="button"
                 onClick={onEditProfile}
                 title={`Ganti nama / kelas (${studentName} • ${studentClass})`}
-                className="neo-btn-sm flex items-center gap-1.5 px-2.5 py-1 bg-sky-100 hover:bg-sky-200 rounded-full text-xs font-bold text-slate-900 cursor-pointer max-w-[155px]"
+                className="neo-btn-sm inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-sky-100 hover:bg-sky-200 rounded-full text-xs font-extrabold text-slate-900 cursor-pointer max-w-[115px] xl:max-w-[150px] whitespace-nowrap shrink-0"
               >
                 <User className="w-3.5 h-3.5 text-slate-900 shrink-0" />
                 <span className="truncate">{studentName}</span>
@@ -177,19 +179,20 @@ export default function Navbar({
             )}
 
             {/* Poin Counter Pill */}
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] rounded-full text-xs font-extrabold text-slate-900">
-              <span className="text-sm">⚡</span>
+            <div
+              title={`Level ${state?.overall?.level || 1}: ${levelName}`}
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] rounded-full text-xs font-extrabold text-slate-900 whitespace-nowrap shrink-0"
+            >
+              <span className="text-xs leading-none">⚡</span>
               <span>{totalPoints} Poin</span>
-              <span className="hidden lg:inline text-slate-700 font-bold">
-                • {levelName}
-              </span>
             </div>
 
             {/* Narasi Audio Toggle */}
             <button
               onClick={toggleAudio}
-              title={audioEnabled ? "Matikan Efek & Narasi Suara" : "Aktifkan Efek & Narasi Suara"}
-              className={`neo-btn-sm px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1.5 cursor-pointer ${
+              title={audioEnabled ? "Audio Aktif (Klik untuk bisukan)" : "Audio Bisu (Klik untuk aktifkan)"}
+              aria-label={audioEnabled ? "Matikan Efek & Narasi Suara" : "Aktifkan Efek & Narasi Suara"}
+              className={`neo-btn-sm inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs whitespace-nowrap shrink-0 cursor-pointer ${
                 audioEnabled
                   ? 'bg-emerald-200 hover:bg-emerald-300 text-slate-900'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
@@ -197,13 +200,13 @@ export default function Navbar({
             >
               {audioEnabled ? (
                 <>
-                  <Volume2 className="w-3.5 h-3.5 text-slate-900" />
-                  <span>Audio Aktif</span>
+                  <Volume2 className="w-4 h-4 text-slate-900 shrink-0" />
+                  <span className="hidden xl:inline">Audio</span>
                 </>
               ) : (
                 <>
-                  <VolumeX className="w-3.5 h-3.5 text-slate-600" />
-                  <span>Audio Bisu</span>
+                  <VolumeX className="w-4 h-4 text-slate-600 shrink-0" />
+                  <span className="hidden xl:inline">Bisu</span>
                 </>
               )}
             </button>
@@ -212,21 +215,22 @@ export default function Navbar({
             <button
               onClick={handleReset}
               title="Ulangi progress dari awal"
-              className="neo-btn-sm p-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-lg cursor-pointer"
+              aria-label="Ulangi progress dari awal"
+              className="neo-btn-sm p-2 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl shrink-0 cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Action Right - Mobile Only (Poin Pill + Hamburger Button) */}
-          <div className="flex items-center gap-2 md:hidden">
+          {/* Action Right - Mobile & Tablet (< lg) */}
+          <div className="flex items-center gap-2 lg:hidden shrink-0">
             {/* Poin Counter Compact */}
             <div 
               onClick={() => handleNav('achievement')}
-              className="flex items-center gap-1 px-2.5 py-1 bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] rounded-full text-[11px] font-extrabold text-slate-900 cursor-pointer active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-yellow-300 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0F172A] rounded-full text-xs font-extrabold text-slate-900 cursor-pointer whitespace-nowrap active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
               title="Lihat Capaian Poin"
             >
-              <span className="text-xs">⚡</span>
+              <span className="text-xs leading-none">⚡</span>
               <span>{totalPoints}</span>
             </div>
 
@@ -238,9 +242,9 @@ export default function Navbar({
               aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6 text-slate-900" />
+                <X className="w-5 h-5 text-slate-900" />
               ) : (
-                <Menu className="w-6 h-6 text-slate-900" />
+                <Menu className="w-5 h-5 text-slate-900" />
               )}
             </button>
           </div>
@@ -248,10 +252,10 @@ export default function Navbar({
       </div>
 
       {/* ========================================================================= */}
-      {/* MOBILE HAMBURGER MENU DRAWER & BACKDROP (PORTAL KE BODY AGAR SELALU DI DEPAN) */}
+      {/* MOBILE / TABLET HAMBURGER MENU DRAWER & BACKDROP (PORTAL KE BODY)         */}
       {/* ========================================================================= */}
       {isMobileMenuOpen && typeof document !== 'undefined' && createPortal(
-        <div className="fixed inset-0 top-16 z-[999] md:hidden flex flex-col pointer-events-auto">
+        <div className="fixed inset-0 top-16 z-[999] lg:hidden flex flex-col pointer-events-auto">
           {/* Backdrop Flat (Tanpa Blur) */}
           <div 
             onClick={() => setIsMobileMenuOpen(false)}
