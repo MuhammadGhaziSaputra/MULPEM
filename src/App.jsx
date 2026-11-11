@@ -12,6 +12,14 @@ import { storage, isValidStudentName } from './utils/storage';
 import { unitsData } from './data/contentData';
 
 const resolveRouteFromHash = (hash = '', role = null) => {
+  // Mode Guru dikunci khusus ke Portal Guru (tidak bisa mengakses Beranda / Materi / Capaian Siswa)
+  if (role === 'teacher') {
+    return {
+      view: 'verification',
+      redirectToTeacherHash: !hash.startsWith('#/verifikasi')
+    };
+  }
+
   if (hash.startsWith('#/unit/')) {
     const uId = parseInt(hash.replace('#/unit/', ''), 10);
     if ([1, 2, 3].includes(uId)) return { view: 'unit', unitId: uId };
@@ -21,8 +29,6 @@ const resolveRouteFromHash = (hash = '', role = null) => {
     if (role === 'student') {
       return { view: 'home', redirectToHomeHash: true };
     }
-    return { view: 'verification' };
-  } else if ((!hash || hash === '#') && role === 'teacher') {
     return { view: 'verification' };
   }
   return { view: 'home' };
@@ -76,13 +82,15 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Hash Routing support + proteksi rute Portal Guru untuk siswa
+  // Hash Routing support + proteksi rute antar peran (Siswa vs Guru)
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
       const liveRole = storage.getUserRole();
       const next = resolveRouteFromHash(hash, liveRole);
-      if (next.redirectToHomeHash) {
+      if (next.redirectToTeacherHash) {
+        window.location.hash = '#/verifikasi';
+      } else if (next.redirectToHomeHash) {
         window.location.hash = '#/';
       }
       if (next.unitId) {
@@ -97,8 +105,14 @@ export default function App() {
   }, []);
 
   const navigateTo = (view, unitId = 1) => {
-    const liveRole = storage.getUserRole(appState);
-    if (view === 'verification' && (isStudentMode || liveRole === 'student')) {
+    const liveRole = storage.getUserRole();
+    if (liveRole === 'teacher' && view !== 'verification') {
+      setCurrentView('verification');
+      window.location.hash = '#/verifikasi';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (liveRole === 'student' && view === 'verification') {
       setCurrentView('home');
       window.location.hash = '#/';
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -134,7 +148,7 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {currentView === 'home' && (
+        {!isTeacherMode && currentView === 'home' && (
           <HomeView
             state={appState}
             userRole={userRole}
@@ -146,7 +160,7 @@ export default function App() {
           />
         )}
 
-        {currentView === 'unit' && (
+        {!isTeacherMode && currentView === 'unit' && (
           <UnitView
             key={activeUnit.id}
             unit={activeUnit}
@@ -155,7 +169,7 @@ export default function App() {
           />
         )}
 
-        {currentView === 'achievement' && (
+        {!isTeacherMode && currentView === 'achievement' && (
           <AchievementView
             state={appState}
             onNavigateUnit={(id) => navigateTo('unit', id)}
