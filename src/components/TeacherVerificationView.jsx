@@ -22,6 +22,13 @@ import {
   saveSupabaseConfig 
 } from '../utils/supabaseClient';
 
+const LEVEL_BADGE_COLORS = {
+  1: 'bg-slate-100 text-slate-900',
+  2: 'bg-sky-200 text-slate-900',
+  3: 'bg-emerald-200 text-slate-900',
+  4: 'bg-yellow-300 text-slate-900'
+};
+
 export default function TeacherVerificationView({ onBackHome }) {
   // Cek apakah website sedang diakses dari lingkungan lokal (localhost / lab)
   const isLocalhost = 
@@ -247,7 +254,7 @@ export default function TeacherVerificationView({ onBackHome }) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-300">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-300">
       {/* Top Bar Nav */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-slate-900/15 mb-6">
         <button
@@ -379,70 +386,54 @@ export default function TeacherVerificationView({ onBackHome }) {
                   <table className="min-w-full divide-y-2 divide-slate-900/15 text-xs text-left">
                     <thead className="bg-slate-900 font-heading font-extrabold text-white uppercase tracking-wider text-[11px]">
                       <tr>
-                        <th className="px-4 py-3.5 text-center">No</th>
-                        <th className="px-4 py-3.5">Nama Siswa</th>
-                        <th className="px-4 py-3.5">Kelas</th>
-                        <th className="px-4 py-3.5 text-center">Unit 1 (Von Neumann)</th>
-                        <th className="px-4 py-3.5 text-center">Unit 2 (IPO)</th>
-                        <th className="px-4 py-3.5 text-center">Unit 3 (FDE)</th>
-                        <th className="px-4 py-3.5 text-center">Rata-Rata Kuis</th>
-                        <th className="px-4 py-3.5 text-center">Total Poin</th>
-                        <th className="px-4 py-3.5 text-center">Level Predikat</th>
+                        <th className="px-3.5 py-3.5 text-center whitespace-nowrap">No</th>
+                        <th className="px-3.5 py-3.5 whitespace-nowrap">Nama Siswa</th>
+                        <th className="px-3.5 py-3.5 whitespace-nowrap">Kelas</th>
+                        <th className="px-3.5 py-3.5 text-center">Unit 1 (Von Neumann)</th>
+                        <th className="px-3.5 py-3.5 text-center">Unit 2 (IPO)</th>
+                        <th className="px-3.5 py-3.5 text-center">Unit 3 (FDE)</th>
+                        <th className="px-3.5 py-3.5 text-center whitespace-nowrap">Rata-Rata Kuis</th>
+                        <th className="px-3.5 py-3.5 text-center whitespace-nowrap">Total Poin</th>
+                        <th className="px-3.5 py-3.5 text-center whitespace-nowrap">Level Predikat</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200 bg-white">
                       {filteredStudents.map((s, idx) => {
                         const avg = s.rata_rata_kuis ? parseFloat(s.rata_rata_kuis) : 0;
+                        const levelNum = Number(s.level_gamifikasi) || 1;
+                        const levelBadgeClass = LEVEL_BADGE_COLORS[levelNum] || LEVEL_BADGE_COLORS[4];
 
                         return (
-                          <tr key={s.id} className="hover:bg-yellow-50/80 transition-colors">
-                            <td className="px-4 py-3.5 text-center font-mono font-bold text-slate-600">
+                          <tr key={s.id ?? `${s.nama}-${idx}`} className="hover:bg-yellow-50/80 transition-colors">
+                            <td className="px-3.5 py-3 text-center font-mono font-bold text-slate-600 whitespace-nowrap">
                               {idx + 1}
                             </td>
-                            <td className="px-4 py-3.5 font-extrabold text-slate-900">
+                            <td className="px-3.5 py-3 font-extrabold text-slate-900 min-w-[160px]">
                               {s.nama}
                             </td>
-                            <td className="px-4 py-3.5 text-slate-800 font-bold">
+                            <td className="px-3.5 py-3 text-slate-800 font-bold whitespace-nowrap">
                               {s.kelas}
                             </td>
-                            {/* Unit 1 */}
-                            <td className="px-4 py-3.5 text-center">
-                              {s.unit1_skor !== null && s.unit1_skor !== undefined ? (
-                                <span className={`inline-block px-2.5 py-0.5 rounded-lg font-extrabold text-xs border-2 border-slate-900 ${
-                                  s.unit1_tuntas ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'
-                                }`}>
-                                  {s.unit1_skor} {s.unit1_tuntas ? '✓' : ''}
-                                </span>
-                              ) : (
-                                <span className="text-slate-400 font-bold">-</span>
-                              )}
-                            </td>
-                            {/* Unit 2 */}
-                            <td className="px-4 py-3.5 text-center">
-                              {s.unit2_skor !== null && s.unit2_skor !== undefined ? (
-                                <span className={`inline-block px-2.5 py-0.5 rounded-lg font-extrabold text-xs border-2 border-slate-900 ${
-                                  s.unit2_tuntas ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'
-                                }`}>
-                                  {s.unit2_skor} {s.unit2_tuntas ? '✓' : ''}
-                                </span>
-                              ) : (
-                                <span className="text-slate-400 font-bold">-</span>
-                              )}
-                            </td>
-                            {/* Unit 3 */}
-                            <td className="px-4 py-3.5 text-center">
-                              {s.unit3_skor !== null && s.unit3_skor !== undefined ? (
-                                <span className={`inline-block px-2.5 py-0.5 rounded-lg font-extrabold text-xs border-2 border-slate-900 ${
-                                  s.unit3_tuntas ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'
-                                }`}>
-                                  {s.unit3_skor} {s.unit3_tuntas ? '✓' : ''}
-                                </span>
-                              ) : (
-                                <span className="text-slate-400 font-bold">-</span>
-                              )}
-                            </td>
+                            {/* Unit 1, 2, 3 */}
+                            {[1, 2, 3].map((uNum) => {
+                              const skor = s[`unit${uNum}_skor`];
+                              const tuntas = s[`unit${uNum}_tuntas`];
+                              return (
+                                <td key={uNum} className="px-3.5 py-3 text-center whitespace-nowrap">
+                                  {skor !== null && skor !== undefined ? (
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-lg font-extrabold text-xs border-2 border-slate-900 whitespace-nowrap ${
+                                      tuntas ? 'bg-emerald-200 text-slate-900' : 'bg-yellow-200 text-slate-900'
+                                    }`}>
+                                      {skor} {tuntas ? '✓' : ''}
+                                    </span>
+                                  ) : (
+                                    <span className="text-slate-400 font-bold">-</span>
+                                  )}
+                                </td>
+                              );
+                            })}
                             {/* Rata-Rata */}
-                            <td className="px-4 py-3.5 text-center font-heading font-extrabold">
+                            <td className="px-3.5 py-3 text-center font-heading font-extrabold whitespace-nowrap">
                               {avg > 0 ? (
                                 <span className={avg >= 75 ? 'text-emerald-800' : 'text-slate-900'}>
                                   {avg} / 100
@@ -452,13 +443,13 @@ export default function TeacherVerificationView({ onBackHome }) {
                               )}
                             </td>
                             {/* Total Poin */}
-                            <td className="px-4 py-3.5 text-center font-extrabold text-slate-900">
+                            <td className="px-3.5 py-3 text-center font-extrabold text-slate-900 whitespace-nowrap">
                               ⚡ {s.total_poin}
                             </td>
                             {/* Level */}
-                            <td className="px-4 py-3.5 text-center">
-                              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-200 text-slate-900 border-2 border-slate-900">
-                                Level {s.level_gamifikasi}: {s.nama_level}
+                            <td className="px-3.5 py-3 text-center whitespace-nowrap">
+                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-extrabold border-2 border-slate-900 whitespace-nowrap ${levelBadgeClass}`}>
+                                Level {levelNum}: {s.nama_level}
                               </span>
                             </td>
                           </tr>
